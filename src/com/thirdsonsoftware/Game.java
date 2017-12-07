@@ -25,7 +25,15 @@ import java.util.Collections;
 @SuppressWarnings("SpellCheckingInspection")
 class Game {
 
-    int numDraws; // setting it to zero is apparently redundant
+    static public int TWO_PLAYER_DRAWS = 9 ;
+    static public int UP_TO_FOUR_PLAYER_DRAWS = 7 ;
+
+    static public int DEFAULT_NUMBER_OF_PLAYERS = 2 ;
+    static public int UP_TO_FOUR_NUMBER_OF_PLAYERS = 4 ;
+
+    private int numDraws; // setting it to zero is apparently redundant
+
+    private int numPlayers; // how many players are playing this game?
 
     // Each game can have a number of players
     private ArrayList<Player> players;
@@ -52,6 +60,13 @@ class Game {
 
     public ArrayList<Player> getPlayers() {
         return players;
+    }
+
+    public Player getPlayer(int index) {
+        if ( ( index < players.size() ) && ( index >= 0 ) )
+            return players.get(index) ;
+        else
+            return null;
     }
 
     public void setPlayers(ArrayList<Player> players) {
@@ -96,11 +111,13 @@ class Game {
         // Setup the board to place the tiles
         board = new Board();
 
+        setNumPlayers(numPlayers);
+
         // Decide how many tray each player draws
-        if (numPlayers <= 2) {
-            setNumDraws(9);
-        } else if (numPlayers <= 4) {
-            setNumDraws(7);
+        if (numPlayers <= DEFAULT_NUMBER_OF_PLAYERS) {
+            setNumDraws(TWO_PLAYER_DRAWS);
+        } else if (numPlayers <= UP_TO_FOUR_NUMBER_OF_PLAYERS) {
+            setNumDraws(UP_TO_FOUR_PLAYER_DRAWS);
         } else {
             throw new IllegalArgumentException(String.format("Invalid number of players: %d\nValue must be between 2 and 4.", numPlayers));
         }
@@ -157,8 +174,6 @@ class Game {
         // The player with the highest value goes first
         Player firstPlayer = whoIsFirst();
         firstPlayer.setStarts(true) ;
-
-        Boolean done = false ;
 
         int indexPlayer = players.indexOf(firstPlayer);
         Player player = firstPlayer ;
@@ -310,16 +325,16 @@ class Game {
 
     private String displayTiles(String name, ArrayList<Tile> list) {
         StringBuilder strTiles = new StringBuilder();
-        strTiles.append(String.format("%s (%d):\n  [ ", name, list.size()));
+        strTiles.append(String.format("%s (%d):\n  [", name, list.size()));
         if ( !list.isEmpty() ) {
             for (Tile tile : list) {
                 if (list.lastIndexOf(tile) != list.size() - 1)
                     strTiles.append(tile).append(", ");
                 else
-                    strTiles.append(tile).append(" ");
+                    strTiles.append(tile);
             }
         } else {
-            strTiles.append(" <empty> ");
+            strTiles.append("<empty>");
         }
         strTiles.append("]\n");
         return strTiles.toString();
@@ -347,7 +362,7 @@ class Game {
      */
     private String displayPlayers() {
         StringBuilder playersString = new StringBuilder(200);
-        playersString.append("Players:\nCount:").append(players.size()).append("\n");
+        playersString.append("Players (").append(players.size()).append("):\n");
         for ( Player p : players ) {
             playersString.append(p);
         }
@@ -360,14 +375,23 @@ class Game {
      * @return - String containing a snapshot view of the current Game.
      */
     public String toString() {
-        StringBuffer strBuf = new StringBuffer(500);
-        strBuf.append("Game:\n");
-        strBuf.append(displayTilePool());
-        strBuf.append(displayPlayers());
-        strBuf.append(displayPlayedTiles());
-        strBuf.append("Board:\n").append(board);
-        strBuf.append(displayTilesWithFacesRemaining());
-        return (strBuf.toString());
+        return ("Game:\n" +
+                displayTilePool() +
+                displayPlayers() +
+                displayPlayedTiles() +
+                board +
+                displayTilesWithFacesRemaining());
     }
 
+    public void setNumPlayers(int numPlayers) {
+        if ( ( numPlayers >= 2) && ( numPlayers <= 4 ) ) {
+            this.numPlayers = numPlayers ;
+        } else {
+            this.numPlayers = DEFAULT_NUMBER_OF_PLAYERS ;
+        }
+    }
+
+    public int getNumPlayers() {
+        return this.numPlayers;
+    }
 }

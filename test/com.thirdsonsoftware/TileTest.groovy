@@ -76,7 +76,7 @@ class TileTest extends GroovyTestCase {
 
     void testSetRow() {
         tile.setRow(TILE_SET_ROW)
-        assertEquals(TILE_SET_ROW, tile.getRow());
+        assertEquals(TILE_SET_ROW, tile.getRow())
     }
 
     void testGetRow() {
@@ -111,7 +111,7 @@ class TileTest extends GroovyTestCase {
     }
 
     void testSetCornerC() {
-        tile.setCornerC(1);
+        tile.setCornerC(1)
         assertEquals(1,tile.getCornerC())
     }
 
@@ -191,7 +191,7 @@ class TileTest extends GroovyTestCase {
         assertEquals("\\3   4/", row[1])
         assertEquals(" \\   /",  row[2])
         assertEquals("  \\2/",   row[3])
-        assertEquals("   v ",    row[4])
+        assertEquals("   v",    row[4])
     }
 
     void testDrawTileUp() {
@@ -203,7 +203,7 @@ class TileTest extends GroovyTestCase {
 
         tile.draw(true,row)
 
-        assertEquals("   ^ ",    row[0])
+        assertEquals("   ^",     row[0])
         assertEquals("  /2\\",   row[1])
         assertEquals(" /   \\",  row[2])
         assertEquals("/4   3\\", row[3])

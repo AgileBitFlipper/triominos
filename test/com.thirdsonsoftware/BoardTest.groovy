@@ -19,17 +19,15 @@
 
 package com.thirdsonsoftware
 
-import com.sun.org.apache.bcel.internal.generic.NEW
-
 class BoardTest extends GroovyTestCase {
 
     protected final int NUM_ROWS = 2
     protected final int NUM_COLS = 2
 
-    protected final int TILEA_ROW = 56
-    protected final int TILEA_COL = 56
-    protected final int TILEB_ROW = 56
-    protected final int TILEB_COL = 57
+    protected final int TILE_A_ROW = 56
+    protected final int TILE_A_COL = 56
+    protected final int TILE_B_ROW = 56
+    protected final int TILE_B_COL = 57
 
     Board board = new Board()
 
@@ -42,17 +40,17 @@ class BoardTest extends GroovyTestCase {
 
     void setUp() {
         super.setUp()
-        assertTrue(board.placeTile( tileA, TILEA_ROW, TILEA_COL ))
+        assertTrue(board.placeTile( tileA, TILE_A_ROW, TILE_A_COL ))
 
         tileB.setRotation(240)
-        assertTrue(board.placeTile( tileB, TILEB_ROW, TILEB_COL ))
+        assertTrue(board.placeTile( tileB, TILE_B_ROW, TILE_B_COL ))
     }
 
     void tearDown() {
     }
 
     void testPieceAtLocation() {
-        Tile tileD = board.pieceAtLocation(TILEA_ROW, TILEA_COL)
+        Tile tileD = board.pieceAtLocation(TILE_A_ROW, TILE_A_COL)
         assertEquals("Placed nonTripletTile is not the one expected.", tileA, tileD)
     }
 
@@ -78,17 +76,19 @@ class BoardTest extends GroovyTestCase {
     }
 
     void testToString() {
-        System.out.println(board)
+        System.out.println(board.toString())
         String strExpected = \
-            "Board:\n" +
-            "  Played Piece Count:2\n" +
-            "  Boundaries:(0,112,0,112)\n" +
-            "------- ^ \n" +
-            "\\0   0//0\\\n" +
-            " \\   //   \\\n" +
-            "  \\0//0   1\\\n" +
-            "   v -------\n\n"
-
+        "Board:\n" +
+        "  Played Piece Count:2\n" +
+        "  Boundaries:(56,56,56,57)\n" +
+        "------------------------\n" +
+        "          56   57 \n" +
+        "------------------------\n" +
+        "|    |= ------- ^\n" +
+        "|    |==\\0   0//0\\\n" +
+        "| 56 |===\\   //   \\\n" +
+        "|    |====\\0//0   1\\\n" +
+        "|    |=====v ------- \n"
         String strActual = board.toString()
         assertEquals(strExpected,strActual)
     }
@@ -130,13 +130,13 @@ class BoardTest extends GroovyTestCase {
     void testGetTopBorderNotFull() {
         board.findBoardMinMax(false)
         int top = board.getTopBorder()
-        assertEquals(TILEA_ROW,board.getTopBorder())
+        assertEquals(TILE_A_ROW,board.getTopBorder())
         int left = board.getLeftBorder()
-        assertEquals(TILEA_COL,board.getLeftBorder())
+        assertEquals(TILE_A_COL,board.getLeftBorder())
         int right = board.getRightBorder()
-        assertEquals(TILEB_COL,board.getRightBorder())
+        assertEquals(TILE_B_COL,board.getRightBorder())
         int bottom = board.getBottomBorder()
-        assertEquals(TILEB_ROW,board.getBottomBorder())
+        assertEquals(TILE_B_ROW,board.getBottomBorder())
 
         System.out.println(String.format("Top:%d\nLeft:%d\nRight:%d\nBottom:%d",top,left,right,bottom))
     }
@@ -144,7 +144,7 @@ class BoardTest extends GroovyTestCase {
     void testSetTopBorder() {
         board.findBoardMinMax(false)
         final int NEW_ROW = 5
-        assertEquals(TILEA_ROW,board.getTopBorder())
+        assertEquals(TILE_A_ROW,board.getTopBorder())
         board.setTopBorder(NEW_ROW)
         assertEquals(NEW_ROW,board.getTopBorder())
     }
@@ -164,13 +164,13 @@ class BoardTest extends GroovyTestCase {
     void testGetBottomBorder() {
         assertEquals(0,board.getBottomBorder())
         board.findBoardMinMax(false)
-        assertEquals(TILEA_ROW,board.getBottomBorder())
+        assertEquals(TILE_A_ROW,board.getBottomBorder())
     }
 
     void testSetBottomBorder() {
         final int NEW_ROW = 66
         board.findBoardMinMax(false)
-        assertEquals(TILEA_ROW,board.getBottomBorder())
+        assertEquals(TILE_A_ROW,board.getBottomBorder())
         board.setBottomBorder(NEW_ROW)
         assertEquals(NEW_ROW,board.getBottomBorder())
     }
@@ -191,7 +191,7 @@ class BoardTest extends GroovyTestCase {
 
     void testGetLeftBorder() {
         board.findBoardMinMax(false)
-        assertEquals(TILEA_COL,board.getLeftBorder())
+        assertEquals(TILE_A_COL,board.getLeftBorder())
     }
 
     void testSetLeftBorder() {
@@ -203,7 +203,7 @@ class BoardTest extends GroovyTestCase {
     void testSetLeftBorderTooLow() {
         int LEFT_BORDER_TOO_LOW = -2
         board.setLeftBorder(LEFT_BORDER_TOO_LOW)
-        assertEquals(0,board.getLeftBorder())
+        assertEquals(112,board.getLeftBorder())
     }
 
     void testSetLeftBorderTooHigh() {
@@ -213,13 +213,13 @@ class BoardTest extends GroovyTestCase {
     }
     void testGetRightBorder() {
         board.findBoardMinMax()
-        assertEquals(TILEB_COL, board.getRightBorder())
+        assertEquals(TILE_B_COL, board.getRightBorder())
     }
 
     void testSetRightBorder() {
         int NEW_RIGHT_BORDER = 125
         board.setRightBorder(NEW_RIGHT_BORDER)
-        assertEquals(NEW_RIGHT_BORDER,board.getRightBorder())
+        assertEquals(Board.DEFAULT_COLS-1,board.getRightBorder())
     }
 
     void testSetRightBorderTooLow() {

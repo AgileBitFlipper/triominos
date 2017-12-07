@@ -28,6 +28,7 @@ class PlayerTest extends GroovyTestCase {
     static Tile fiveFivesTile = new Tile(5,5,5)
     static Board board = new Board()
     ArrayList<Tile> availableFaces = new ArrayList<>()
+    ArrayList<Tile> playedTiles = new ArrayList<>()
 
     Player player = null
 
@@ -43,6 +44,9 @@ class PlayerTest extends GroovyTestCase {
 
         availableFaces.add(new Tile(1,2,3))
         availableFaces.add(new Tile(1,2,1))
+
+        playedTiles.add(new Tile(1,2,3))
+        playedTiles.add(new Tile(1,2,1))
     }
 
     void tearDown() {
@@ -93,7 +97,7 @@ class PlayerTest extends GroovyTestCase {
     void testPlayATile() {
         player.setStarts(true)
         assertEquals(0,board.count())
-        player.playATile(board,availableFaces)
+        player.playATile(board,playedTiles,availableFaces)
         assertEquals(1,board.count())
     }
 }

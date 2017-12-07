@@ -240,7 +240,7 @@ public class Player {
         int col ;
 
         Tile tileToMatch = null ;
-        Tile myTileToPlay = null ;
+        Tile myTileToPlay ;
 
         // Is this the first tile played?
         if ( board.count() == 0 ) {
@@ -354,27 +354,23 @@ public class Player {
                             trayTile.setRotation((played.getOrientation() == Orientation.UP) ? 240 : 120);
                         }
 
-                        if (myTileToPlay != null) {
+                        // Place the tile!
+                        if (board.placeTile(myTileToPlay, row, col)) {
 
-                            // Place the tile!
-                            if (board.placeTile(myTileToPlay, row, col)) {
+                            System.out.println(String.format("   Played tile '%s' at location (%d,%d).", myTileToPlay, row, col));
 
-                                System.out.println(String.format("   Played tile '%s' at location (%d,%d).", myTileToPlay, row, col));
+                            // Now that we've played it, remove it from the players tray
+                            tray.remove(myTileToPlay);
 
-                                // Now that we've played it, remove it from the players tray
-                                tray.remove(myTileToPlay);
+                            // Return back the tile we played so we can us it for choosing faces next time
+                            tileToMatch = played;
 
-                                // Return back the tile we played so we can us it for choosing faces next time
-                                tileToMatch = played;
+                            // Show the full board.
+                            System.out.println(board.display(false));
+                            break ;
 
-                                // Show the full board.
-                                System.out.println(board.display(false));
-                                break ;
-
-                            } else {
-                                myTileToPlay = null;
-                            }
-
+                        } else {
+                            myTileToPlay = null;
                         }
                     }
 
@@ -409,27 +405,24 @@ public class Player {
                             trayTile.setRotation(0);
                         }
 
-                        if (myTileToPlay != null) {
+                        // Place the tile!
+                        if (board.placeTile(myTileToPlay, row, col)) {
 
-                            // Place the tile!
-                            if (board.placeTile(myTileToPlay, row, col)) {
+                            System.out.println(String.format("   Played tile '%s' at location (%d,%d).", myTileToPlay, row, col));
 
-                                System.out.println(String.format("   Played tile '%s' at location (%d,%d).", myTileToPlay, row, col));
+                            // Now that we've played it, remove it from the players tray
+                            tray.remove(myTileToPlay);
 
-                                // Now that we've played it, remove it from the players tray
-                                tray.remove(myTileToPlay);
+                            // Return back the tile we played so we can us it for choosing faces next time
+                            tileToMatch = played;
 
-                                // Return back the tile we played so we can us it for choosing faces next time
-                                tileToMatch = played;
+                            // The tile's middle face is no longer free
+                            bMiddleFaceOpen = false ;
 
-                                // The tile's middle face is no longer free
-                                bMiddleFaceOpen = false ;
+                            break;
 
-                                break;
-
-                            } else {
-                                myTileToPlay = null ;
-                            }
+                        } else {
+                            myTileToPlay = null ;
                         }
                     }
                 }

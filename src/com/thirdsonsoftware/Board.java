@@ -111,9 +111,9 @@ public class Board {
                 // Left tile's orientation should be opposite of this one
                 // Left tile's right face should match our tile's left face
                 Boolean bOrientationSame = (tileToOurLeft.getOrientation() == t.getOrientation());
-                Boolean bFacesDontMatch = (!tileToOurLeft.getRightFace().match(t.getLeftFace()));
+                Boolean bFacesDoNotMatch = (!tileToOurLeft.getRightFace().match(t.getLeftFace()));
 
-                bItFits = !(bOrientationSame || bFacesDontMatch);
+                bItFits = !(bOrientationSame || bFacesDoNotMatch);
             }
         }
 
@@ -337,24 +337,24 @@ public class Board {
         return ((val%2)==0);
     }
 
-    String drawColumnScale() {
+    private String drawColumnScale() {
         StringBuilder strScale = new StringBuilder(120);
         strScale.append("------");
         // Let's paint the rows and column numbers for reference
         for (int col = leftBorder; col <= rightBorder; col++)
-            strScale.append("--------");
-        strScale.append("\n      ");
+            strScale.append("---------");
+        strScale.append("\n        ");
         for (int col = leftBorder; col <= rightBorder; col++)
             strScale.append(String.format(" %3d ", col));
         strScale.append("\n------");
         for (int col = leftBorder; col <= rightBorder; col++)
-            strScale.append("--------");
+            strScale.append("---------");
         strScale.append("\n");
 
         return strScale.toString() ;
     }
 
-    void drawRowScale(String[] strScale, int row, int col) {
+    private void drawRowScale(String[] strScale, int row, int col) {
         if (even(row + col)) {
             strScale[0] += "|    |=";
             strScale[1] += "|    |==";
