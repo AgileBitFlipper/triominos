@@ -125,7 +125,7 @@ class Game {
         System.out.println(String.format(" Setting up for %d players.", numPlayers));
 
         // Allocate the number of players specified
-        setPlayers(new ArrayList<>(numPlayers));
+        setPlayers(new ArrayList<Player>(numPlayers));
 
         // Assign player names
         for (int i = 0; i < numPlayers; i++) {
@@ -133,13 +133,13 @@ class Game {
         }
 
         // Allocate enough space for the tile pool
-        setTiles(new ArrayList<>(56));
+        setTiles(new ArrayList<Tile>(56));
 
         // Setup the played pieces queue
-        setPiecesPlayed(new ArrayList<>(56));
+        setPiecesPlayed(new ArrayList<Tile>(56));
 
         // Setup for pieces that have faces empty
-        setPiecesOnBoardWithEmptyFaces(new ArrayList<>(56));
+        setPiecesOnBoardWithEmptyFaces(new ArrayList<Tile>(56));
 
         // Generate the tray and put them in the pool
         System.out.println(" Generating tiles...");
