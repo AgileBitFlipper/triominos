@@ -233,6 +233,10 @@ public class Board {
         return bItFits ;
     }
 
+    public Orientation getOrientationForPositionOnBoard(int row, int col) {
+        return ( ( ( ( row + col ) % 2 ) == 0 ) ? Orientation.DOWN : Orientation.UP ) ;
+    }
+
     /**
      * Places the provided tile on the board at the location specified, if and
      *   only if, it will fit.
@@ -245,7 +249,7 @@ public class Board {
 
         // Orientation needs to be set based on the tile position.
         // Do it now so the checks and balances can work.
-        t.setOrientation( ( ( ( row + col ) % 2 ) == 0 ) ? Orientation.DOWN : Orientation.UP ) ;
+        t.setOrientation( getOrientationForPositionOnBoard(row,col) ) ;
 
         // Does the piece fit into that location on the board?
         if ( pieceFits( t, row, col ) ) {

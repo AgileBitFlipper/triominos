@@ -225,7 +225,6 @@ class Game {
 
                 // Add the newly played piece to the list of pieces played
                 piecesPlayed.add(tilePlayed);
-                piecesOnBoardWithEmptyFaces.add(tilePlayed);
 
                 // Add the points for the tile.
                 player.setScore(player.getScore()+tilePlayed.getValue());
