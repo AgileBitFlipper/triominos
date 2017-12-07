@@ -19,6 +19,9 @@
 
 package com.thirdsonsoftware;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 public class Board {
 
     protected static final int DEFAULT_ROWS = 112 ;
@@ -111,9 +114,9 @@ public class Board {
                 // Left tile's orientation should be opposite of this one
                 // Left tile's right face should match our tile's left face
                 Boolean bOrientationSame = (tileToOurLeft.getOrientation() == t.getOrientation());
-                Boolean bFacesDontMatch = (!tileToOurLeft.getRightFace().match(t.getLeftFace()));
+                Boolean bFacesDoNotMatch = (!tileToOurLeft.getRightFace().match(t.getLeftFace()));
 
-                bItFits = !(bOrientationSame || bFacesDontMatch);
+                bItFits = !(bOrientationSame || bFacesDoNotMatch);
             }
         }
 
@@ -230,6 +233,10 @@ public class Board {
         return bItFits ;
     }
 
+    public Orientation getOrientationForPositionOnBoard(int row, int col) {
+        return ( ( ( ( row + col ) % 2 ) == 0 ) ? Orientation.DOWN : Orientation.UP ) ;
+    }
+
     /**
      * Places the provided tile on the board at the location specified, if and
      *   only if, it will fit.
@@ -242,7 +249,7 @@ public class Board {
 
         // Orientation needs to be set based on the tile position.
         // Do it now so the checks and balances can work.
-        t.setOrientation( ( ( ( row + col ) % 2 ) == 0 ) ? Orientation.DOWN : Orientation.UP ) ;
+        t.setOrientation( getOrientationForPositionOnBoard(row,col) ) ;
 
         // Does the piece fit into that location on the board?
         if ( pieceFits( t, row, col ) ) {
@@ -325,6 +332,104 @@ public class Board {
         }
     }
 
+
+    public int getNumberOfRows() {
+        return num_rows;
+    }
+
+    public void setNumberOfRows(int num_rows) {
+        this.num_rows = num_rows;
+    }
+
+    public int getNumberOfCols() {
+        return num_cols;
+    }
+
+    public void setNumberOfCols(int num_cols) {
+        this.num_cols = num_cols;
+    }
+
+    public int getTopBorder() { return topBorder; }
+
+    public void setTopBorder(int topBorder) {
+        if ( topBorder < 0 ) {
+            setTopBorder(0);
+        } else if ( topBorder >= getNumberOfRows() ) {
+            setTopBorder(getNumberOfRows() - 1);
+        } else {
+            this.topBorder = topBorder;
+        }
+    }
+
+    public int getBottomBorder() {
+        return bottomBorder;
+    }
+
+    public void setBottomBorder(int bottomBorder) {
+        if ( bottomBorder < 0 ) {
+            setBottomBorder(0);
+        } else if ( bottomBorder >= getNumberOfRows() ) {
+            setBottomBorder(getNumberOfRows() - 1);
+        } else {
+            this.bottomBorder = bottomBorder;
+        }
+    }
+
+    public int getLeftBorder() {
+        return leftBorder;
+    }
+
+    public void setLeftBorder(int leftBorder) {
+        if ( leftBorder < 0 ) {
+            setBottomBorder(0);
+        } else if ( leftBorder >= getNumberOfCols() ) {
+            setLeftBorder(getNumberOfCols()-1);
+        } else {
+            this.leftBorder = leftBorder;
+        }
+    }
+
+    public int getRightBorder() {
+        return rightBorder;
+    }
+
+    public void setRightBorder(int rightBorder) {
+        if ( rightBorder < 0 ) {
+            setRightBorder(0);
+        } else if ( rightBorder >= getNumberOfCols() ) {
+            setRightBorder(getNumberOfCols()-1);
+        } else {
+            this.rightBorder = rightBorder;
+        }
+    }
+
+    public void updateTilesWithEmptyFaces( ArrayList<Tile> tilesWithEmptyFaces)
+    {
+        Iterator<Tile> iTile = tilesWithEmptyFaces.iterator();
+
+        // Let's look at our played tiles and see if any have available faces...
+        while (iTile.hasNext()) {
+
+            Tile tile = iTile.next() ;
+
+            int row = tile.getRow();
+            int col = tile.getCol();
+
+            // Look left, right, up and down...is somebody touching me!!!
+            boolean bRightFaceOpen  = ( col < getNumberOfCols()-1 ) && ( pieceAtLocation(row,col+1) == null );
+            boolean bLeftFaceOpen   = ( col > 0 )                   && ( pieceAtLocation(row,col-1) == null );
+            boolean bMiddleFaceOpen = ( ( ( tile.getOrientation() == Orientation.DOWN ) && ( row > 0 )
+                                          && ( pieceAtLocation(row-1,col) == null ) ) ||
+                                        ( ( tile.getOrientation() == Orientation.DOWN ) && ( row < getNumberOfRows()-1 )
+                                          && ( pieceAtLocation(row+1,col) == null ) ) ) ;
+
+            // If there are no more free faces to examine, let's bail!
+            if ( !bRightFaceOpen && !bLeftFaceOpen && !bMiddleFaceOpen ) {
+                iTile.remove();
+            }
+        }
+    }
+
     public String toString() {
         findBoardMinMax(false);
         String board = String.format(
@@ -337,24 +442,24 @@ public class Board {
         return ((val%2)==0);
     }
 
-    String drawColumnScale() {
+    private String drawColumnScale() {
         StringBuilder strScale = new StringBuilder(120);
         strScale.append("------");
         // Let's paint the rows and column numbers for reference
         for (int col = leftBorder; col <= rightBorder; col++)
-            strScale.append("--------");
-        strScale.append("\n      ");
+            strScale.append("---------");
+        strScale.append("\n        ");
         for (int col = leftBorder; col <= rightBorder; col++)
             strScale.append(String.format(" %3d ", col));
         strScale.append("\n------");
         for (int col = leftBorder; col <= rightBorder; col++)
-            strScale.append("--------");
+            strScale.append("---------");
         strScale.append("\n");
 
         return strScale.toString() ;
     }
 
-    void drawRowScale(String[] strScale, int row, int col) {
+    private void drawRowScale(String[] strScale, int row, int col) {
         if (even(row + col)) {
             strScale[0] += "|    |=";
             strScale[1] += "|    |==";
@@ -422,78 +527,6 @@ public class Board {
             }
         }
         return strBoard.toString();
-    }
-
-    public int getNumberOfRows() {
-        return num_rows;
-    }
-
-    public void setNumberOfRows(int num_rows) {
-        this.num_rows = num_rows;
-    }
-
-    public int getNumberOfCols() {
-        return num_cols;
-    }
-
-    public void setNumberOfCols(int num_cols) {
-        this.num_cols = num_cols;
-    }
-
-    public int getTopBorder() {
-        return topBorder;
-    }
-
-    public void setTopBorder(int topBorder) {
-        if ( topBorder < 0 ) {
-            setTopBorder(0);
-        } else if ( topBorder >= getNumberOfRows() ) {
-            setTopBorder(getNumberOfRows() - 1);
-        } else {
-            this.topBorder = topBorder;
-        }
-    }
-
-    public int getBottomBorder() {
-        return bottomBorder;
-    }
-
-    public void setBottomBorder(int bottomBorder) {
-        if ( bottomBorder < 0 ) {
-            setBottomBorder(0);
-        } else if ( bottomBorder >= getNumberOfRows() ) {
-            setBottomBorder(getNumberOfRows() - 1);
-        } else {
-            this.bottomBorder = bottomBorder;
-        }
-    }
-
-    public int getLeftBorder() {
-        return leftBorder;
-    }
-
-    public void setLeftBorder(int leftBorder) {
-        if ( leftBorder < 0 ) {
-            setBottomBorder(0);
-        } else if ( leftBorder >= getNumberOfCols() ) {
-            setLeftBorder(getNumberOfCols()-1);
-        } else {
-            this.leftBorder = leftBorder;
-        }
-    }
-
-    public int getRightBorder() {
-        return rightBorder;
-    }
-
-    public void setRightBorder(int rightBorder) {
-        if ( rightBorder < 0 ) {
-            setRightBorder(0);
-        } else if ( rightBorder >= getNumberOfCols() ) {
-            setRightBorder(getNumberOfCols()-1);
-        } else {
-            this.rightBorder = rightBorder;
-        }
     }
 
 }
