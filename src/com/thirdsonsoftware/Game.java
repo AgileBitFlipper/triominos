@@ -191,7 +191,7 @@ class Game {
             System.out.println(String.format(" Turn %d...",turn++));
 
             // Keep running through the players
-            tilePlayed = player.playATile(board,piecesPlayed,piecesOnBoardWithEmptyFaces);
+            tilePlayed = player.playATile(getBoard(),getPiecesPlayed(),getPiecesOnBoardWithEmptyFaces());
 
             // If the player can't play a tile, make them choose another
             if ( tilePlayed == null ) {
