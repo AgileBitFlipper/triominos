@@ -16,7 +16,7 @@ class ChoiceTest extends GroovyTestCase {
         tile123 = new Tile(1,2,3)
         tile555 = new Tile(5,5,5)
 
-        choice = new Choice( tile123, DEFAULT_ROW, DEFAULT_COL)
+        choice = new Choice( tile123, DEFAULT_ROW, DEFAULT_COL, Orientation.UP, 0)
     }
 
     void tearDown() {
@@ -38,7 +38,7 @@ class ChoiceTest extends GroovyTestCase {
 
     void testSetRow() {
         assertEquals(DEFAULT_ROW,choice.getRow())
-        choice.setRow(0);
+        choice.setRow(0)
         assertEquals(0,choice.getRow())
     }
 

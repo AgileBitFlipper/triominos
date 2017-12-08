@@ -128,7 +128,7 @@ class GameTest extends GroovyTestCase {
 
     void testSetNumDraws() {
         assertEquals(Game.UP_TO_FOUR_PLAYER_DRAWS, game.getNumDraws())
-        game.setNumDraws(Game.TWO_PLAYER_DRAWS);
+        game.setNumDraws(Game.TWO_PLAYER_DRAWS)
         assertEquals(Game.TWO_PLAYER_DRAWS, game.getNumDraws())
     }
 

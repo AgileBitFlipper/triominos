@@ -25,11 +25,11 @@ import java.util.Collections;
 @SuppressWarnings("SpellCheckingInspection")
 class Game {
 
-    static public int TWO_PLAYER_DRAWS = 9 ;
-    static public int UP_TO_FOUR_PLAYER_DRAWS = 7 ;
+    static public final int TWO_PLAYER_DRAWS = 9 ;
+    static public final int UP_TO_FOUR_PLAYER_DRAWS = 7 ;
 
-    static public int DEFAULT_NUMBER_OF_PLAYERS = 2 ;
-    static public int UP_TO_FOUR_NUMBER_OF_PLAYERS = 4 ;
+    private static final int DEFAULT_NUMBER_OF_PLAYERS = 2 ;
+    private static final int UP_TO_FOUR_NUMBER_OF_PLAYERS = 4 ;
 
     private int numDraws; // setting it to zero is apparently redundant
 
@@ -69,7 +69,7 @@ class Game {
             return null;
     }
 
-    public void setPlayers(ArrayList<Player> players) {
+    private void setPlayers(ArrayList<Player> players) {
         this.players = players;
     }
 
@@ -77,23 +77,23 @@ class Game {
         return tiles;
     }
 
-    public void setTiles(ArrayList<Tile> tiles) {
+    private void setTiles(ArrayList<Tile> tiles) {
         this.tiles = tiles;
     }
 
-    public ArrayList<Tile> getPiecesPlayed() {
+    private ArrayList<Tile> getPiecesPlayed() {
         return piecesPlayed;
     }
 
-    public void setPiecesPlayed(ArrayList<Tile> piecesPlayed) {
+    private void setPiecesPlayed(ArrayList<Tile> piecesPlayed) {
         this.piecesPlayed = piecesPlayed;
     }
 
-    public ArrayList<Tile> getPiecesOnBoardWithEmptyFaces() {
+    private ArrayList<Tile> getPiecesOnBoardWithEmptyFaces() {
         return piecesOnBoardWithEmptyFaces;
     }
 
-    public void setPiecesOnBoardWithEmptyFaces(ArrayList<Tile> piecesOnBoardWithEmptyFaces) {
+    private void setPiecesOnBoardWithEmptyFaces(ArrayList<Tile> piecesOnBoardWithEmptyFaces) {
         this.piecesOnBoardWithEmptyFaces = piecesOnBoardWithEmptyFaces;
     }
 
@@ -159,7 +159,7 @@ class Game {
         }
     }
 
-    protected void shuffleTilePool() {
+    private void shuffleTilePool() {
 
         // Shuffle the tray for randomized picking
         System.out.println(" Shuffelling tile pool...");
@@ -292,10 +292,8 @@ class Game {
         // By default, the first player is the first in the list
         Player first = players.get(0);
 
-        Player playerWithHighestTriplet = null ;
-        Player playerWithHighestValueTile = null ;
-
-        Tile triplet = null ;
+        Tile tile ;
+        Tile startTile = null;
         Tile highestValue = null ;
         Tile highestTriplet = null ;
 
@@ -303,32 +301,38 @@ class Game {
         //   tile.
         for ( Player p : players ) {
 
-            if ( p.hasTriplet() ) {
-                triplet = p.getLargestTriplet();
+            tile = p.getFirstTile() ;
+
+            if ( tile.getValue() == 0 ) {
+                System.out.println(String.format("  Player '%s' has tile '%s'!", p.getName(), tile ));
+                startTile = tile ;
+                first = p ;
+                break;
+            } else if ( tile.isTriplet() ) {
                 if ( ( highestTriplet == null ) ||
-                        ( triplet.getValue() > highestTriplet.getValue() ) ) {
-                    highestTriplet = triplet ;
-                    playerWithHighestTriplet = p ;
+                        ( tile.getValue() > highestTriplet.getValue() ) ) {
+                    System.out.println(String.format("  Player '%s' has highest triplet tile '%s' so far...", p.getName(), tile ));
+                    startTile = tile ;
+                    highestTriplet = tile ;
+                    first = p ;
+                }
+            } else {
+                if ( ( highestTriplet == null ) &&
+                        ( ( highestValue == null )  ||
+                          ( tile.getValue() > highestValue.getValue() ) ) ) {
+                    System.out.println(String.format("  Player '%s' has highest value tile '%s' so far...", p.getName(), tile ));
+                    startTile = tile ;
+                    highestValue = tile ;
+                    first = p ;
                 }
             }
-
-            if ( ( highestValue == null ) ||
-                    ( p.highestValueTile().getValue() > highestValue.getValue() ) ) {
-                highestValue = p.highestValueTile();
-                playerWithHighestValueTile = p ;
-            }
         }
-
-        // Determine who is first...
-        if ( playerWithHighestTriplet != null )
-            first = playerWithHighestTriplet ;
-        else
-            first = playerWithHighestValueTile ;
 
         // Setup the starting player and mark them appropriately
         for ( Player p : players )
             p.setStarts( p == first );
 
+        System.out.println(String.format("  Player '%s' will start with tile '%s'.",first,startTile));
         return first;
     }
 
@@ -344,7 +348,7 @@ class Game {
      * Note: No three corners repeat with another tile.  Values
      *       4-5-4 and 4-5-5 appear only once.
      */
-    protected void generateTiles() {
+    private void generateTiles() {
 
         int cStart ;                                    // The 56-pieces generated should match this table
                                                         // -----------------------------------------------

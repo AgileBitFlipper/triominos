@@ -142,25 +142,25 @@ public class Tile implements Comparable {
     }
 
     public boolean isTriplet() {
-        return ( ( cornerA == cornerB ) && ( cornerB == cornerC ) );
+        return ( ( getCornerA() == getCornerB() ) && ( getCornerB() == getCornerC() ) );
     }
 
     @Override
     public int compareTo(Object o) {
         Tile t = (Tile)o;
-        if ( cornerA < t.cornerA )
+        if ( getCornerA() < t.getCornerA() )
             return -1;
-        else if ( cornerA > t.cornerA )
+        else if ( getCornerA() > t.getCornerA() )
             return 1;
 
-        if ( cornerB < t.cornerB )
+        if ( getCornerB() < t.getCornerB() )
             return -1;
-        else if ( cornerB > t.cornerB )
+        else if ( getCornerB() > t.getCornerB() )
             return 1;
 
-        if ( cornerC < t.cornerC )
+        if ( getCornerC() < t.getCornerC() )
             return -1;
-        else if ( cornerC > t.cornerC )
+        else if ( getCornerC() > t.getCornerC() )
             return 1;
 
         return 0;
@@ -206,21 +206,21 @@ public class Tile implements Comparable {
         switch (rotation) {
             case 0:
                 if (orientation == Orientation.UP) {
-                    return cornerC;
+                    return getCornerC();
                 } else {
-                    return cornerB;
+                    return getCornerB();
                 }
             case 120:
                 if (orientation == Orientation.UP) {
-                    return cornerB;
+                    return getCornerB();
                 } else {
-                    return cornerA;
+                    return getCornerA();
                 }
             default:
                 if (orientation == Orientation.UP) {
-                    return cornerA;
+                    return getCornerA();
                 } else {
-                    return cornerC;
+                    return getCornerC();
                 }
         }
     }
@@ -229,21 +229,21 @@ public class Tile implements Comparable {
         switch (rotation) {
             case 0:
                 if (orientation == Orientation.UP) {
-                    return cornerB;
+                    return getCornerB();
                 } else {
-                    return cornerC;
+                    return getCornerC();
                 }
             case 120:
                 if (orientation == Orientation.UP) {
-                    return cornerA;
+                    return getCornerA();
                 } else {
-                    return cornerB;
+                    return getCornerB();
                 }
             default:
                 if (orientation == Orientation.UP) {
-                    return cornerC;
+                    return getCornerC();
                 } else {
-                    return cornerA;
+                    return getCornerA();
                 }
         }
     }
@@ -252,21 +252,21 @@ public class Tile implements Comparable {
         switch (rotation) {
             case 0:
                 if (orientation == Orientation.UP) {
-                    return cornerA;
+                    return getCornerA();
                 } else {
-                    return cornerA;
+                    return getCornerA();
                 }
             case 120:
                 if (orientation == Orientation.UP) {
-                    return cornerC;
+                    return getCornerC();
                 } else {
-                    return cornerC;
+                    return getCornerC();
                 }
             default:
                 if (orientation == Orientation.UP) {
-                    return cornerB;
+                    return getCornerB();
                 } else {
-                    return cornerB;
+                    return getCornerB();
                 }
         }
     }
