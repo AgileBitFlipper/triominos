@@ -72,7 +72,7 @@ class GameTest extends GroovyTestCase {
         assertEquals(game.getNumDraws(),7)
 
         // Pretend to setup the players in a well known way...
-        game.setupPlayerTrays()
+        game.drawTiles()
 
         Player pIsFirst = game.whoIsFirst()
         assertEquals(pIsFirst, game.getPlayer(2))
@@ -89,7 +89,7 @@ class GameTest extends GroovyTestCase {
     void testPlayerPicks() {
 
         // Since we didn't shuffle, we can predict the tile trays...
-        game.setupPlayerTrays()
+        game.drawTiles()
 
         String strPlayer0 = "[0-0-0, 0-0-3, 0-1-1, 0-1-4, 0-2-3, 0-3-3, 0-4-4]"
         String strPlayer1 = "[0-0-1, 0-0-4, 0-1-2, 0-1-5, 0-2-4, 0-3-4, 0-4-5]"

@@ -73,6 +73,7 @@ public class Player {
      */
     public boolean drawTile( ArrayList<Tile> tilePool ) {
         Tile t = tilePool.remove(0);
+        t.setPlayer(this);
         System.out.println( String.format( "   Removing tile %s and adding it to %s's tray.", t, name ) );
         return tray.add(t);
     }
@@ -128,11 +129,27 @@ public class Player {
         // Am I the player that starts?
         if ( getStarts() ) {
 
-            myTileToPlay = highestValueTile();
+            if ( hasZeroTriplet() ) {
+                myTileToPlay = getZeroTriplet();
+                System.out.println("   Playing zero-triplet tile for 30 point bonus!");
+                setScore(getScore()+30);
+            } else if ( hasTriplet() ) {
+                myTileToPlay = getLargestTriplet();
+                System.out.println("   Playing highest value triplet tile for 10 point bonus!");
+                setScore(getScore()+10);
+            } else {
+                System.out.println("   Playing highest value tile for no bonus!");
+                myTileToPlay = highestValueTile();
+            }
+
+            // Always start in the middle of the board.
             row = 56;
             col = 56;
 
             if ( board.placeTile(myTileToPlay,row,col) ) {
+
+                // Add up the points for the first tile
+                setScore(getScore()+myTileToPlay.getValue());
 
                 myTileToPlay.setPlayer(this);
 
@@ -323,9 +340,7 @@ public class Player {
                 }
 
                 // If we can't play a tile...tell them so...otherwise set the player on the tile
-                if ( choice == null ){
-                    System.out.println("   Can't find a tile to play...");
-                } else {
+                if ( choice != null ){
                     System.out.println(String.format("   Played tile '%s' at location (%d,%d).", choice, choice.getRow(), choice.getCol()));
                     choice.setPlayer(this);
                     break;
@@ -475,5 +490,61 @@ public class Player {
         boolean bMiddleFaceOpen = ( bWeCanLookDown || bWeCanLookUp ) && ( board.playedTiles[tileRow + directionToLook][tileCol] == null ) ;
 
         return ( bLeftFaceOpen || bRightFaceOpen || bMiddleFaceOpen ) ;
+    }
+
+    public boolean hasTriplet() {
+        boolean hasTriplet = false ;
+        for( Tile tile : tray ) {
+            if (tile.getValue() == tile.getCornerA() * 3) {
+                hasTriplet = true;
+                break;
+            }
+        }
+        return hasTriplet ;
+    }
+
+    public Tile getLargestTriplet() {
+        Tile largestTriplet = null;
+
+        for ( Tile tile : tray ) {
+            if ( tile.isTriplet() &&
+                    ( ( largestTriplet == null ) ||
+                    ( tile.getValue() > largestTriplet.getValue() ) ) ) {
+                largestTriplet = tile ;
+            }
+        }
+        return largestTriplet;
+    }
+
+    public Tile getLargestValuedTile() {
+        Tile largestValueTile = null;
+
+        for ( Tile tile : tray ) {
+            if ( ( largestValueTile == null ) ||
+                    ( tile.getValue() > largestValueTile.getValue() ) ) {
+                largestValueTile = tile ;
+            }
+        }
+        return largestValueTile;
+    }
+
+    public boolean hasZeroTriplet() {
+        boolean haveIt = false ;
+        for ( Tile tile : tray ) {
+            if ( tile.getValue() == 0 ) {
+                haveIt = true ;
+                break;
+            }
+        }
+        return haveIt;
+    }
+
+    public Tile getZeroTriplet() {
+        Tile zeroTriplet = null;
+        for ( Tile tile : tray ) {
+            if ( tile.getValue() == 0 )
+                zeroTriplet = tile ;
+        }
+        return zeroTriplet;
     }
 }

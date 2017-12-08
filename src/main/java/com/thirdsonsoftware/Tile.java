@@ -176,12 +176,19 @@ public class Tile implements Comparable {
 
     public void draw( Boolean solo, String[] row ) {
 
+        char playerIndexChar ;
+
+        if ( playedBy != null && playedBy.getName() != null )
+            playerIndexChar = playedBy.getName().charAt(playedBy.getName().length()-1) ;
+        else
+            playerIndexChar = '?';
+
         // Column
         if ( orientation==Orientation.DOWN ) {
 
             row[0] += String.format("%s-------%s", (solo) ? "" : " ", (solo) ? "" : " ");
             row[1] += String.format("\\%d   %d/", getLeftCorner(), getRightCorner());
-            row[2] += String.format("%s\\   /",   (solo) ? " " : "" );
+            row[2] += String.format("%s\\ %c /",   (solo) ? " " : "", playerIndexChar );
             row[3] += String.format("%s\\%d/",    (solo) ? "  " : "", getMiddleCorner());
             row[4] += String.format("%sv",      (solo) ? "   " : "" );
 
@@ -189,7 +196,7 @@ public class Tile implements Comparable {
 
             row[0] += String.format("%s^",      (solo) ? "   " : "" );
             row[1] += String.format("%s/%d\\",    (solo) ? "  " : "", getMiddleCorner());
-            row[2] += String.format("%s/   \\",   (solo) ? " " : "" ) ;
+            row[2] += String.format("%s/ %c \\",   (solo) ? " " : "", playerIndexChar ) ;
             row[3] += String.format("/%d   %d\\", getLeftCorner(), getRightCorner());
             row[4] += String.format("%s-------%s", (solo) ? "" : " ", (solo) ? "" : " ");
         }

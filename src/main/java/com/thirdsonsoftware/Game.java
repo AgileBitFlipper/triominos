@@ -129,7 +129,7 @@ class Game {
 
         // Assign player names
         for (int i = 0; i < numPlayers; i++) {
-            players.add(new Player(String.format("Player %d", i + 1)));
+            players.add(new Player(String.format("Player %c", 'A' + i )));
         }
 
         // Allocate enough space for the tile pool
@@ -147,7 +147,7 @@ class Game {
         generateTiles();
     }
 
-    protected void setupPlayerTrays() {
+    protected void drawTiles() {
 
         // Draw tray for each player, taking turns
         System.out.println(" Drawing tiles for each player's tray...");
@@ -159,37 +159,46 @@ class Game {
         }
     }
 
-    /**
-     * Do you want to play a game?
-     */
-    public void play() {
+    protected void shuffleTilePool() {
 
         // Shuffle the tray for randomized picking
         System.out.println(" Shuffelling tile pool...");
         Collections.shuffle(tiles);
 
+    }
+
+    /**
+     * Do you want to play a game?
+     */
+    public void play() {
+
+        int indexPlayer ;
+        int turn = 1 ;
+
+        Player player ;
+        Tile tilePlayed ;
+
+        // Shuffle tile pool
+        shuffleTilePool();
+
         // Fill the player trays with tiles
-        setupPlayerTrays();
+        drawTiles();
 
         // The player with the highest value goes first
         Player firstPlayer = whoIsFirst();
-        firstPlayer.setStarts(true) ;
 
-        int indexPlayer = players.indexOf(firstPlayer);
-        Player player = firstPlayer ;
+        indexPlayer = players.indexOf(firstPlayer);
+        player = firstPlayer ;
 
-        int turn = 1 ;
-
-        // The tile that was just played.
-        Tile tilePlayed ;
-
+        // Let's show the game board to everyone!
         System.out.println(this);
 
         // Gameplay continues until all players can't play
-        // Todo: We are cuurently playing until the well is dry...that needs to change.
-        while ( !getTiles().isEmpty() ) {
+        int blockedPlayerCount = 0 ;
+        boolean playBlocked = false ;
+        while ( !playBlocked ) {
 
-            System.out.println(String.format(" Turn %d...",turn++));
+            System.out.println(String.format(" Turn %d by %s ...",turn++,player.getName()));
 
             // Keep running through the players
             tilePlayed = player.playATile(getBoard(),getPiecesPlayed(),getPiecesOnBoardWithEmptyFaces());
@@ -206,24 +215,30 @@ class Game {
                     // Choose a new tile for the player
                     player.drawTile(tiles);
 
+                    // Same player has to keep playing untl they get a pick or the well is dry.
+                    continue ;
+
                 } else {
                     // If there are no more tiles in the well deduct 10 points.
                     player.setScore(player.getScore() - 10);
                 }
 
+                // Let's start incrementing the blocked count
+                blockedPlayerCount += 1 ;
+
             } else {
 
                 // The first tile played
-                if ( getPiecesPlayed().size() == 0 ) {
+                if (getPiecesPlayed().size() == 0) {
 
                     // Starting player can earn 10 points if tile is a triplet
-                    if ( tilePlayed.isTriplet() ) {
+                    if (tilePlayed.isTriplet()) {
 
-                        player.setScore(player.getScore()+10);
+                        player.setScore(player.getScore() + 10);
 
                         // If three 0's start, there is a 30 point bonus
-                        if ( tilePlayed.getValue() == 0 )
-                            player.setScore(player.getScore()+30);
+                        if (tilePlayed.getValue() == 0)
+                            player.setScore(player.getScore() + 30);
                     }
                 }
 
@@ -231,7 +246,7 @@ class Game {
                 piecesPlayed.add(tilePlayed);
 
                 // Add the points for the tile.
-                player.setScore(player.getScore()+tilePlayed.getValue());
+                player.setScore(player.getScore() + tilePlayed.getValue());
 
                 // Need to add points for special plays
                 // Complete a hexagon, get 50 points (plus tile value).
@@ -242,11 +257,16 @@ class Game {
                 // Show the board
                 System.out.println(this);
 
-                // Choose the next player
-                indexPlayer = ( indexPlayer + 1 ) % players.size();
-                player = players.get(indexPlayer);
+                blockedPlayerCount = 0 ;
             }
 
+            // Choose the next player
+            indexPlayer = ( indexPlayer + 1 ) % players.size();
+            player = players.get(indexPlayer);
+
+            // If no one can play a tile, we are blocked
+            if ( blockedPlayerCount >= players.size() )
+                playBlocked = true ;
         }
 
         // The game is over...let's account for points.
@@ -258,6 +278,13 @@ class Game {
     /**
      * Scans through the list of players, looking at each ones tray,
      *   and determines who has the highest value tile.
+     * The player with the highest triplet starts first.  If no player
+     *   has a triplet, then the player with the highest value tile
+     *   goes first.  The player scores the value of the tile plus a bonus
+     *   of 10 points.
+     * If the player has both the highest triplet and the "0-0-0" tile
+     *   they would play the 0's tile first for a bonus of 30 additional
+     *   points.
      * @return the player that starts the game
      */
     protected Player whoIsFirst() {
@@ -265,26 +292,38 @@ class Game {
         // By default, the first player is the first in the list
         Player first = players.get(0);
 
+        Player playerWithHighestTriplet = null ;
+        Player playerWithHighestValueTile = null ;
+
+        Tile triplet = null ;
         Tile highestValue = null ;
+        Tile highestTriplet = null ;
 
         // Spin through each player looking for the highest value
         //   tile.
         for ( Player p : players ) {
 
-            // If the player has tray
-            if ( p.tray.size() > 0 ) {
-
-                // If we don't have a highest value yet, or we do
-                //   but the highest value tile for this player is
-                //   larger than the current largest for all players,
-                //   set our next highest.
-                if ( ( highestValue == null ) ||
-                        ( p.highestValueTile().getValue() > highestValue.getValue() ) ) {
-                    highestValue = p.highestValueTile();
-                    first = p ;
+            if ( p.hasTriplet() ) {
+                triplet = p.getLargestTriplet();
+                if ( ( highestTriplet == null ) ||
+                        ( triplet.getValue() > highestTriplet.getValue() ) ) {
+                    highestTriplet = triplet ;
+                    playerWithHighestTriplet = p ;
                 }
             }
+
+            if ( ( highestValue == null ) ||
+                    ( p.highestValueTile().getValue() > highestValue.getValue() ) ) {
+                highestValue = p.highestValueTile();
+                playerWithHighestValueTile = p ;
+            }
         }
+
+        // Determine who is first...
+        if ( playerWithHighestTriplet != null )
+            first = playerWithHighestTriplet ;
+        else
+            first = playerWithHighestValueTile ;
 
         // Setup the starting player and mark them appropriately
         for ( Player p : players )
