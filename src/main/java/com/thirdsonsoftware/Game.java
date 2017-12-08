@@ -185,7 +185,8 @@ class Game {
 
         System.out.println(this);
 
-        // Play from the first tile round robin
+        // Gameplay continues until all players can't play
+        // Todo: We are cuurently playing until the well is dry...that needs to change.
         while ( !getTiles().isEmpty() ) {
 
             System.out.println(String.format(" Turn %d...",turn++));
@@ -205,6 +206,9 @@ class Game {
                     // Choose a new tile for the player
                     player.drawTile(tiles);
 
+                } else {
+                    // If there are no more tiles in the well deduct 10 points.
+                    player.setScore(player.getScore() - 10);
                 }
 
             } else {

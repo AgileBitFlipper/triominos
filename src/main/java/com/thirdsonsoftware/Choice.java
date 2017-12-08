@@ -3,24 +3,24 @@ package com.thirdsonsoftware;
 public class Choice {
 
     // Which tile?
-    Tile t ;
+    Tile tile ;
 
     // Where?
     int row ;
     int col ;
 
-    public Choice(Tile t, int row, int col) {
-        this.t = t;
+    public Choice(Tile tile, int row, int col) {
+        this.tile = tile;
         this.row = row;
         this.col = col;
     }
 
     public Tile getTile() {
-        return t;
+        return tile;
     }
 
-    public void setTile(Tile t) {
-        this.t = t;
+    public void setTile(Tile tile) {
+        this.tile = tile;
     }
 
     public int getRow() {

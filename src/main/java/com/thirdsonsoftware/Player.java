@@ -252,7 +252,7 @@ public class Player {
             choice = null;
 
             // Let's see if we have any choices to play
-            ArrayList<Tile> choicesToPlay = new ArrayList<Tile>();
+            ArrayList<Choice> choicesToPlay = new ArrayList<Choice>();
 
             Iterator<Tile> iTile = tilesWithAvailableFaces.iterator();
 
@@ -266,6 +266,7 @@ public class Player {
 
                 Orientation playedTileOrientation = played.getOrientation() ;
                 int directionToLook = ( playedTileOrientation == Orientation.UP ) ? 1 : -1 ;
+                int value ;
 
                 boolean bWeCanLookLeft  = ( tileCol > 0 );
                 boolean bWeCanLookRight = ( tileCol < board.getNumberOfCols()-1 ) ;
@@ -276,24 +277,44 @@ public class Player {
                 boolean bRightFaceOpen  = bWeCanLookRight && ( tileCol > 0 ) && ( board.playedTiles[tileRow][tileCol + 1] == null ) ;
                 boolean bMiddleFaceOpen = ( bWeCanLookDown || bWeCanLookUp ) && ( board.playedTiles[tileRow + directionToLook][tileCol] == null ) ;
 
-                // Can we play one of our tiles to the left?
+                ArrayList<Choice> choicesForAFace = new ArrayList<>();
+                Choice topChoice = null ;
+
+                // Can we play any of our tiles to the left?
                 if ( bLeftFaceOpen ) {
-                    choice = getTileFromTrayForLeftFace(board, played.getLeftFace(), tileRow, tileCol - 1);
-                    tray.remove(choice);
+                    choicesForAFace = getTileFromTrayForLeftFace(board, played.getLeftFace(), tileRow, tileCol - 1);
+                    choicesToPlay.addAll(choicesForAFace);
                 }
 
-                // Can we play one of our tiles to the right?
-                if ( ( choice == null ) && bRightFaceOpen ) {
-                    choice = getTileFromTrayForRightFace(board, played.getRightFace(), tileRow, tileCol + 1);
-
-                    // Now that we've played it, remove it from the players tray
-                    tray.remove(choice);
+                // Can we play any of our tiles to the right?
+                if ( bRightFaceOpen ) {
+                    choicesForAFace = getTileFromTrayForRightFace(board, played.getRightFace(), tileRow, tileCol + 1);
+                    choicesToPlay.addAll(choicesForAFace);
                 }
 
-                // Can we play one of our tiles up or down?
-                if ( ( choice == null ) && bMiddleFaceOpen ) {
-                    choice = getTileFromTrayForMiddleFace(board, played.getMiddleFace(), tileRow + directionToLook, tileCol);
-                    tray.remove(choice);
+                // Can we play any of our tiles up or down?
+                if ( bMiddleFaceOpen ) {
+                    choicesForAFace = getTileFromTrayForMiddleFace(board, played.getMiddleFace(), tileRow + directionToLook, tileCol);
+                    choicesToPlay.addAll(choicesForAFace);
+                }
+
+                value = 0 ;
+
+                // Spin through choices looking for the highest value or score
+                for ( Choice c : choicesToPlay ) {
+                    if ( c.tile.getValue() > value ) {
+                        value = c.tile.getValue();
+                        topChoice = c ;
+                    }
+                }
+
+                // Do we have a top choice from the list of choices?
+                if ( topChoice != null ) {
+                    if ( board.placeTile(topChoice.tile, topChoice.getRow(), topChoice.getCol())) {
+                        tray.remove(topChoice.tile);
+                        choice = topChoice.tile ;
+                        System.out.println(board.display(false));
+                    }
                 }
 
                 // If there are no more open faces, let's remove this tile from the list.
@@ -338,9 +359,10 @@ public class Player {
         return choice;
     }
 
-    private Tile getTileFromTrayForMiddleFace(Board board, Face middleFace, int row, int col) {
-        Tile choice = null;
+    private ArrayList<Choice>  getTileFromTrayForMiddleFace(Board board, Face middleFace, int row, int col) {
+        ArrayList<Choice> choices = new ArrayList<>();
         Orientation orientation = board.getOrientationForPositionOnBoard(row+1,col);
+        boolean aMatchWasFound ;
 
         // Does the left face match a face on any of our tile's faces?
         for (Tile trayTile : tray) {
@@ -349,7 +371,7 @@ public class Player {
             trayTile.setOrientation(Orientation.UP);
 
             // Assume we are going to play this one
-            choice = trayTile ;
+            aMatchWasFound = true ;
 
             // Compare all the faces
             if (trayTile.getLeftFace().match(middleFace)) {
@@ -358,22 +380,22 @@ public class Player {
                 trayTile.setRotation((orientation == Orientation.UP) ? 120 : 120);
             } else if (trayTile.getMiddleFace().match(middleFace)) {
                 trayTile.setRotation(0);
+            } else {
+                aMatchWasFound = false ;
             }
 
-            // Place the tile!
-            if (board.placeTile(choice, row, col)) {
-                break;
-            } else {
-                choice = null ;
+            // Assume we are going to play this one
+            if ( aMatchWasFound ) {
+                choices.add(new Choice( trayTile, row, col ));
             }
         }
-        return choice;
+        return choices;
     }
 
-    private Tile getTileFromTrayForRightFace(Board board, Face rightFace, int row, int col) {
-
-        Tile choice = null;
+    private ArrayList<Choice>  getTileFromTrayForRightFace(Board board, Face rightFace, int row, int col) {
+        ArrayList<Choice> choices = new ArrayList<>();
         Orientation orientation = board.getOrientationForPositionOnBoard(row,col-1);
+        boolean aMatchWasFound ;
 
         // Does the left face match a face on any of our tile's faces?
         for (Tile trayTile : tray) {
@@ -382,7 +404,7 @@ public class Player {
             trayTile.setOrientation(Orientation.UP);
 
             // Assume we are going to play this one
-            choice = trayTile;
+            aMatchWasFound = true ;
 
             // Compare all the faces
             if (trayTile.getLeftFace().match(rightFace)) {
@@ -391,28 +413,21 @@ public class Player {
                 trayTile.setRotation((orientation == Orientation.UP) ? 0 : 240);
             } else if (trayTile.getMiddleFace().match(rightFace)) {
                 trayTile.setRotation((orientation == Orientation.UP) ? 240 : 120);
+            } else {
+                aMatchWasFound = false ;
             }
 
-            // Place the tile!
-            if (board.placeTile(choice, row, col)) {
-
-                // Show the full board.
-                System.out.println(board.display(false));
-                break ;
-
-            } else {
-                choice = null;
+            if ( aMatchWasFound ) {
+                choices.add(new Choice( trayTile, row, col ));
             }
         }
-
-        // If we are here, that means that we didn't find a left or right spot.  So, now we need to
-        //   look above and below to see if a piece fits there...
-        return choice;
+        return choices;
     }
 
-    private Tile getTileFromTrayForLeftFace(Board board, Face leftFace, int row, int col) {
-        Tile choice = null;
-        Orientation orientation = board.getOrientationForPositionOnBoard(row,col+11);
+    private ArrayList<Choice> getTileFromTrayForLeftFace(Board board, Face leftFace, int row, int col) {
+        ArrayList<Choice> choices = new ArrayList<>();
+        Orientation orientation = board.getOrientationForPositionOnBoard(row,col+1);
+        boolean aMatchWasFound ;
 
         // Does the left face match a face on any of our tile's faces?
         for (Tile trayTile : tray) {
@@ -420,8 +435,7 @@ public class Player {
             // Always compare with a known orientation to make things simpler
             trayTile.setOrientation(Orientation.UP);
 
-            // Assume we are going to play this one
-            choice = trayTile;
+            aMatchWasFound = true ;
 
             // Compare all the faces
             if (trayTile.getLeftFace().match(leftFace)) {
@@ -431,23 +445,16 @@ public class Player {
             } else if (trayTile.getMiddleFace().match(leftFace)) {
                 trayTile.setRotation((orientation == Orientation.UP) ? 120 : 120);
             } else {
-                choice = null;
+                aMatchWasFound = false ;
             }
 
-            // If we found a face match, let's give it a try and place it.
-            if (choice != null) {
-
-                // Place the tile!
-                //@Todo: This only allows for a single choice for a position when there could be more
-                //@Todo: Perhaps we could return an ArrayList of choices for this face?
-                if (board.placeTile(choice, row, col)) {
-                    break;
-                } else {
-                    choice = null;
-                }
+            // Assume we are going to play this one
+            if ( aMatchWasFound ) {
+                choices.add(new Choice( trayTile, row, col ));
             }
+
         }
-        return choice;
+        return choices;
     }
 
     private boolean tileHasAnEmptyFace(Board board, Tile played) {
