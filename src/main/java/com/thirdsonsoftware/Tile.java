@@ -42,6 +42,8 @@ enum Orientation {
  */
 public class Tile implements Comparable {
 
+    private int id ;                    // Unique tile id
+
     private int cornerA ;               // Reference corner A
     private int cornerB ;               // Reference corner B
     private int cornerC ;               // Reference corner C
@@ -77,14 +79,15 @@ public class Tile implements Comparable {
         return String.format( "%d-%d-%d", cornerA, cornerB, cornerC );
     }
 
+    public void setId(int id) { this.id = id; }
+    public int getId() { return id; }
+
     private void setCornerA(int cornerA) {
         this.cornerA = cornerA;
     }
-
     private void setCornerB(int cornerB) {
         this.cornerB = cornerB;
     }
-
     public void setCornerC(int cornerC) {
         this.cornerC = cornerC;
     }
@@ -92,19 +95,12 @@ public class Tile implements Comparable {
     public int getCornerA() {
         return cornerA;
     }
-
-    public int getCornerB() {
-        return cornerB;
-    }
-
-    public int getCornerC() {
-        return cornerC;
-    }
+    public int getCornerB() { return cornerB; }
+    public int getCornerC() { return cornerC; }
 
     public int getRotation() {
         return rotation;
     }
-
     public void setRotation(int rotation) {
         this.rotation = rotation;
     }
@@ -112,15 +108,11 @@ public class Tile implements Comparable {
     public Orientation getOrientation() {
         return orientation;
     }
-
     public void setOrientation(Orientation orientation) {
         this.orientation = orientation;
     }
 
-    public int getValue() {
-        return value;
-    }
-
+    public int getValue() { return value; }
     public void setValue(int value) {
         this.value = value;
     }
@@ -128,7 +120,6 @@ public class Tile implements Comparable {
     public int getRow() {
         return row;
     }
-
     public void setRow(int row) {
         this.row = row;
     }
@@ -136,34 +127,12 @@ public class Tile implements Comparable {
     public int getCol() {
         return col;
     }
-
     public void setCol(int col) {
         this.col = col;
     }
 
     public boolean isTriplet() {
-        return ( ( cornerA == cornerB ) && ( cornerB == cornerC ) );
-    }
-
-    @Override
-    public int compareTo(Object o) {
-        Tile t = (Tile)o;
-        if ( cornerA < t.cornerA )
-            return -1;
-        else if ( cornerA > t.cornerA )
-            return 1;
-
-        if ( cornerB < t.cornerB )
-            return -1;
-        else if ( cornerB > t.cornerB )
-            return 1;
-
-        if ( cornerC < t.cornerC )
-            return -1;
-        else if ( cornerC > t.cornerC )
-            return 1;
-
-        return 0;
+        return ( ( getCornerA() == getCornerB() ) && ( getCornerB() == getCornerC() ) );
     }
 
     public void rotate( int r ) {
@@ -172,96 +141,6 @@ public class Tile implements Comparable {
 
     public void orient( Orientation o ) {
         orientation = o ;
-    }
-
-    public void draw( Boolean solo, String[] row ) {
-
-        // Column
-        if ( orientation==Orientation.DOWN ) {
-
-            row[0] += String.format("%s-------%s", (solo) ? "" : " ", (solo) ? "" : " ");
-            row[1] += String.format("\\%d   %d/", getLeftCorner(), getRightCorner());
-            row[2] += String.format("%s\\   /",   (solo) ? " " : "" );
-            row[3] += String.format("%s\\%d/",    (solo) ? "  " : "", getMiddleCorner());
-            row[4] += String.format("%sv",      (solo) ? "   " : "" );
-
-        } else {
-
-            row[0] += String.format("%s^",      (solo) ? "   " : "" );
-            row[1] += String.format("%s/%d\\",    (solo) ? "  " : "", getMiddleCorner());
-            row[2] += String.format("%s/   \\",   (solo) ? " " : "" ) ;
-            row[3] += String.format("/%d   %d\\", getLeftCorner(), getRightCorner());
-            row[4] += String.format("%s-------%s", (solo) ? "" : " ", (solo) ? "" : " ");
-        }
-    }
-
-    public int getLeftCorner() {
-        switch (rotation) {
-            case 0:
-                if (orientation == Orientation.UP) {
-                    return cornerC;
-                } else {
-                    return cornerB;
-                }
-            case 120:
-                if (orientation == Orientation.UP) {
-                    return cornerB;
-                } else {
-                    return cornerA;
-                }
-            default:
-                if (orientation == Orientation.UP) {
-                    return cornerA;
-                } else {
-                    return cornerC;
-                }
-        }
-    }
-
-    public int getRightCorner() {
-        switch (rotation) {
-            case 0:
-                if (orientation == Orientation.UP) {
-                    return cornerB;
-                } else {
-                    return cornerC;
-                }
-            case 120:
-                if (orientation == Orientation.UP) {
-                    return cornerA;
-                } else {
-                    return cornerB;
-                }
-            default:
-                if (orientation == Orientation.UP) {
-                    return cornerC;
-                } else {
-                    return cornerA;
-                }
-        }
-    }
-
-    public int getMiddleCorner() {
-        switch (rotation) {
-            case 0:
-                if (orientation == Orientation.UP) {
-                    return cornerA;
-                } else {
-                    return cornerA;
-                }
-            case 120:
-                if (orientation == Orientation.UP) {
-                    return cornerC;
-                } else {
-                    return cornerC;
-                }
-            default:
-                if (orientation == Orientation.UP) {
-                    return cornerB;
-                } else {
-                    return cornerB;
-                }
-        }
     }
 
     /**
@@ -352,4 +231,123 @@ public class Tile implements Comparable {
     public Player getPlayer() {
         return playedBy ;
     }
+
+    public void draw( Boolean solo, String[] row ) {
+
+        char playerIndexChar ;
+
+        if ( playedBy != null && playedBy.getName() != null )
+            playerIndexChar = playedBy.getName().charAt(playedBy.getName().length()-1) ;
+        else
+            playerIndexChar = '?';
+
+        // Column
+        if ( orientation==Orientation.DOWN ) {
+
+            row[0] += String.format("%s--%3d--%s", (solo) ? "" : " ", getId(), (solo) ? "" : " ");
+            row[1] += String.format("\\%d   %d/",  getLeftCorner(), getRightCorner());
+            row[2] += String.format("%s\\ %c /",   (solo) ? " " : "", playerIndexChar );
+            row[3] += String.format("%s\\%d/",     (solo) ? "  " : "", getMiddleCorner());
+            row[4] += String.format("%sv",         (solo) ? "   " : "" );
+
+        } else {
+
+            row[0] += String.format("%s^",         (solo) ? "   " : "" );
+            row[1] += String.format("%s/%d\\",     (solo) ? "  " : "", getMiddleCorner());
+            row[2] += String.format("%s/ %c \\",   (solo) ? " " : "", playerIndexChar ) ;
+            row[3] += String.format("/%d   %d\\",  getLeftCorner(), getRightCorner());
+            row[4] += String.format("%s--%3d--%s", (solo) ? "" : " ", getId(), (solo) ? "" : " ");
+        }
+    }
+
+    public int getLeftCorner() {
+        switch (rotation) {
+            case 0:
+                if (orientation == Orientation.UP) {
+                    return getCornerC();
+                } else {
+                    return getCornerB();
+                }
+            case 120:
+                if (orientation == Orientation.UP) {
+                    return getCornerB();
+                } else {
+                    return getCornerA();
+                }
+            default:
+                if (orientation == Orientation.UP) {
+                    return getCornerA();
+                } else {
+                    return getCornerC();
+                }
+        }
+    }
+
+    public int getRightCorner() {
+        switch (rotation) {
+            case 0:
+                if (orientation == Orientation.UP) {
+                    return getCornerB();
+                } else {
+                    return getCornerC();
+                }
+            case 120:
+                if (orientation == Orientation.UP) {
+                    return getCornerA();
+                } else {
+                    return getCornerB();
+                }
+            default:
+                if (orientation == Orientation.UP) {
+                    return getCornerC();
+                } else {
+                    return getCornerA();
+                }
+        }
+    }
+
+    public int getMiddleCorner() {
+        switch (rotation) {
+            case 0:
+                if (orientation == Orientation.UP) {
+                    return getCornerA();
+                } else {
+                    return getCornerA();
+                }
+            case 120:
+                if (orientation == Orientation.UP) {
+                    return getCornerC();
+                } else {
+                    return getCornerC();
+                }
+            default:
+                if (orientation == Orientation.UP) {
+                    return getCornerB();
+                } else {
+                    return getCornerB();
+                }
+        }
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Tile t = (Tile)o;
+        if ( getCornerA() < t.getCornerA() )
+            return -1;
+        else if ( getCornerA() > t.getCornerA() )
+            return 1;
+
+        if ( getCornerB() < t.getCornerB() )
+            return -1;
+        else if ( getCornerB() > t.getCornerB() )
+            return 1;
+
+        if ( getCornerC() < t.getCornerC() )
+            return -1;
+        else if ( getCornerC() > t.getCornerC() )
+            return 1;
+
+        return 0;
+    }
+
 }

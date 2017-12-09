@@ -46,7 +46,7 @@ public class Face implements Comparable {
      * @return - String defining the face
      */
     public String toString() {
-        return String.format("%d - %d", left, right );
+        return String.format("%d-%d", left, right );
     }
 
     /** Determines if the current face could be adjacent to the one provided

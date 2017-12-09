@@ -27,6 +27,7 @@ public class Player {
     private int score ;               // The players score
     private boolean starts = false ;  // This player starts the game (highest tile)
     private String name ;             // The name of the player
+    private Tile startingTile ;       // Get the starting tile
 
     final ArrayList<Tile> tray;       // The tray in the player's hand
 
@@ -73,6 +74,7 @@ public class Player {
      */
     public boolean drawTile( ArrayList<Tile> tilePool ) {
         Tile t = tilePool.remove(0);
+        t.setPlayer(this);
         System.out.println( String.format( "   Removing tile %s and adding it to %s's tray.", t, name ) );
         return tray.add(t);
     }
@@ -94,31 +96,6 @@ public class Player {
         return highestValue ;
     }
 
-    /**
-     * @return string that represents the Player's state
-     */
-    public String toString() {
-        StringBuilder description = new StringBuilder(String.format("  Name: %s\n    Starts: %s\n    Score: %d\n    Hand: %s\n",
-                name,
-                starts ? "yes" : "no",
-                score,
-                tray));
-        if ( starts ) {
-            description.append("    Starting tile:\n");
-            String[] tile_desc = new String[5];
-            for ( int i=0;i<5;i++)
-                tile_desc[i] = "      " ;
-            Tile highestTile = highestValueTile() ;
-            if ( highestTile != null )
-                highestTile.draw(true, tile_desc);
-            else
-                description.append("No more tiles in tray.\n");
-            for ( int i=0;i<5;i++)
-                description.append(tile_desc[i]).append("\n");
-        }
-        return description.toString();
-    }
-
     private Tile playFirstTile( Board board ) {
 
         int row ;
@@ -128,11 +105,25 @@ public class Player {
         // Am I the player that starts?
         if ( getStarts() ) {
 
-            myTileToPlay = highestValueTile();
+            myTileToPlay = getFirstTile();
+            if ( myTileToPlay.getValue() == 0 ) {
+                System.out.println("   Playing zero-triplet tile for 30 point bonus!");
+                setScore(getScore() + 30);
+            } else if ( myTileToPlay.isTriplet() ) {
+                System.out.println("   Playing highest value triplet tile for 10 point bonus!");
+                setScore(getScore() + 10);
+            } else {
+                System.out.println("   Playing highest value tile for no bonus!");
+            }
+
+            // Always start in the middle of the board.
             row = 56;
             col = 56;
 
             if ( board.placeTile(myTileToPlay,row,col) ) {
+
+                // Add up the points for the first tile
+                setScore(getScore()+myTileToPlay.getValue());
 
                 myTileToPlay.setPlayer(this);
 
@@ -145,8 +136,19 @@ public class Player {
                 return myTileToPlay;
             }
         }
-
         return myTileToPlay ;
+    }
+
+    public Tile getFirstTile() {
+        Tile myTileToPlay;
+        if ( hasZeroTriplet() ) {
+            myTileToPlay = getZeroTriplet();
+        } else if ( hasTriplet() ) {
+            myTileToPlay = getLargestTriplet();
+        } else {
+            myTileToPlay = highestValueTile();
+        }
+        return myTileToPlay;
     }
 
     /*
@@ -202,13 +204,13 @@ public class Player {
                 lines[1] += " - ";
                 lines[2] += "  - ";
                 lines[3] += "   - ";
-                lines[4] += "   - ";
+                lines[4] += "    - ";
             } else {
                 lines[4] += " - ";
                 lines[3] += " - ";
                 lines[2] += "  - ";
                 lines[1] += "   - ";
-                lines[0] += "   - ";
+                lines[0] += "    - ";
             }
 
         } else {
@@ -232,6 +234,51 @@ public class Player {
         for ( String strRow : lines )
             strReturn.append(strRow).append("\n");
 
+        return strReturn.toString();
+    }
+
+    private void addTile(String[] rows, Tile tile, boolean solo) {
+        tile.draw(solo,rows);
+    }
+
+    private String showTile(Tile tile) {
+        StringBuilder strReturn = new StringBuilder(50);
+        String[] rows = new String[5];
+        for (int i=0;i<5;i++)
+            rows[i]="";
+        addTile(rows,tile,true);
+        for ( String strRow : rows )
+            strReturn.append(strRow).append("\n");
+        return strReturn.toString();
+    }
+
+    private String showTwoTilesLeftAndRight(Tile tileLeft, Tile tileRight) {
+        StringBuilder strReturn = new StringBuilder(50);
+        String[] rows = new String[5];
+        for (int i=0;i<5;i++)
+            rows[i]="";
+        addTile(rows,tileLeft,true);
+        addTile(rows,tileRight, false);
+        for ( String strRow : rows )
+            strReturn.append(strRow).append("\n");
+
+        return strReturn.toString();
+    }
+
+    private String showTwoTilesTopAndBottom(Tile top, Tile bottom) {
+        StringBuilder strReturn = new StringBuilder(50);
+        String[] rowsTop = new String[5];
+        for (int i=0;i<5;i++)
+            rowsTop[i]="";
+        String[] rowsBottom = new String[5];
+        for (int i=0;i<5;i++)
+            rowsBottom[i]="";
+        addTile(rowsTop,top,true);
+        addTile(rowsBottom,bottom,true);
+        for ( String strRow : rowsTop )
+            strReturn.append(strRow).append("\n");
+        for ( String strRow : rowsBottom )
+            strReturn.append(strRow).append("\n");
         return strReturn.toString();
     }
 
@@ -261,6 +308,8 @@ public class Player {
 
                 Tile played = iTile.next() ;
 
+                System.out.println("Tile to match:\n" + showTile(played));
+
                 int tileRow = played.getRow();
                 int tileCol = played.getCol();
 
@@ -277,30 +326,35 @@ public class Player {
                 boolean bRightFaceOpen  = bWeCanLookRight && ( tileCol > 0 ) && ( board.playedTiles[tileRow][tileCol + 1] == null ) ;
                 boolean bMiddleFaceOpen = ( bWeCanLookDown || bWeCanLookUp ) && ( board.playedTiles[tileRow + directionToLook][tileCol] == null ) ;
 
-                ArrayList<Choice> choicesForAFace = new ArrayList<>();
+                ArrayList<Choice> choicesForAFace ;
                 Choice topChoice = null ;
+
+                // Todo: Could we have a case of bias in the order that we are
+                //       looking for matches?  What if we looked at middle first?
 
                 // Can we play any of our tiles to the left?
                 if ( bLeftFaceOpen ) {
-                    choicesForAFace = getTileFromTrayForLeftFace(board, played.getLeftFace(), tileRow, tileCol - 1);
+                    choicesForAFace = getTileFromTrayForLeftFace(board, played, played.getLeftFace(), tileRow, tileCol - 1);
                     choicesToPlay.addAll(choicesForAFace);
                 }
 
                 // Can we play any of our tiles to the right?
                 if ( bRightFaceOpen ) {
-                    choicesForAFace = getTileFromTrayForRightFace(board, played.getRightFace(), tileRow, tileCol + 1);
+                    choicesForAFace = getTileFromTrayForRightFace(board, played, played.getRightFace(), tileRow, tileCol + 1);
                     choicesToPlay.addAll(choicesForAFace);
                 }
 
                 // Can we play any of our tiles up or down?
                 if ( bMiddleFaceOpen ) {
-                    choicesForAFace = getTileFromTrayForMiddleFace(board, played.getMiddleFace(), tileRow + directionToLook, tileCol);
+                    choicesForAFace = getTileFromTrayForMiddleFace(board, played, played.getMiddleFace(), tileRow + directionToLook, tileCol);
                     choicesToPlay.addAll(choicesForAFace);
                 }
 
                 value = 0 ;
 
                 // Spin through choices looking for the highest value or score
+                // Todo: Value and Score are two different entities.  Let's amend
+                //       this to choose the tile with the greatest score
                 for ( Choice c : choicesToPlay ) {
                     if ( c.tile.getValue() > value ) {
                         value = c.tile.getValue();
@@ -308,13 +362,29 @@ public class Player {
                     }
                 }
 
+                displayChoices("  Choices:",choicesToPlay);
+
                 // Do we have a top choice from the list of choices?
                 if ( topChoice != null ) {
-                    if ( board.placeTile(topChoice.tile, topChoice.getRow(), topChoice.getCol())) {
+
+                    int row = topChoice.getRow() ;
+                    int col = topChoice.getCol() ;
+                    Tile tileToPlay = topChoice.getTile();
+
+                    tileToPlay.setOrientation(topChoice.getOrientation());
+                    tileToPlay.setRotation(topChoice.getRotation());
+
+                    System.out.println(String.format("  Top choice: %s",topChoice.getTile()));
+
+                    if ( board.placeTile(tileToPlay, row, col)) {
                         tray.remove(topChoice.tile);
                         choice = topChoice.tile ;
                         System.out.println(board.display(false));
+                    } else {
+                        System.out.println(String.format("--- Unable to place tile '%s' on board @ (%d,%d) with o:%s r:%d ---", tileToPlay, row, col, tileToPlay.getOrientation(), tileToPlay.getRow() ) );
                     }
+                } else {
+                    System.out.println("--- We don't have a top choice ---");
                 }
 
                 // If there are no more open faces, let's remove this tile from the list.
@@ -323,9 +393,7 @@ public class Player {
                 }
 
                 // If we can't play a tile...tell them so...otherwise set the player on the tile
-                if ( choice == null ){
-                    System.out.println("   Can't find a tile to play...");
-                } else {
+                if ( choice != null ){
                     System.out.println(String.format("   Played tile '%s' at location (%d,%d).", choice, choice.getRow(), choice.getCol()));
                     choice.setPlayer(this);
                     break;
@@ -359,25 +427,43 @@ public class Player {
         return choice;
     }
 
-    private ArrayList<Choice>  getTileFromTrayForMiddleFace(Board board, Face middleFace, int row, int col) {
+    private ArrayList<Choice>  getTileFromTrayForMiddleFace(Board board, Tile played, Face middleFace, int row, int col) {
+
         ArrayList<Choice> choices = new ArrayList<>();
-        Orientation orientation = board.getOrientationForPositionOnBoard(row+1,col);
         boolean aMatchWasFound ;
+
+        // ------------------
+        //          56            'A' is the tile played on the board
+        // ------------------     'B' is one possible match in our tray (2-4-4)
+        // |    |++++^
+        // |    |+++/2\           'B' only matches to the middle if we orient up
+        // | 55 |++/ B \             and rotate 0 degrees.
+        // |    |+/4   4\
+        // |    | -------
+        // |    | -------
+        // |    |+\4   4/
+        // | 56 |++\ A /
+        // |    |+++\4/
+        // |    |++++v
+        //
+        Orientation orientationOfTileToMatch = played.getOrientation();
+        Orientation orientationOfTrayTile = (orientationOfTileToMatch==Orientation.UP) ? Orientation.DOWN : Orientation.UP;
 
         // Does the left face match a face on any of our tile's faces?
         for (Tile trayTile : tray) {
 
             // Always compare with a known orientation to make things simpler
-            trayTile.setOrientation(Orientation.UP);
+            trayTile.setOrientation(orientationOfTrayTile);
+            trayTile.setRotation(0);
 
             // Assume we are going to play this one
             aMatchWasFound = true ;
 
             // Compare all the faces
             if (trayTile.getLeftFace().match(middleFace)) {
-                trayTile.setRotation((orientation == Orientation.UP) ? 240 : 120);
+                trayTile.setRotation((orientationOfTrayTile == Orientation.UP) ? 240 : 120);
             } else if (trayTile.getRightFace().match(middleFace)) {
-                trayTile.setRotation((orientation == Orientation.UP) ? 120 : 120);
+                trayTile.setRotation((orientationOfTrayTile == Orientation.UP) ? 120 : 240);
             } else if (trayTile.getMiddleFace().match(middleFace)) {
                 trayTile.setRotation(0);
             } else {
@@ -386,71 +472,107 @@ public class Player {
 
             // Assume we are going to play this one
             if ( aMatchWasFound ) {
-                choices.add(new Choice( trayTile, row, col ));
+                if ( orientationOfTileToMatch == Orientation.UP ) {
+                    System.out.println("== Match Face Below ==");
+                    System.out.println(showTwoTilesTopAndBottom(played, trayTile));
+                } else {
+                    System.out.println("== Match Face Above ==");
+                    System.out.println(showTwoTilesTopAndBottom(trayTile, played));
+                }
+                choices.add(new Choice( trayTile, row, col, trayTile.getOrientation(), trayTile.getRotation()));
             }
         }
         return choices;
     }
 
-    private ArrayList<Choice>  getTileFromTrayForRightFace(Board board, Face rightFace, int row, int col) {
+    private ArrayList<Choice>  getTileFromTrayForRightFace(Board board, Tile played, Face rightFace, int row, int col) {
+
         ArrayList<Choice> choices = new ArrayList<>();
-        Orientation orientation = board.getOrientationForPositionOnBoard(row,col-1);
         boolean aMatchWasFound ;
+
+        // -------------------
+        //           56   57       'A' is the tile played on the board
+        // -------------------     'B' is one possible match in our tray (2-4-4)
+        // |    |+ ------- ^
+        // |    |++\4   4//2\      'B' only matches to the left if we orient up
+        // | 56 |+++\ A // B \         and rotate 120 degrees.
+        // |    |++++\4//4   4\
+        // |    |++++ v -------
+        //
+        Orientation orientationOfTileToMatch = played.getOrientation();
+        Orientation orientationOfTrayTile = (orientationOfTileToMatch==Orientation.UP) ? Orientation.DOWN : Orientation.UP;
 
         // Does the left face match a face on any of our tile's faces?
         for (Tile trayTile : tray) {
 
             // Always compare with a known orientation to make things simpler
-            trayTile.setOrientation(Orientation.UP);
+            trayTile.setOrientation(orientationOfTrayTile);
+            trayTile.setRotation(0);
 
-            // Assume we are going to play this one
             aMatchWasFound = true ;
 
             // Compare all the faces
             if (trayTile.getLeftFace().match(rightFace)) {
-                trayTile.setRotation((orientation == Orientation.UP) ? 120 : 0);
+                trayTile.setRotation((orientationOfTrayTile == Orientation.UP) ? 0 : 0);
             } else if (trayTile.getRightFace().match(rightFace)) {
-                trayTile.setRotation((orientation == Orientation.UP) ? 0 : 240);
+                trayTile.setRotation((orientationOfTrayTile == Orientation.UP) ? 240 : 120);
             } else if (trayTile.getMiddleFace().match(rightFace)) {
-                trayTile.setRotation((orientation == Orientation.UP) ? 240 : 120);
+                trayTile.setRotation((orientationOfTrayTile == Orientation.UP) ? 120 : 240);
             } else {
                 aMatchWasFound = false ;
             }
 
             if ( aMatchWasFound ) {
-                choices.add(new Choice( trayTile, row, col ));
+                System.out.println("== Match Right Face ==");
+                System.out.println(showTwoTilesLeftAndRight(played,trayTile));
+                choices.add(new Choice( trayTile, row, col, trayTile.getOrientation(), trayTile.getRotation()));
             }
         }
         return choices;
     }
 
-    private ArrayList<Choice> getTileFromTrayForLeftFace(Board board, Face leftFace, int row, int col) {
+    private ArrayList<Choice> getTileFromTrayForLeftFace(Board board, Tile played, Face leftFace, int row, int col) {
+
         ArrayList<Choice> choices = new ArrayList<>();
-        Orientation orientation = board.getOrientationForPositionOnBoard(row,col+1);
         boolean aMatchWasFound ;
+
+        // ------------------------
+        //           55   56            'A' is the tile played on the board
+        // ------------------------     'B' is one possible match in our tray (2-4-4)
+        // |    |+++++^ -------
+        // |    |++++/4\\4   4/         'B' only matches to the left if we orient up
+        // | 56 |+++/ B \\ A /              and rotate 240 degrees.
+        // |    |++/2   4\\4/
+        // |    |+ ------- v
+        //
+        Orientation orientationOfTileToMatch = played.getOrientation();
+        Orientation orientationOfTrayTile    = (orientationOfTileToMatch==Orientation.UP) ? Orientation.DOWN : Orientation.UP;
 
         // Does the left face match a face on any of our tile's faces?
         for (Tile trayTile : tray) {
 
-            // Always compare with a known orientation to make things simpler
-            trayTile.setOrientation(Orientation.UP);
+            // Make sure our tile in our tray is properly oriented to match
+            trayTile.setOrientation(orientationOfTrayTile);
+            trayTile.setRotation(0);
 
             aMatchWasFound = true ;
 
             // Compare all the faces
             if (trayTile.getLeftFace().match(leftFace)) {
-                trayTile.setRotation((orientation == Orientation.UP) ? 120 : 240);
+                trayTile.setRotation((orientationOfTrayTile == Orientation.UP) ? 120 : 240);
             } else if (trayTile.getRightFace().match(leftFace)) {
-                trayTile.setRotation((orientation == Orientation.UP) ? 240 : 0);
+                trayTile.setRotation((orientationOfTrayTile == Orientation.UP) ? 0 : 0);
             } else if (trayTile.getMiddleFace().match(leftFace)) {
-                trayTile.setRotation((orientation == Orientation.UP) ? 120 : 120);
+                trayTile.setRotation((orientationOfTrayTile == Orientation.UP) ? 240 : 120);
             } else {
                 aMatchWasFound = false ;
             }
 
             // Assume we are going to play this one
             if ( aMatchWasFound ) {
-                choices.add(new Choice( trayTile, row, col ));
+                System.out.println("== Match Left Face ==");
+                System.out.println(showTwoTilesLeftAndRight(trayTile,played));
+                choices.add(new Choice( trayTile, row, col, trayTile.getOrientation(), trayTile.getRotation()));
             }
 
         }
@@ -476,4 +598,102 @@ public class Player {
 
         return ( bLeftFaceOpen || bRightFaceOpen || bMiddleFaceOpen ) ;
     }
+
+    private boolean hasTriplet() {
+        boolean hasTriplet = false ;
+        for( Tile tile : tray ) {
+            if (tile.getValue() == tile.getCornerA() * 3) {
+                hasTriplet = true;
+                break;
+            }
+        }
+        return hasTriplet ;
+    }
+
+    public Tile getLargestTriplet() {
+        Tile largestTriplet = null;
+
+        for ( Tile tile : tray ) {
+            if ( tile.isTriplet() &&
+                    ( ( largestTriplet == null ) ||
+                    ( tile.getValue() > largestTriplet.getValue() ) ) ) {
+                largestTriplet = tile ;
+            }
+        }
+        return largestTriplet;
+    }
+
+    public Tile getLargestValuedTile() {
+        Tile largestValueTile = null;
+
+        for ( Tile tile : tray ) {
+            if ( ( largestValueTile == null ) ||
+                    ( tile.getValue() > largestValueTile.getValue() ) ) {
+                largestValueTile = tile ;
+            }
+        }
+        return largestValueTile;
+    }
+
+    private boolean hasZeroTriplet() {
+        boolean haveIt = false ;
+        for ( Tile tile : tray ) {
+            if ( tile.getValue() == 0 ) {
+                haveIt = true ;
+                break;
+            }
+        }
+        return haveIt;
+    }
+
+    private Tile getZeroTriplet() {
+        Tile zeroTriplet = null;
+        for ( Tile tile : tray ) {
+            if ( tile.getValue() == 0 )
+                zeroTriplet = tile ;
+        }
+        return zeroTriplet;
+    }
+
+    private String displayChoices(String name, ArrayList<Choice> list) {
+        StringBuilder strTiles = new StringBuilder();
+        strTiles.append(String.format("%s (%d):\n  [", name, list.size()));
+        if ( !list.isEmpty() ) {
+            for (Choice choice : list) {
+                Tile tile = choice.getTile();
+                if (list.lastIndexOf(choice) != list.size() - 1)
+                    strTiles.append(tile).append(", ");
+                else
+                    strTiles.append(tile);
+            }
+        } else {
+            strTiles.append("<empty>");
+        }
+        strTiles.append("]\n");
+        return strTiles.toString();
+    }
+
+    /**
+     * @return string that represents the Player's state
+     */
+    public String toString() {
+        String description = String.format("  Name: %s\n    Starts: %s\n    Score: %d\n    Hand: %s\n",
+                name,
+                starts ? "yes" : "no",
+                score,
+                tray);
+//        description.append("    Highest value tile in tray:\n");
+//        String[] tile_desc = new String[5];
+//        for ( int i=0;i<5;i++)
+//            tile_desc[i] = "      " ;
+//        Tile highestTile = highestValueTile() ;
+//        if ( highestTile != null )
+//            highestTile.draw(true, tile_desc);
+//        else
+//            description.append("No more tiles in tray.\n");
+//        for ( int i=0;i<5;i++)
+//            description.append(tile_desc[i]).append("\n");
+        return description;
+    }
+
 }

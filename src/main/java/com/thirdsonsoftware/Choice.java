@@ -6,13 +6,20 @@ public class Choice {
     Tile tile ;
 
     // Where?
-    int row ;
-    int col ;
+    private int row ;
+    private int col ;
 
-    public Choice(Tile tile, int row, int col) {
+    // How?
+    private Orientation orientation ;
+
+    private int rotation ;
+
+    public Choice(Tile tile, int row, int col, Orientation orientation, int rotation) {
         this.tile = tile;
         this.row = row;
         this.col = col;
+        this.orientation = orientation;
+        this.rotation = rotation;
     }
 
     public Tile getTile() {
@@ -38,4 +45,21 @@ public class Choice {
     public void setCol(int col) {
         this.col = col;
     }
+
+    public Orientation getOrientation() {
+        return orientation;
+    }
+
+    public void setOrientation(Orientation orientation) {
+        this.orientation = orientation;
+    }
+
+    public int getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(int rotation) {
+        this.rotation = rotation;
+    }
+
 }
