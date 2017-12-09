@@ -2,14 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="40656ce1-131b-4f97-93f5-416d19880c54" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.vscode/launch.json" afterPath="$PROJECT_DIR$/.vscode/launch.json" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Choice.java" afterPath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Choice.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Face.java" afterPath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Face.java" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Game.java" afterPath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Game.java" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Player.java" afterPath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Player.java" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Tile.java" afterPath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Tile.java" />
-      <change beforePath="$PROJECT_DIR$/src/test/com.thirdsonsoftware/ChoiceTest.groovy" afterPath="$PROJECT_DIR$/src/test/com.thirdsonsoftware/ChoiceTest.groovy" />
-      <change beforePath="$PROJECT_DIR$/src/test/com.thirdsonsoftware/GameTest.groovy" afterPath="$PROJECT_DIR$/src/test/com.thirdsonsoftware/GameTest.groovy" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,8 +22,8 @@
       <file leaf-file-name="Board.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Board.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="462">
-              <caret line="268" column="0" lean-forward="false" selection-start-line="268" selection-start-column="0" selection-end-line="268" selection-end-column="0" />
+            <state relative-caret-position="232">
+              <caret line="235" column="23" lean-forward="false" selection-start-line="235" selection-start-column="23" selection-end-line="235" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -37,8 +32,8 @@
       <file leaf-file-name="Game.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Game.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="196">
-              <caret line="215" column="26" lean-forward="false" selection-start-line="215" selection-start-column="26" selection-end-line="215" selection-end-column="26" />
+            <state relative-caret-position="653">
+              <caret line="373" column="61" lean-forward="false" selection-start-line="373" selection-start-column="61" selection-end-line="373" selection-end-column="61" />
               <folding>
                 <element signature="e#2150#2151#0" expanded="true" />
                 <element signature="e#2188#2189#0" expanded="true" />
@@ -52,12 +47,12 @@
                 <element signature="e#2655#2656#0" expanded="true" />
                 <element signature="e#2860#2861#0" expanded="true" />
                 <element signature="e#2888#2889#0" expanded="true" />
-                <element signature="e#13729#13730#0" expanded="true" />
-                <element signature="e#13784#13785#0" expanded="true" />
-                <element signature="e#13827#13828#0" expanded="true" />
-                <element signature="e#13892#13893#0" expanded="true" />
-                <element signature="e#15250#15251#0" expanded="true" />
-                <element signature="e#15288#15289#0" expanded="true" />
+                <element signature="e#14136#14137#0" expanded="true" />
+                <element signature="e#14191#14192#0" expanded="true" />
+                <element signature="e#14234#14235#0" expanded="true" />
+                <element signature="e#14299#14300#0" expanded="true" />
+                <element signature="e#15657#15658#0" expanded="true" />
+                <element signature="e#15695#15696#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -66,10 +61,12 @@
       <file leaf-file-name="Player.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Player.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="416">
-              <caret line="429" column="41" lean-forward="false" selection-start-line="429" selection-start-column="41" selection-end-line="429" selection-end-column="41" />
+            <state relative-caret-position="6175">
+              <caret line="355" column="77" lean-forward="false" selection-start-line="355" selection-start-column="77" selection-end-line="355" selection-end-column="77" />
               <folding>
-                <element signature="e#9540#9548#0" expanded="true" />
+                <element signature="e#8178#8179#0" expanded="true" />
+                <element signature="e#8214#8215#0" expanded="true" />
+                <element signature="e#10136#10144#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -88,16 +85,9 @@
       <file leaf-file-name="Tile.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Tile.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3402">
-              <caret line="341" column="0" lean-forward="false" selection-start-line="341" selection-start-column="0" selection-end-line="341" selection-end-column="0" />
-              <folding>
-                <element signature="e#2600#2601#0" expanded="true" />
-                <element signature="e#2630#2631#0" expanded="true" />
-                <element signature="e#2661#2662#0" expanded="true" />
-                <element signature="e#2691#2692#0" expanded="true" />
-                <element signature="e#3050#3051#0" expanded="true" />
-                <element signature="e#3078#3079#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="241">
+              <caret line="82" column="15" lean-forward="false" selection-start-line="82" selection-start-column="15" selection-end-line="82" selection-end-column="15" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -144,10 +134,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>getTopBorder</find>
-      <find>GetPlay</find>
-      <find>getPiecesOnBoardWithEmptyFaces</find>
-      <find>getPlayers</find>
       <find>Itera</find>
       <find>playedTiles</find>
       <find>== 0</find>
@@ -165,14 +151,19 @@
       <find>Starting tile</find>
       <find>playFirstTile</find>
       <find>.draw</find>
-      <find>Can't find</find>
       <find>\.draw</find>
       <find>toString</find>
-      <find>Orientation</find>
-      <find>cornerC</find>
       <find>.draw(</find>
       <find>displayC</find>
       <find>getTileFromTrayForLeftFace</find>
+      <find>cornerC</find>
+      <find>Can't find</find>
+      <find>Unable</find>
+      <find>displayComparisonOfTwoTiles</find>
+      <find>tile.draw</find>
+      <find>StringBuilder</find>
+      <find>Tiles:</find>
+      <find>Orientation</find>
     </findStrings>
     <replaceStrings>
       <replace>getCornerA()</replace>
@@ -201,13 +192,13 @@
         <option value="$PROJECT_DIR$/src/com/thirdsonsoftware/Game.java" />
         <option value="$PROJECT_DIR$/src/com/thirdsonsoftware/Board.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Board.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Tile.java" />
         <option value="$PROJECT_DIR$/.vscode/launch.json" />
         <option value="$PROJECT_DIR$/src/test/com.thirdsonsoftware/GameTest.groovy" />
         <option value="$PROJECT_DIR$/src/test/com.thirdsonsoftware/ChoiceTest.groovy" />
         <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Choice.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Game.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Face.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Tile.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Game.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Player.java" />
       </list>
     </option>
@@ -598,7 +589,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="2048" height="1152" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -609,13 +599,13 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34570312" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.43554688" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.56883603" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.118652344" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30127043" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection Results" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30127043" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294964" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -652,14 +642,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="21" column="11" lean-forward="false" selection-start-line="21" selection-start-column="11" selection-end-line="21" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/com.thirdsonsoftware/TileTest.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3344">
@@ -834,12 +816,12 @@
             <element signature="e#2655#2656#0" expanded="true" />
             <element signature="e#2860#2861#0" expanded="true" />
             <element signature="e#2888#2889#0" expanded="true" />
-            <element signature="e#13729#13730#0" expanded="true" />
-            <element signature="e#13784#13785#0" expanded="true" />
-            <element signature="e#13827#13828#0" expanded="true" />
-            <element signature="e#13892#13893#0" expanded="true" />
-            <element signature="e#15250#15251#0" expanded="true" />
-            <element signature="e#15288#15289#0" expanded="true" />
+            <element signature="e#14136#14137#0" expanded="true" />
+            <element signature="e#14191#14192#0" expanded="true" />
+            <element signature="e#14234#14235#0" expanded="true" />
+            <element signature="e#14299#14300#0" expanded="true" />
+            <element signature="e#15657#15658#0" expanded="true" />
+            <element signature="e#15695#15696#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -869,7 +851,9 @@
         <state relative-caret-position="786">
           <caret line="309" column="26" lean-forward="true" selection-start-line="309" selection-start-column="26" selection-end-line="309" selection-end-column="26" />
           <folding>
-            <element signature="e#9540#9548#0" expanded="true" />
+            <element signature="e#8178#8179#0" expanded="true" />
+            <element signature="e#8214#8215#0" expanded="true" />
+            <element signature="e#10136#10144#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -991,10 +975,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Face.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="485">
+          <caret line="57" column="0" lean-forward="false" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_121.jdk/Contents/Home/src.zip!/java/util/Formatter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="359">
+          <caret line="4301" column="0" lean-forward="false" selection-start-line="4301" selection-start-column="0" selection-end-line="4301" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/com.thirdsonsoftware/TileTest.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3078">
+          <caret line="181" column="0" lean-forward="false" selection-start-line="181" selection-start-column="0" selection-end-line="187" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/com.thirdsonsoftware/PlayerTest.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-333">
+          <caret line="21" column="6" lean-forward="false" selection-start-line="21" selection-start-column="6" selection-end-line="21" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Game.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="215" column="26" lean-forward="false" selection-start-line="215" selection-start-column="26" selection-end-line="215" selection-end-column="26" />
+        <state relative-caret-position="653">
+          <caret line="373" column="61" lean-forward="false" selection-start-line="373" selection-start-column="61" selection-end-line="373" selection-end-column="61" />
           <folding>
             <element signature="e#2150#2151#0" expanded="true" />
             <element signature="e#2188#2189#0" expanded="true" />
@@ -1008,53 +1024,40 @@
             <element signature="e#2655#2656#0" expanded="true" />
             <element signature="e#2860#2861#0" expanded="true" />
             <element signature="e#2888#2889#0" expanded="true" />
-            <element signature="e#13729#13730#0" expanded="true" />
-            <element signature="e#13784#13785#0" expanded="true" />
-            <element signature="e#13827#13828#0" expanded="true" />
-            <element signature="e#13892#13893#0" expanded="true" />
-            <element signature="e#15250#15251#0" expanded="true" />
-            <element signature="e#15288#15289#0" expanded="true" />
+            <element signature="e#14136#14137#0" expanded="true" />
+            <element signature="e#14191#14192#0" expanded="true" />
+            <element signature="e#14234#14235#0" expanded="true" />
+            <element signature="e#14299#14300#0" expanded="true" />
+            <element signature="e#15657#15658#0" expanded="true" />
+            <element signature="e#15695#15696#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Board.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="268" column="0" lean-forward="false" selection-start-line="268" selection-start-column="0" selection-end-line="268" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Tile.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3402">
-          <caret line="341" column="0" lean-forward="false" selection-start-line="341" selection-start-column="0" selection-end-line="341" selection-end-column="0" />
-          <folding>
-            <element signature="e#2600#2601#0" expanded="true" />
-            <element signature="e#2630#2631#0" expanded="true" />
-            <element signature="e#2661#2662#0" expanded="true" />
-            <element signature="e#2691#2692#0" expanded="true" />
-            <element signature="e#3050#3051#0" expanded="true" />
-            <element signature="e#3078#3079#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="241">
+          <caret line="82" column="15" lean-forward="false" selection-start-line="82" selection-start-column="15" selection-end-line="82" selection-end-column="15" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Face.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Board.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="485">
-          <caret line="57" column="0" lean-forward="false" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
+        <state relative-caret-position="232">
+          <caret line="235" column="23" lean-forward="false" selection-start-line="235" selection-start-column="23" selection-end-line="235" selection-end-column="23" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Player.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="416">
-          <caret line="429" column="41" lean-forward="false" selection-start-line="429" selection-start-column="41" selection-end-line="429" selection-end-column="41" />
+        <state relative-caret-position="6175">
+          <caret line="355" column="77" lean-forward="false" selection-start-line="355" selection-start-column="77" selection-end-line="355" selection-end-column="77" />
           <folding>
-            <element signature="e#9540#9548#0" expanded="true" />
+            <element signature="e#8178#8179#0" expanded="true" />
+            <element signature="e#8214#8215#0" expanded="true" />
+            <element signature="e#10136#10144#0" expanded="true" />
           </folding>
         </state>
       </provider>

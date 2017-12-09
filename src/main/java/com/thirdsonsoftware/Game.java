@@ -164,7 +164,6 @@ class Game {
         // Shuffle the tray for randomized picking
         System.out.println(" Shuffelling tile pool...");
         Collections.shuffle(tiles);
-
     }
 
     /**
@@ -349,25 +348,30 @@ class Game {
      *       4-5-4 and 4-5-5 appear only once.
      */
     private void generateTiles() {
-
+        int id = 1 ;
         int cStart ;                                    // The 56-pieces generated should match this table
                                                         // -----------------------------------------------
-        for (int a = 0; a <= 5; a++) {                  // 0-0-0 1-1-1 2-2-2 3-3-3 4-4-4 5-5-4
-            for (int b = a; b <= 5; b++) {              // 0-0-1 1-1-2 2-2-3 3-3-4 4-4-5 5-5-5
-                if (a == 5) {                           // 0-0-2 1-1-3 2-2-4 3-3-5
-                        cStart = 4;                     // 0-0-3 1-1-4 2-2-5 3-4-4
-                } else if (a == 4 && b == 5) {          // 0-0-4 1-1-5 2-3-3 3-4-5
-                    continue;                           // 0-0-5 1-2-2 2-3-4 3-5-5
-                } else {                                // 0-1-1 1-2-3 2-3-5
-                    cStart = b;                         // 0-1-2 1-2-4 2-4-4
-                }                                       // 0-1-3 1-2-5 2-4-5
-                for (int c = cStart; c <= 5; c++) {     // 0-1-4 1-3-3 2-5-5
-                    Tile tile = new Tile(a, b, c);      // 0-1-5 1-3-4
-                    tiles.add(tile);                    // 0-2-2 1-3-5
-                }                                       // 0-2-3 1-4-4
-            }                                           // 0-2-4 1-4-5
-        }                                               // 0-2-5 1-5-5
-    }                                                   // 0-3-3
+        for (int a = 0; a <= 5; a++) {                  // 01 0-0-0 1-1-1 2-2-2 3-3-3 4-4-4 5-5-4
+            for (int b = a; b <= 5; b++) {              // 02 0-0-1 1-1-2 2-2-3 3-3-4 4-4-5 5-5-5
+                if (a == 5) {                           // 03 0-0-2 1-1-3 2-2-4 3-3-5
+                        cStart = 4;                     // 04 0-0-3 1-1-4 2-2-5 3-4-4
+                } else if (a == 4 && b == 5) {          // 05 0-0-4 1-1-5 2-3-3 3-4-5
+                    continue;                           // 06 0-0-5 1-2-2 2-3-4 3-5-5
+                } else {                                // 07 0-1-1 1-2-3 2-3-5
+                    cStart = b;                         // 08 0-1-2 1-2-4 2-4-4
+                }                                       // 09 0-1-3 1-2-5 2-4-5
+                for (int c = cStart; c <= 5; c++) {     // 10 0-1-4 1-3-3 2-5-5
+                    Tile tile = new Tile(a, b, c);      // 11 0-1-5 1-3-4
+                    tile.setId(id++);                   // 12 0-2-2 1-3-5
+                    tiles.add(tile);                    // 13 0-2-3 1-4-4
+                }                                       // 14 0-2-4 1-4-5
+            }                                           // 15 0-2-5 1-5-5
+        }                                               // 16 0-3-3
+    }                                                   // 17 0-3-4
+                                                        // 18 0-3-5
+                                                        // 19 0-4-4
+                                                        // 20 0-4-5
+                                                        // 21 0-5-5
 
     private String displayTiles(String name, ArrayList<Tile> list) {
         StringBuilder strTiles = new StringBuilder();
