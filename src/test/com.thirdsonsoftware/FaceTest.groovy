@@ -44,9 +44,9 @@ class FaceTest extends GroovyTestCase {
 
     void testToString() {
         String strFace = oneFace
-        assertEquals("1 - 2",strFace)
+        assertEquals("1-2",strFace)
         strFace = twoFace
-        assertEquals( "4 - 5",strFace)
+        assertEquals( "4-5",strFace)
     }
 
     void testMatch() {

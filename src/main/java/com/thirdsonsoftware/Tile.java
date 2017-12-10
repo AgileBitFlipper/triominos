@@ -68,11 +68,14 @@ public class Tile implements Comparable {
         setCornerB( cornerB );
         setCornerC( cornerC );
 
-        this.rotation = 0 ;
+        setRotation(0) ;
+        setOrientation(Orientation.DOWN);
 
-        this.orientation = Orientation.DOWN ;
+        setValue( cornerA + cornerB + cornerC );
 
-        this.value = cornerA + cornerB + cornerC ;
+        setInTray(false) ;
+        setPlayer(null) ;
+        setPlaced(false) ;
     }
 
     public String toString() {
@@ -137,10 +140,6 @@ public class Tile implements Comparable {
 
     public void rotate( int r ) {
         rotation = r ;
-    }
-
-    public void orient( Orientation o ) {
-        orientation = o ;
     }
 
     /**
@@ -232,50 +231,65 @@ public class Tile implements Comparable {
         return playedBy ;
     }
 
+    /**
+     * Draws the tile in the row of Strings provided.
+     * @param solo - If true, the tile is by itself.  If false, it will be inline with others.
+     * @param row - Array of Strings to draw the tile in
+     */
     public void draw( Boolean solo, String[] row ) {
 
         char playerIndexChar ;
 
-        if ( playedBy != null && playedBy.getName() != null )
-            playerIndexChar = playedBy.getName().charAt(playedBy.getName().length()-1) ;
+        if ( getPlayer() != null && getPlayer().getName() != null )
+            playerIndexChar = getPlayer().getName().charAt(getPlayer().getName().length()-1) ;
         else
             playerIndexChar = '?';
 
-        // Column
-        if ( orientation==Orientation.DOWN ) {
+        char ch ;
 
-            row[0] += String.format("%s--%3d--%s", (solo) ? "" : " ", getId(), (solo) ? "" : " ");
-            row[1] += String.format("\\%d   %d/",  getLeftCorner(), getRightCorner());
-            row[2] += String.format("%s\\ %c /",   (solo) ? " " : "", playerIndexChar );
-            row[3] += String.format("%s\\%d/",     (solo) ? "  " : "", getMiddleCorner());
-            row[4] += String.format("%sv",         (solo) ? "   " : "" );
+        if ( getInTray() ) {
+            ch = 'T';
+        } else if ( getPlaced() ) {
+            ch = 'P';
+        } else {
+            ch = ' ';
+        }
+
+        // Column
+        if ( getOrientation()==Orientation.DOWN ) {
+
+            row[0] += String.format("%s--%3d--%s",   (solo) ? "" : " "  , getId()                              , (solo) ? " "    :" ");
+            row[1] += String.format("\\%d %c %d/%s", getLeftCorner()    , ch                , getRightCorner() , (solo) ? "  "   :"");
+            row[2] += String.format("%s\\ %c /%s",   (solo) ? " " : ""  , playerIndexChar                      , (solo) ? "   "  :"");
+            row[3] += String.format("%s\\%d/%s",     (solo) ? "  " : "" , getMiddleCorner()                    , (solo) ? "    " :"");
+            row[4] += String.format("%sv%s",         (solo) ? "   " : ""                                       , (solo) ? "     ":"");
 
         } else {
 
-            row[0] += String.format("%s^",         (solo) ? "   " : "" );
-            row[1] += String.format("%s/%d\\",     (solo) ? "  " : "", getMiddleCorner());
-            row[2] += String.format("%s/ %c \\",   (solo) ? " " : "", playerIndexChar ) ;
-            row[3] += String.format("/%d   %d\\",  getLeftCorner(), getRightCorner());
-            row[4] += String.format("%s--%3d--%s", (solo) ? "" : " ", getId(), (solo) ? "" : " ");
+            row[0] += String.format("%s^%s",         (solo) ? "   " :""                                   , (solo) ? "    ":"");
+            row[1] += String.format("%s/%d\\%s",     (solo) ? "  "  :""  , getMiddleCorner()              , (solo) ? "   " :"");
+            row[2] += String.format("%s/ %c \\%s",   (solo) ? " "   :""  , playerIndexChar                , (solo) ? "  "  :"") ;
+            row[3] += String.format("/%d %c %d\\%s", getLeftCorner()     , ch      , getRightCorner()     , (solo) ? " "   :"");
+            row[4] += String.format("%s--%3d--%s%s", (solo) ? ""    :" " , getId() , (solo) ? "" : " "    , (solo) ? " "   :"");
         }
     }
 
     public int getLeftCorner() {
-        switch (rotation) {
+        switch (getRotation()) {
             case 0:
-                if (orientation == Orientation.UP) {
+                if (getOrientation() == Orientation.UP) {
                     return getCornerC();
                 } else {
                     return getCornerB();
                 }
             case 120:
-                if (orientation == Orientation.UP) {
+                if (getOrientation() == Orientation.UP) {
                     return getCornerB();
                 } else {
                     return getCornerA();
                 }
             default:
-                if (orientation == Orientation.UP) {
+                if (getOrientation() == Orientation.UP) {
                     return getCornerA();
                 } else {
                     return getCornerC();
@@ -284,21 +298,21 @@ public class Tile implements Comparable {
     }
 
     public int getRightCorner() {
-        switch (rotation) {
+        switch (getRotation()) {
             case 0:
-                if (orientation == Orientation.UP) {
+                if (getOrientation() == Orientation.UP) {
                     return getCornerB();
                 } else {
                     return getCornerC();
                 }
             case 120:
-                if (orientation == Orientation.UP) {
+                if (getOrientation() == Orientation.UP) {
                     return getCornerA();
                 } else {
                     return getCornerB();
                 }
             default:
-                if (orientation == Orientation.UP) {
+                if (getOrientation() == Orientation.UP) {
                     return getCornerC();
                 } else {
                     return getCornerA();
@@ -307,21 +321,21 @@ public class Tile implements Comparable {
     }
 
     public int getMiddleCorner() {
-        switch (rotation) {
+        switch (getRotation()) {
             case 0:
-                if (orientation == Orientation.UP) {
+                if (getOrientation() == Orientation.UP) {
                     return getCornerA();
                 } else {
                     return getCornerA();
                 }
             case 120:
-                if (orientation == Orientation.UP) {
+                if (getOrientation() == Orientation.UP) {
                     return getCornerC();
                 } else {
                     return getCornerC();
                 }
             default:
-                if (orientation == Orientation.UP) {
+                if (getOrientation() == Orientation.UP) {
                     return getCornerB();
                 } else {
                     return getCornerB();

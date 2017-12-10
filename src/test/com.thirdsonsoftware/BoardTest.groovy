@@ -78,17 +78,17 @@ class BoardTest extends GroovyTestCase {
     void testToString() {
         System.out.println(board.toString())
         String strExpected = \
-        "Board:\n" +
-        "  Played Piece Count:2\n" +
-        "  Boundaries:(56,56,56,57)\n" +
-        "------------------------\n" +
-        "          56   57 \n" +
-        "------------------------\n" +
-        "|    |= ------- ^\n" +
-        "|    |==\\0   0//0\\\n" +
-        "| 56 |===\\   //   \\\n" +
-        "|    |====\\0//0   1\\\n" +
-        "|    |=====v ------- \n"
+        "Board:\n"+
+        "  Played Piece Count:2\n"+
+        "  Boundaries:(56,56,56,57)\n"+
+        "------------------------\n"+
+        "          56   57 \n"+
+        "------------------------\n"+
+        "|    |= --  0-- ^\n"+
+        "|    |==\\0 P 0//0\\\n"+
+        "| 56 |===\\ ? // ? \\\n"+
+        "|    |====\\0//0 P 1\\\n"+
+        "|    |=====v --  0-- \n"
         String strActual = board.toString()
         assertEquals(strExpected,strActual)
     }

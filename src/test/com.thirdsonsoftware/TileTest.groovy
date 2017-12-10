@@ -173,11 +173,6 @@ class TileTest extends GroovyTestCase {
         assertEquals(TEST_ROTATE,tripletTile.getRotation())
     }
 
-    void testOrient() {
-        tripletTile.orient(Orientation.UP)
-        assertEquals(Orientation.UP, tripletTile.orientation)
-    }
-
     void testDrawTileDown() {
         String[] row = new String[5]
         for (int i=0;i<5;i++)
@@ -187,11 +182,11 @@ class TileTest extends GroovyTestCase {
 
         tile.draw(true,row)
 
-        assertEquals("-------",  row[0])
-        assertEquals("\\3   4/", row[1])
-        assertEquals(" \\   /",  row[2])
-        assertEquals("  \\2/",   row[3])
-        assertEquals("   v",    row[4])
+        assertEquals("--  0-- ", row[0])
+        assertEquals("\\3 P 4/  ", row[1])
+        assertEquals(" \\ ? /   ", row[2])
+        assertEquals("  \\2/    ", row[3])
+        assertEquals("   v     ", row[4])
     }
 
     void testDrawTileUp() {
@@ -203,11 +198,11 @@ class TileTest extends GroovyTestCase {
 
         tile.draw(true,row)
 
-        assertEquals("   ^",     row[0])
-        assertEquals("  /2\\",   row[1])
-        assertEquals(" /   \\",  row[2])
-        assertEquals("/4   3\\", row[3])
-        assertEquals("-------",  row[4])
+        assertEquals("   ^    ",  row[0])
+        assertEquals("  /2\\   ", row[1])
+        assertEquals(" / ? \\  ", row[2])
+        assertEquals("/4 P 3\\ ", row[3])
+        assertEquals("--  0-- ",   row[4])
     }
 
     void testGetLeftCorner() {

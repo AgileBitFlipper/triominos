@@ -50,57 +50,6 @@ class Game {
     // The tray can be played by a player on the board
     private final Board board ;
 
-    public int getNumDraws() {
-        return numDraws;
-    }
-
-    public void setNumDraws(int numDraws) {
-        this.numDraws = numDraws;
-    }
-
-    public ArrayList<Player> getPlayers() {
-        return players;
-    }
-
-    public Player getPlayer(int index) {
-        if ( ( index < players.size() ) && ( index >= 0 ) )
-            return players.get(index) ;
-        else
-            return null;
-    }
-
-    private void setPlayers(ArrayList<Player> players) {
-        this.players = players;
-    }
-
-    public ArrayList<Tile> getTiles() {
-        return tiles;
-    }
-
-    private void setTiles(ArrayList<Tile> tiles) {
-        this.tiles = tiles;
-    }
-
-    private ArrayList<Tile> getPiecesPlayed() {
-        return piecesPlayed;
-    }
-
-    private void setPiecesPlayed(ArrayList<Tile> piecesPlayed) {
-        this.piecesPlayed = piecesPlayed;
-    }
-
-    private ArrayList<Tile> getPiecesOnBoardWithEmptyFaces() {
-        return piecesOnBoardWithEmptyFaces;
-    }
-
-    private void setPiecesOnBoardWithEmptyFaces(ArrayList<Tile> piecesOnBoardWithEmptyFaces) {
-        this.piecesOnBoardWithEmptyFaces = piecesOnBoardWithEmptyFaces;
-    }
-
-    public Board getBoard() {
-        return board;
-    }
-
     /**
      * Construct the default game
      */
@@ -147,6 +96,57 @@ class Game {
         generateTiles();
     }
 
+    public int getNumDraws() {
+        return numDraws;
+    }
+
+    public void setNumDraws(int numDraws) {
+        this.numDraws = numDraws;
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    public Player getPlayer(int index) {
+        if ( ( index < players.size() ) && ( index >= 0 ) )
+            return players.get(index) ;
+        else
+            return null;
+    }
+
+    protected void setPlayers(ArrayList<Player> players) {
+        this.players = players;
+    }
+
+    public ArrayList<Tile> getTiles() {
+        return tiles;
+    }
+
+    protected void setTiles(ArrayList<Tile> tiles) {
+        this.tiles = tiles;
+    }
+
+    protected ArrayList<Tile> getPiecesPlayed() {
+        return piecesPlayed;
+    }
+
+    protected void setPiecesPlayed(ArrayList<Tile> piecesPlayed) {
+        this.piecesPlayed = piecesPlayed;
+    }
+
+    protected ArrayList<Tile> getPiecesOnBoardWithEmptyFaces() {
+        return piecesOnBoardWithEmptyFaces;
+    }
+
+    protected void setPiecesOnBoardWithEmptyFaces(ArrayList<Tile> piecesOnBoardWithEmptyFaces) {
+        this.piecesOnBoardWithEmptyFaces = piecesOnBoardWithEmptyFaces;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
     protected void drawTiles() {
 
         // Draw tray for each player, taking turns
@@ -159,7 +159,7 @@ class Game {
         }
     }
 
-    private void shuffleTilePool() {
+    protected void shuffleTilePool() {
 
         // Shuffle the tray for randomized picking
         System.out.println(" Shuffelling tile pool...");
@@ -300,7 +300,7 @@ class Game {
         //   tile.
         for ( Player p : players ) {
 
-            tile = p.getFirstTile() ;
+            tile = p.determineFirstTile() ;
 
             if ( tile.getValue() == 0 ) {
                 System.out.println(String.format("  Player '%s' has tile '%s'!", p.getName(), tile ));
@@ -331,7 +331,7 @@ class Game {
         for ( Player p : players )
             p.setStarts( p == first );
 
-        System.out.println(String.format("  Player '%s' will start with tile '%s'.",first,startTile));
+        System.out.println(String.format("  Player '%s' will start with tile '%s'.",first.getName(),startTile));
         return first;
     }
 
@@ -347,46 +347,74 @@ class Game {
      * Note: No three corners repeat with another tile.  Values
      *       4-5-4 and 4-5-5 appear only once.
      */
-    private void generateTiles() {
-        int id = 1 ;
-        int cStart ;                                    // The 56-pieces generated should match this table
-                                                        // -----------------------------------------------
-        for (int a = 0; a <= 5; a++) {                  // 01 0-0-0 1-1-1 2-2-2 3-3-3 4-4-4 5-5-4
-            for (int b = a; b <= 5; b++) {              // 02 0-0-1 1-1-2 2-2-3 3-3-4 4-4-5 5-5-5
-                if (a == 5) {                           // 03 0-0-2 1-1-3 2-2-4 3-3-5
-                        cStart = 4;                     // 04 0-0-3 1-1-4 2-2-5 3-4-4
-                } else if (a == 4 && b == 5) {          // 05 0-0-4 1-1-5 2-3-3 3-4-5
-                    continue;                           // 06 0-0-5 1-2-2 2-3-4 3-5-5
-                } else {                                // 07 0-1-1 1-2-3 2-3-5
-                    cStart = b;                         // 08 0-1-2 1-2-4 2-4-4
-                }                                       // 09 0-1-3 1-2-5 2-4-5
-                for (int c = cStart; c <= 5; c++) {     // 10 0-1-4 1-3-3 2-5-5
-                    Tile tile = new Tile(a, b, c);      // 11 0-1-5 1-3-4
-                    tile.setId(id++);                   // 12 0-2-2 1-3-5
-                    tiles.add(tile);                    // 13 0-2-3 1-4-4
-                }                                       // 14 0-2-4 1-4-5
-            }                                           // 15 0-2-5 1-5-5
-        }                                               // 16 0-3-3
-    }                                                   // 17 0-3-4
-                                                        // 18 0-3-5
-                                                        // 19 0-4-4
-                                                        // 20 0-4-5
-                                                        // 21 0-5-5
+    protected void generateTiles() {                     // The 56-pieces generated should match this table
+        int id = 1 ;                                     // -----------------------------------------------
+        int cStart ;                                     // 01 0-0-0 1-1-1 2-2-2 3-3-3 4-4-4 5-5-4
+                                                         // 02 0-0-1 1-1-2 2-2-3 3-3-4 4-4-5 5-5-5
+        for (int a = 0; a <= 5; a++) {                   // 03 0-0-2 1-1-3 2-2-4 3-3-5
+            for (int b = a; b <= 5; b++) {               // 04 0-0-3 1-1-4 2-2-5 3-4-4
+                if (a == 5) {                            // 05 0-0-4 1-1-5 2-3-3 3-4-5
+                        cStart = 4;                      // 06 0-0-5 1-2-2 2-3-4 3-5-5
+                } else if (a == 4 && b == 5) {           // 07 0-1-1 1-2-3 2-3-5
+                    continue;                            // 08 0-1-2 1-2-4 2-4-4
+                } else {                                 // 09 0-1-3 1-2-5 2-4-5
+                    cStart = b;                          // 10 0-1-4 1-3-3 2-5-5
+                }                                        // 11 0-1-5 1-3-4
+                for (int c = cStart; c <= 5; c++) {      // 12 0-2-2 1-3-5
+                    Tile tile = new Tile(a, b, c);       // 13 0-2-3 1-4-4
+                    tile.setId(id++);                    // 14 0-2-4 1-4-5
+                    tile.setValue(a+b+c);                // 15 0-2-5 1-5-5
+                    tile.setRotation(0);                 // 16 0-3-3
+                    tile.rotate(0);
+                    tile.setOrientation(Orientation.UP); // 17 0-3-4
+                    tiles.add(tile);                     // 18 0-3-5
+                }                                        // 19 0-4-4
+            }                                            // 20 0-4-5
+        }                                                // 21 0-5-5
+    }
 
-    private String displayTiles(String name, ArrayList<Tile> list) {
+
+    /**
+     * Accepts a title and an array list of tiles and builds a String
+     *  containing a bracketed list of the tiles.
+     * @param name - Name to display to the left of the list
+     * @param list - The list of tiles to display
+     * @return String containing the name and bracketed list of Tiles
+     */
+    protected String displayTiles(Boolean asTile, String name, ArrayList<Tile> list) {
         StringBuilder strTiles = new StringBuilder();
-        strTiles.append(String.format("%s (%d):\n  [", name, list.size()));
-        if ( !list.isEmpty() ) {
-            for (Tile tile : list) {
-                if (list.lastIndexOf(tile) != list.size() - 1)
-                    strTiles.append(tile).append(", ");
-                else
-                    strTiles.append(tile);
-            }
+        strTiles.append(String.format("%s (%d):\n", name, list.size()));
+        if (list.isEmpty()) {
+            strTiles.append("  [<empty>]\n");
         } else {
-            strTiles.append("<empty>");
+            if ( asTile ) {
+                String rows[] = new String[5];
+                Orientation o;
+                int r;
+                for (int i=0;i<5;i++)
+                    rows[i] = "  ";
+                for (Tile tile : list) {
+                    o = tile.getOrientation();
+                    r = tile.getRotation();
+                    tile.setOrientation(Orientation.UP);
+                    tile.setRotation(0);
+                    tile.draw(true, rows);
+                    tile.setOrientation(o);
+                    tile.setRotation(r);
+                }
+                for (String str:rows)
+                    strTiles.append(str+"\n");
+            } else {
+                strTiles.append("  [");
+                for (Tile tile : list) {
+                    if (list.lastIndexOf(tile) != list.size() - 1)
+                        strTiles.append(tile).append(", ");
+                    else
+                        strTiles.append(tile);
+                }
+                strTiles.append("]\n");
+            }
         }
-        strTiles.append("]\n");
         return strTiles.toString();
     }
 
@@ -394,23 +422,23 @@ class Game {
      * Displays the entire Tile pool contents
      * @return - String containing the complete Tile pool contents.
      */
-    private String displayTilePool() {
-        return displayTiles("Tile Pool", tiles);
+    protected String displayTilePool() {
+        return displayTiles(true,"Tile Pool", tiles);
     }
 
-    private String displayPlayedTiles() {
-        return displayTiles("Played Tiles", piecesPlayed);
+    protected String displayPlayedTiles() {
+        return displayTiles(true, "Played Tiles", piecesPlayed);
     }
 
-    private String displayTilesWithFacesRemaining() {
-        return displayTiles( "Pieces on Board with Empty Faces", piecesOnBoardWithEmptyFaces );
+    protected String displayTilesWithFacesRemaining() {
+        return displayTiles( true,"Pieces on Board with Empty Faces", piecesOnBoardWithEmptyFaces );
     }
 
     /**
      * Displays both the player count, and each player in the game.
      * @return - String containing the count and list of players.
      */
-    private String displayPlayers() {
+    protected String displayPlayers() {
         StringBuilder playersString = new StringBuilder(200);
         playersString.append("Players (").append(players.size()).append("):\n");
         for ( Player p : players ) {

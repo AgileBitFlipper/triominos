@@ -88,6 +88,288 @@ public class Board {
     }
 
     /**
+     * Determines if the left corner of this Tile fits on the board.
+     * @param t - tile to be placed on the board
+     * @param row - row in which to place it
+     * @param col - column in which to place it
+     * @return true if the tile's left corner matches all other tiles on the
+     *         board or blank spaces
+     */
+    protected Boolean leftCornerFits(Tile t, int row, int col) {
+
+        // This is a sample board, and we need to determine
+        //   if a corner can fit or not.  In this case, we are
+        //   looking at a bridge (row, column) @ (57,58).  Piece (29),
+        //   '1-2-4' was placed as a bridge when it shouldn't have.
+        //   The left corner needs to match with (row,col) @ (57,57),
+        //   (57,56),(58,56),(58,57).  We can assume that the face
+        //   test will handle any other match issues.
+        // --------------------------------------------------------------
+        //           52   53   54   55   56   57   58   59   60   61
+        // --------------------------------------------------------------
+        // |    |=+++++++++= -- 21-- ^ --  1-- ^ -- 19-- ^ -- 44-- ^
+        // |    |==+++++++===\5 P 0//0\\0 P 0//0\\0 P 4//4\\4 P 2//2\
+        // | 56 |===+++++=====\ B // B \\ A // A \\ B // A \\ B // A \
+        // |    |====+++=======\5//5 P 0\\0//0 P 4\\4//4 P 4\\4//4 P 3\
+        // |    |=====+=========v --  6-- v --  5-- v -- 53-- v -- 42--
+        // |    |+++++=+++++++++^ -- 20-- ^+++++++++^ -- 34-- ^+++++++++
+        // |    |++++===+++++++/5\\5 P 0//0\+++++++/4\\4 P 4//4\+++++++
+        // | 57 |+++=====+++++/ A \\ B // B \+++++/ B \\ B // A \+++++
+        // |    |++=======+++/4 P 4\\4//4 P 1\+++/2 P 1\\1//1 P 5\+++
+        // |    |+=========+ -- 54-- v -- 10-- + -- 29-- v -- 35-- +
+        // |    |=+++++++++=+++++++++^ -- 32-- =+++++++++=+++++++++=
+        // |    |==+++++++===+++++++/4\\4 P 1/===+++++++===+++++++===
+        // | 58 |===+++++=====+++++/ B \\ A /=====+++++=====+++++=====
+        // |    |====+++=======+++/3 P 3\\3/=======+++=======+++=======
+        // |    |=====+=========+ -- 48-- v=========+=========+=========
+
+        // Assume it fits...
+        boolean bItFits = true ;
+
+        String whyItFails = "" ;
+
+        boolean bWeCanLookLeft = ( col > 0 ) ;
+        boolean bWeCanLookFarLeft = ( col > 1 ) ;
+        boolean bWeCanLookDown = ( row < num_rows - 1 ) ;
+        boolean bWeCanLookUp = ( row > 0 ) ;
+
+        int cornerToMatch = t.getLeftCorner();
+
+        // left
+        if (bWeCanLookLeft) {
+            Tile tileToTheLeft = pieceAtLocation(row,col-1);
+            if ( ( tileToTheLeft != null) &&
+                 ( tileToTheLeft.getMiddleCorner() != cornerToMatch ) ) {
+                System.out.println(Player.showTwoTilesLeftAndRight(tileToTheLeft, t));
+                bItFits = false;
+                whyItFails = "left";
+            }
+        }
+        // far-left
+        if (bWeCanLookFarLeft) {
+            Tile tileFarLeft = pieceAtLocation(row,col-2);
+            if ( ( tileFarLeft != null) &&
+                ( tileFarLeft.getRightCorner() != cornerToMatch ) ) {
+                bItFits = false;
+                whyItFails = "far-left";
+            }
+        }
+        if ( t.getOrientation() == Orientation.UP ) {
+            if (bWeCanLookDown) {
+                // down && left
+                if (bWeCanLookLeft) {
+                    Tile tileDownLeft = pieceAtLocation(row+1,col-1);
+                    if ( (tileDownLeft != null) &&
+                            (tileDownLeft.getMiddleCorner() != cornerToMatch ) ) {
+                        bItFits = false;
+                        whyItFails = "down & left";
+                    }
+                }
+                // down && far-left
+                if (bWeCanLookFarLeft) {
+                        Tile tileDownFarLeft = pieceAtLocation(row+1,col-2);
+                        if ( (tileDownFarLeft != null) &&
+                                (tileDownFarLeft.getRightCorner() != cornerToMatch ) ) {
+                            bItFits = false;
+                            whyItFails = "down & far-left";
+                        }
+                }
+            }
+        } else {
+            // up && left
+            if ((bWeCanLookUp) && (bWeCanLookLeft) &&
+                    (pieceAtLocation(row - 1, col - 1) != null) &&
+                    (pieceAtLocation(row - 1, col - 1).getMiddleCorner() != cornerToMatch)) {
+                bItFits = false;
+                whyItFails = "up & left";
+            }
+            // up && far-left
+            if ((bWeCanLookUp) && (bWeCanLookFarLeft) &&
+                    (pieceAtLocation(row - 1, col - 2) != null) &&
+                    (pieceAtLocation(row - 1, col - 2).getRightCorner() != cornerToMatch)) {
+                bItFits = false;
+                whyItFails = "up & far-left";
+            }
+        }
+        if (!bItFits)
+            System.out.println( "  Fails left corner test - " + whyItFails ) ;
+        return bItFits ;
+    }
+
+    /**
+     * Determines if tile 't' can fit in location (row,col) based on the middle corner
+     *  of the tile fitting with all other pieces on the board adjacent to the new tile
+     *  if placed.
+     * @param t - new tile to be placed
+     * @param row - row for it to be placed in
+     * @param col - col for it to be placed in
+     * @return true if the tile's middle corner fits the location
+     */
+    protected boolean middleCornerFits(Tile t, int row, int col) {
+        boolean bItFits = true ;
+
+        String whyItFails = "" ;
+
+        boolean bWeCanLookLeft = ( col > 0 ) ;
+        boolean bWeCanLookRight = ( col < num_cols - 1 ) ;
+        boolean bWeCanLookDown = ( row < num_rows - 1 ) ;
+        boolean bWeCanLookUp = ( row > 0 ) ;
+
+        if ( t.getOrientation() == Orientation.DOWN ) {
+
+            if ( bWeCanLookDown ) {
+
+                if ( bWeCanLookRight ) {
+
+                    Tile tileDownAndRight = pieceAtLocation(row, col + 1);
+                    if ((tileDownAndRight != null) &&
+                            (tileDownAndRight.getLeftCorner() != t.getMiddleCorner())) {
+                        System.out.println(Player.showTwoTilesLeftAndRight(t, pieceAtLocation(row, col + 1)));
+                        bItFits = false;
+                        whyItFails = "down & right";
+                    }
+                }
+
+                Tile tileDown = pieceAtLocation(row + 1, col) ;
+                if ( ( tileDown != null ) &&
+                        ( tileDown.getMiddleCorner() != t.getMiddleCorner() ) ) {
+                    bItFits = false;
+                    whyItFails = "down";
+                }
+
+                if ( bWeCanLookLeft ) {
+                    Tile tileDownAndLeft = pieceAtLocation(row + 1, col - 1) ;
+                    if ( ( tileDownAndLeft != null ) &&
+                        ( tileDownAndLeft.getRightCorner() != t.getMiddleCorner() ) ) {
+                        bItFits = false;
+                        whyItFails = "down & left";
+                    }
+                }
+            }
+
+        } else {
+
+            if ( (bWeCanLookUp) && (bWeCanLookLeft) &&
+                    (pieceAtLocation(row-1,col - 1) != null ) &&
+                    (pieceAtLocation(row-1,col - 1).getRightCorner() != t.getMiddleCorner())) {
+                bItFits = false;
+                whyItFails = "up & left";
+            }
+
+            if ( (bWeCanLookUp) &&
+                    (pieceAtLocation(row-1,col) != null ) &&
+                    (pieceAtLocation(row-1,col).getMiddleCorner() != t.getMiddleCorner())) {
+                bItFits = false ;
+                whyItFails = "up";
+            }
+
+            if ( (bWeCanLookUp) && (bWeCanLookRight) &&
+                    (pieceAtLocation(row-1,col + 1) != null) &&
+                    (pieceAtLocation(row-1,col + 1).getLeftCorner() != t.getMiddleCorner())) {
+                bItFits = false ;
+                whyItFails = "up & right";
+            }
+
+        }
+
+        if (!bItFits)
+            System.out.println( "  Fails middle corner test - " + whyItFails ) ;
+        return bItFits;
+    }
+
+    /**
+     * Determines if tile 't' can fit in location (row,col) based on the right corner
+     *  of the tile fitting with all other pieces on the board adjacent to the new tile
+     *  if placed.
+     * @param t - new tile to be placed
+     * @param row - row for it to be placed in
+     * @param col - col for it to be placed in
+     * @return true if the tile's right corner fits the location
+     */
+    protected boolean rightCornerFits(Tile t, int row, int col) {
+        boolean bItFits = true;
+
+        String whyItFails = "" ;
+
+        boolean bWeCanLookRight = ( col < num_cols - 1 ) ;
+        boolean bWeCanLookFarRight = ( col < num_cols - 2 ) ;
+        boolean bWeCanLookDown = ( row < num_rows - 1 ) ;
+        boolean bWeCanLookUp = ( row > 0 ) ;
+
+        int cornerToMatch = t.getRightCorner() ;
+
+        // right
+        if (bWeCanLookRight) {
+            Tile tileToTheRight = pieceAtLocation(row, col + 1) ;
+            if ( ( tileToTheRight != null ) &&
+                 ( tileToTheRight.getMiddleCorner() != cornerToMatch ) ) {
+                System.out.println(Player.showTwoTilesLeftAndRight(t, pieceAtLocation(row, col + 1)));
+                bItFits = false;
+                whyItFails = "right";
+            }
+        }
+
+        // far-right
+        if (bWeCanLookFarRight) {
+            Tile tileToTheFarRight = pieceAtLocation(row, col + 2) ;
+            if ( ( tileToTheFarRight != null ) &&
+                ( tileToTheFarRight.getLeftCorner() != cornerToMatch ) ) {
+                bItFits = false;
+                whyItFails = "far-right";
+            }
+        }
+
+        // If we are oriented UP, we need to look down...
+        if ( t.getOrientation() == Orientation.UP ) {
+
+            // down && far-right
+            if ( (bWeCanLookDown) && (bWeCanLookFarRight) ) {
+                Tile tileDownAndFarRight = pieceAtLocation(row + 1, col + 2);
+                if ( ( tileDownAndFarRight != null) &&
+                        ( tileDownAndFarRight.getLeftCorner() != cornerToMatch ) ) {
+                    bItFits = false;
+                    whyItFails = "down & far-right";
+                }
+            }
+
+            // down && right
+            if ( (bWeCanLookDown) && (bWeCanLookRight) ) {
+                Tile tileDownAndRight = pieceAtLocation(row + 1, col + 1) ;
+                if ( ( tileDownAndRight != null) &&
+                        ( tileDownAndRight.getMiddleCorner() != cornerToMatch ) ) {
+                    bItFits = false;
+                    whyItFails = "down & right";
+                }
+            }
+
+        } else {
+
+            // up && right
+            if ( (bWeCanLookUp) && (bWeCanLookRight) ) {
+                Tile tileUpAndRight = pieceAtLocation(row - 1, col + 1) ;
+                    if ( ( tileUpAndRight != null) &&
+                            ( tileUpAndRight.getMiddleCorner() != cornerToMatch ) ) {
+                        bItFits = false;
+                        whyItFails = "up & right";
+                    }
+            }
+
+            // up && far right
+            if ( (bWeCanLookUp) && (bWeCanLookFarRight) ) {
+                Tile tileUpAndFarRight = pieceAtLocation(row - 1, col + 2) ;
+                if ( ( tileUpAndFarRight != null ) &&
+                        ( tileUpAndFarRight.getLeftCorner() != cornerToMatch ) ) {
+                    bItFits = false;
+                    whyItFails = "up & far-right";
+                }
+            }
+        }
+        if (!bItFits)
+            System.out.println( "  Fails right corner test - " + whyItFails ) ;
+        return bItFits;
+    }
+
+    /**
      * Determines if the tile being placed at row and col actually fits there
      *   based on the left face of the tile.
      * @param t - tile to be placed
@@ -98,6 +380,20 @@ public class Board {
      */
     protected Boolean leftFaceFits(Tile t, int row, int col) {
 
+        // This test determines if a tile's (2) '0-0-1' left face fits on the
+        //  board when the tile (2) is placed at (row,col) @ (56,57).  The left
+        //  face of our tile (2) is 0-1, and tile (7) at position (56,56) has a
+        //  right face 1-0.  These faces match because faces are always seen
+        //  with the reference point of the center of the tile.
+        //
+        // ---------------
+        //           56   57
+        // ---------------
+        // |    |= --  7-- ^
+        // |    |==\1 P 1//1\
+        // | 56 |===\ A // B \
+        // |    |====\0//0 T 0\
+        // |    |=====v --  2--
         // Assume it fits...
         boolean bItFits = true ;
 
@@ -226,9 +522,12 @@ public class Board {
         // Is the slot empty?
         if ( playedTiles[row][col] == null )
         {
-            bItFits = leftFaceFits(t,row,col)  &&
-                      rightFaceFits(t,row,col) &&
-                      middleFaceFits(t,row,col) ;
+            bItFits = leftFaceFits(t,row,col)     &&
+                      rightFaceFits(t,row,col)    &&
+                      middleFaceFits(t,row,col)   &&
+                      leftCornerFits(t,row,col)   &&
+                      middleCornerFits(t,row,col) &&
+                      rightCornerFits(t,row,col) ;
         }
         return bItFits ;
     }
