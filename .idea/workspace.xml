@@ -2,15 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="40656ce1-131b-4f97-93f5-416d19880c54" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/test/com.thirdsonsoftware/MainTest.groovy" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Board.java" afterPath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Board.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Choice.java" afterPath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Choice.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Face.java" afterPath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Face.java" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Game.java" afterPath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Game.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Main.java" afterPath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Main.java" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Player.java" afterPath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Player.java" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Tile.java" afterPath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Tile.java" />
-      <change beforePath="$PROJECT_DIR$/src/test/com.thirdsonsoftware/BoardTest.groovy" afterPath="$PROJECT_DIR$/src/test/com.thirdsonsoftware/BoardTest.groovy" />
-      <change beforePath="$PROJECT_DIR$/src/test/com.thirdsonsoftware/FaceTest.groovy" afterPath="$PROJECT_DIR$/src/test/com.thirdsonsoftware/FaceTest.groovy" />
+      <change beforePath="$PROJECT_DIR$/src/test/com.thirdsonsoftware/ChoiceTest.groovy" afterPath="$PROJECT_DIR$/src/test/com.thirdsonsoftware/ChoiceTest.groovy" />
       <change beforePath="$PROJECT_DIR$/src/test/com.thirdsonsoftware/GameTest.groovy" afterPath="$PROJECT_DIR$/src/test/com.thirdsonsoftware/GameTest.groovy" />
-      <change beforePath="$PROJECT_DIR$/src/test/com.thirdsonsoftware/TileTest.groovy" afterPath="$PROJECT_DIR$/src/test/com.thirdsonsoftware/TileTest.groovy" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -41,103 +43,113 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Board.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Board.java">
+      <file leaf-file-name="Game.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Game.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="331" column="17" lean-forward="true" selection-start-line="331" selection-start-column="17" selection-end-line="331" selection-end-column="17" />
+            <state relative-caret-position="856">
+              <caret line="475" column="0" lean-forward="false" selection-start-line="475" selection-start-column="0" selection-end-line="475" selection-end-column="0" />
               <folding>
-                <element signature="e#2505#2506#0" expanded="true" />
-                <element signature="e#2549#2550#0" expanded="true" />
-                <element signature="e#21578#21579#0" expanded="true" />
-                <element signature="e#21616#21617#0" expanded="true" />
-                <element signature="e#23493#23494#0" expanded="true" />
-                <element signature="e#23524#23525#0" expanded="true" />
-                <element signature="e#23573#23574#0" expanded="true" />
-                <element signature="e#23613#23614#0" expanded="true" />
-                <element signature="e#23649#23650#0" expanded="true" />
-                <element signature="e#23680#23681#0" expanded="true" />
-                <element signature="e#23729#23730#0" expanded="true" />
-                <element signature="e#23769#23770#0" expanded="true" />
-                <element signature="e#24142#24143#0" expanded="true" />
-                <element signature="e#24177#24178#0" expanded="true" />
-                <element signature="e#24519#24520#0" expanded="true" />
-                <element signature="e#24552#24553#0" expanded="true" />
-                <element signature="e#24879#24880#0" expanded="true" />
-                <element signature="e#24913#24914#0" expanded="true" />
-                <element signature="e#26844#26845#0" expanded="true" />
-                <element signature="e#26879#26880#0" expanded="true" />
+                <element signature="e#3670#3671#0" expanded="true" />
+                <element signature="e#3708#3709#0" expanded="true" />
+                <element signature="e#3831#3832#0" expanded="true" />
+                <element signature="e#3865#3866#0" expanded="true" />
+                <element signature="e#3916#3917#0" expanded="true" />
+                <element signature="e#3951#3952#0" expanded="true" />
+                <element signature="e#4019#4020#0" expanded="true" />
+                <element signature="e#4067#4068#0" expanded="true" />
+                <element signature="e#4133#4134#0" expanded="true" />
+                <element signature="e#4183#4184#0" expanded="true" />
+                <element signature="e#4390#4391#0" expanded="true" />
+                <element signature="e#4418#4419#0" expanded="true" />
+                <element signature="e#15326#15327#0" expanded="true" />
+                <element signature="e#15386#15387#0" expanded="true" />
+                <element signature="e#15431#15432#0" expanded="true" />
+                <element signature="e#15502#15503#0" expanded="true" />
+                <element signature="e#16869#16870#0" expanded="true" />
+                <element signature="e#16907#16908#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GameTest.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/com.thirdsonsoftware/GameTest.groovy">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="439">
-              <caret line="235" column="39" lean-forward="false" selection-start-line="235" selection-start-column="39" selection-end-line="235" selection-end-column="39" />
+            <state relative-caret-position="361">
+              <caret line="36" column="83" lean-forward="false" selection-start-line="36" selection-start-column="83" selection-end-line="36" selection-end-column="83" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Game.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Game.java">
+      <file leaf-file-name="Board.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Board.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="385">
-              <caret line="202" column="0" lean-forward="false" selection-start-line="202" selection-start-column="0" selection-end-line="202" selection-end-column="0" />
+            <state relative-caret-position="216">
+              <caret line="765" column="64" lean-forward="false" selection-start-line="765" selection-start-column="64" selection-end-line="765" selection-end-column="64" />
               <folding>
-                <element signature="e#3628#3629#0" expanded="true" />
-                <element signature="e#3666#3667#0" expanded="true" />
-                <element signature="e#3789#3790#0" expanded="true" />
-                <element signature="e#3823#3824#0" expanded="true" />
-                <element signature="e#3874#3875#0" expanded="true" />
-                <element signature="e#3909#3910#0" expanded="true" />
-                <element signature="e#3977#3978#0" expanded="true" />
-                <element signature="e#4025#4026#0" expanded="true" />
-                <element signature="e#4091#4092#0" expanded="true" />
-                <element signature="e#4141#4142#0" expanded="true" />
-                <element signature="e#4348#4349#0" expanded="true" />
-                <element signature="e#4376#4377#0" expanded="true" />
-                <element signature="e#15284#15285#0" expanded="true" />
-                <element signature="e#15344#15345#0" expanded="true" />
-                <element signature="e#15389#15390#0" expanded="true" />
-                <element signature="e#15460#15461#0" expanded="true" />
-                <element signature="e#16827#16828#0" expanded="true" />
-                <element signature="e#16865#16866#0" expanded="true" />
+                <element signature="e#3657#3658#0" expanded="true" />
+                <element signature="e#3695#3696#0" expanded="true" />
+                <element signature="e#6000#6001#0" expanded="true" />
+                <element signature="e#6031#6032#0" expanded="true" />
+                <element signature="e#6162#6163#0" expanded="true" />
+                <element signature="e#6202#6203#0" expanded="true" />
+                <element signature="e#6306#6307#0" expanded="true" />
+                <element signature="e#6337#6338#0" expanded="true" />
+                <element signature="e#6470#6471#0" expanded="true" />
+                <element signature="e#6510#6511#0" expanded="true" />
+                <element signature="e#7282#7283#0" expanded="true" />
+                <element signature="e#7317#7318#0" expanded="true" />
+                <element signature="e#7829#7830#0" expanded="true" />
+                <element signature="e#7862#7863#0" expanded="true" />
+                <element signature="e#8411#8412#0" expanded="true" />
+                <element signature="e#8445#8446#0" expanded="true" />
+                <element signature="e#10462#10463#0" expanded="true" />
+                <element signature="e#10506#10507#0" expanded="true" />
+                <element signature="e#31973#31974#0" expanded="true" />
+                <element signature="e#32008#32009#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Player.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Player.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Player.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="385">
-              <caret line="407" column="0" lean-forward="false" selection-start-line="407" selection-start-column="0" selection-end-line="407" selection-end-column="0" />
+            <state relative-caret-position="603">
+              <caret line="299" column="63" lean-forward="false" selection-start-line="299" selection-start-column="63" selection-end-line="299" selection-end-column="63" />
               <folding>
-                <element signature="e#1409#1410#0" expanded="true" />
-                <element signature="e#1437#1438#0" expanded="true" />
-                <element signature="e#1602#1603#0" expanded="true" />
-                <element signature="e#1636#1637#0" expanded="true" />
-                <element signature="e#1667#1668#0" expanded="true" />
-                <element signature="e#1694#1695#0" expanded="true" />
-                <element signature="e#1734#1735#0" expanded="true" />
-                <element signature="e#1766#1767#0" expanded="true" />
-                <element signature="e#1800#1801#0" expanded="true" />
-                <element signature="e#1829#1830#0" expanded="true" />
-                <element signature="e#1874#1875#0" expanded="true" />
-                <element signature="e#1910#1911#0" expanded="true" />
-                <element signature="e#1947#1948#0" expanded="true" />
-                <element signature="e#1982#1983#0" expanded="true" />
-                <element signature="e#2036#2037#0" expanded="true" />
+                <element signature="e#1857#1858#0" expanded="true" />
+                <element signature="e#1885#1886#0" expanded="true" />
+                <element signature="e#2050#2051#0" expanded="true" />
                 <element signature="e#2084#2085#0" expanded="true" />
-                <element signature="e#2124#2125#0" expanded="true" />
-                <element signature="e#2151#2152#0" expanded="true" />
-                <element signature="e#8773#8774#0" expanded="true" />
-                <element signature="e#8809#8810#0" expanded="true" />
+                <element signature="e#2115#2116#0" expanded="true" />
+                <element signature="e#2142#2143#0" expanded="true" />
+                <element signature="e#2182#2183#0" expanded="true" />
+                <element signature="e#2214#2215#0" expanded="true" />
+                <element signature="e#2248#2249#0" expanded="true" />
+                <element signature="e#2277#2278#0" expanded="true" />
+                <element signature="e#2322#2323#0" expanded="true" />
+                <element signature="e#2358#2359#0" expanded="true" />
+                <element signature="e#2395#2396#0" expanded="true" />
+                <element signature="e#2430#2431#0" expanded="true" />
+                <element signature="e#2484#2485#0" expanded="true" />
+                <element signature="e#2532#2533#0" expanded="true" />
+                <element signature="e#2572#2573#0" expanded="true" />
+                <element signature="e#2599#2600#0" expanded="true" />
+                <element signature="e#25924#25925#0" expanded="true" />
+                <element signature="e#25960#25961#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Choice.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Choice.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="608">
+              <caret line="37" column="20" lean-forward="false" selection-start-line="37" selection-start-column="20" selection-end-line="37" selection-end-column="20" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -145,8 +157,8 @@
       <file leaf-file-name="Face.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Face.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="722">
-              <caret line="57" column="0" lean-forward="false" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
+            <state relative-caret-position="190">
+              <caret line="29" column="53" lean-forward="false" selection-start-line="29" selection-start-column="53" selection-end-line="29" selection-end-column="53" />
               <folding />
             </state>
           </provider>
@@ -155,141 +167,18 @@
       <file leaf-file-name="Tile.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Tile.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="670">
-              <caret line="292" column="0" lean-forward="false" selection-start-line="292" selection-start-column="0" selection-end-line="292" selection-end-column="0" />
+            <state relative-caret-position="475">
+              <caret line="44" column="53" lean-forward="false" selection-start-line="44" selection-start-column="53" selection-end-line="44" selection-end-column="53" />
               <folding>
-                <element signature="e#2754#2755#0" expanded="true" />
-                <element signature="e#2784#2785#0" expanded="true" />
-                <element signature="e#3162#3163#0" expanded="true" />
-                <element signature="e#3208#3209#0" expanded="true" />
-                <element signature="e#3935#3936#0" expanded="true" />
-                <element signature="e#3964#3965#0" expanded="true" />
-                <element signature="e#4334#4335#0" expanded="true" />
-                <element signature="e#4361#4362#0" expanded="true" />
+                <element signature="e#2798#2799#0" expanded="true" />
+                <element signature="e#2828#2829#0" expanded="true" />
+                <element signature="e#3206#3207#0" expanded="true" />
+                <element signature="e#3252#3253#0" expanded="true" />
+                <element signature="e#3979#3980#0" expanded="true" />
+                <element signature="e#4008#4009#0" expanded="true" />
+                <element signature="e#4378#4379#0" expanded="true" />
+                <element signature="e#4405#4406#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TileTest.groovy" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/test/com.thirdsonsoftware/TileTest.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="596">
-              <caret line="188" column="27" lean-forward="false" selection-start-line="188" selection-start-column="27" selection-end-line="188" selection-end-column="27" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BoardTest.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/com.thirdsonsoftware/BoardTest.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1368">
-              <caret line="89" column="27" lean-forward="false" selection-start-line="89" selection-start-column="27" selection-end-line="89" selection-end-column="27" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TestCase.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/../DevTools/groovy-2.4.13/lib/junit-4.12.jar!/junit/framework/TestCase.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1767">
-              <caret line="122" column="0" lean-forward="false" selection-start-line="122" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
-              <folding>
-                <marker date="1436676356000" expanded="false" signature="0:104" ph="/.../" />
-                <marker date="1436676356000" expanded="false" signature="139:251" ph="..." />
-                <marker date="1436676356000" expanded="false" signature="365:376" ph=" { " />
-                <marker date="1436676356000" expanded="false" signature="394:400" ph=" }" />
-                <marker date="1436676356000" expanded="false" signature="434:445" ph=" { " />
-                <marker date="1436676356000" expanded="false" signature="463:469" ph=" }" />
-                <marker date="1436676356000" expanded="false" signature="502:513" ph=" { " />
-                <marker date="1436676356000" expanded="false" signature="522:528" ph=" }" />
-                <marker date="1436676356000" expanded="false" signature="569:580" ph=" { " />
-                <marker date="1436676356000" expanded="false" signature="604:610" ph=" }" />
-                <marker date="1436676356000" expanded="true" signature="640:745" ph="{...}" />
-                <marker date="1436676356000" expanded="false" signature="785:796" ph=" { " />
-                <marker date="1436676356000" expanded="false" signature="813:819" ph=" }" />
-                <marker date="1436676356000" expanded="true" signature="864:1346" ph="{...}" />
-                <marker date="1436676356000" expanded="true" signature="1394:2155" ph="{...}" />
-                <marker date="1436676356000" expanded="false" signature="2225:2236" ph=" { " />
-                <marker date="1436676356000" expanded="false" signature="2274:2280" ph=" }" />
-                <marker date="1436676356000" expanded="false" signature="2334:2345" ph=" { " />
-                <marker date="1436676356000" expanded="false" signature="2374:2380" ph=" }" />
-                <marker date="1436676356000" expanded="false" signature="2451:2462" ph=" { " />
-                <marker date="1436676356000" expanded="false" signature="2501:2507" ph=" }" />
-                <marker date="1436676356000" expanded="false" signature="2562:2573" ph=" { " />
-                <marker date="1436676356000" expanded="false" signature="2603:2609" ph=" }" />
-                <marker date="1436676356000" expanded="false" signature="2654:2665" ph=" { " />
-                <marker date="1436676356000" expanded="false" signature="2686:2692" ph=" }" />
-                <marker date="1436676356000" expanded="false" signature="2723:2734" ph=" { " />
-                <marker date="1436676356000" expanded="false" signature="2748:2754" ph=" }" />
-                <marker date="1436676356000" expanded="true" signature="2840:2903" ph="{...}" />
-                <marker date="1436676356000" expanded="false" signature="2972:2983" ph=" { " />
-                <marker date="1436676356000" expanded="false" signature="3021:3027" ph=" }" />
-                <marker date="1436676356000" expanded="true" signature="3113:3176" ph="{...}" />
-                <marker date="1436676356000" expanded="false" signature="3245:3256" ph=" { " />
-                <marker date="1436676356000" expanded="false" signature="3294:3300" ph=" }" />
-                <marker date="1436676356000" expanded="true" signature="3400:3470" ph="{...}" />
-                <marker date="1436676356000" expanded="true" signature="3554:3615" ph="{...}" />
-                <marker date="1436676356000" expanded="true" signature="3712:3782" ph="{...}" />
-                <marker date="1436676356000" expanded="true" signature="3863:3924" ph="{...}" />
-                <marker date="1436676356000" expanded="true" signature="4006:4069" ph="{...}" />
-                <marker date="1436676356000" expanded="false" signature="4134:4145" ph=" { " />
-                <marker date="1436676356000" expanded="false" signature="4183:4189" ph=" }" />
-                <marker date="1436676356000" expanded="true" signature="4277:4340" ph="{...}" />
-                <marker date="1436676356000" expanded="false" signature="4411:4422" ph=" { " />
-                <marker date="1436676356000" expanded="false" signature="4460:4466" ph=" }" />
-                <marker date="1436676356000" expanded="true" signature="4548:4611" ph="{...}" />
-                <marker date="1436676356000" expanded="false" signature="4676:4687" ph=" { " />
-                <marker date="1436676356000" expanded="false" signature="4725:4731" ph=" }" />
-                <marker date="1436676356000" expanded="true" signature="4813:4876" ph="{...}" />
-                <marker date="1436676356000" expanded="false" signature="4941:4952" ph=" { " />
-                <marker date="1436676356000" expanded="false" signature="4990:4996" ph=" }" />
-                <marker date="1436676356000" expanded="true" signature="5080:5143" ph="{...}" />
-                <marker date="1436676356000" expanded="false" signature="5210:5221" ph=" { " />
-                <marker date="1436676356000" expanded="false" signature="5259:5265" ph=" }" />
-                <marker date="1436676356000" expanded="true" signature="5345:5408" ph="{...}" />
-                <marker date="1436676356000" expanded="false" signature="5471:5482" ph=" { " />
-                <marker date="1436676356000" expanded="false" signature="5520:5526" ph=" }" />
-                <marker date="1436676356000" expanded="false" signature="5579:5590" ph=" { " />
-                <marker date="1436676356000" expanded="false" signature="5619:5625" ph=" }" />
-                <marker date="1436676356000" expanded="false" signature="5694:5705" ph=" { " />
-                <marker date="1436676356000" expanded="false" signature="5743:5749" ph=" }" />
-                <marker date="1436676356000" expanded="false" signature="5799:5810" ph=" { " />
-                <marker date="1436676356000" expanded="false" signature="5836:5842" ph=" }" />
-                <marker date="1436676356000" expanded="false" signature="5908:5919" ph=" { " />
-                <marker date="1436676356000" expanded="false" signature="5954:5960" ph=" }" />
-                <marker date="1436676356000" expanded="true" signature="6044:6105" ph="{...}" />
-                <marker date="1436676356000" expanded="false" signature="6172:6183" ph=" { " />
-                <marker date="1436676356000" expanded="false" signature="6219:6225" ph=" }" />
-                <marker date="1436676356000" expanded="true" signature="6312:6376" ph="{...}" />
-                <marker date="1436676356000" expanded="false" signature="6446:6457" ph=" { " />
-                <marker date="1436676356000" expanded="false" signature="6496:6502" ph=" }" />
-                <marker date="1436676356000" expanded="false" signature="6551:6562" ph=" { " />
-                <marker date="1436676356000" expanded="false" signature="6587:6593" ph=" }" />
-                <marker date="1436676356000" expanded="true" signature="6678:6740" ph="{...}" />
-                <marker date="1436676356000" expanded="true" signature="6827:6891" ph="{...}" />
-                <marker date="1436676356000" expanded="true" signature="6973:7037" ph="{...}" />
-                <marker date="1436676356000" expanded="true" signature="7083:7090" ph="{}" />
-                <marker date="1436676356000" expanded="true" signature="7139:7146" ph="{}" />
-                <marker date="1436676356000" expanded="false" signature="7176:7187" ph=" { " />
-                <marker date="1436676356000" expanded="false" signature="7249:7255" ph=" }" />
-                <marker date="1436676356000" expanded="false" signature="7284:7295" ph=" { " />
-                <marker date="1436676356000" expanded="false" signature="7313:7319" ph=" }" />
-                <marker date="1436676356000" expanded="false" signature="7357:7368" ph=" { " />
-                <marker date="1436676356000" expanded="false" signature="7386:7392" ph=" }" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FaceTest.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/com.thirdsonsoftware/FaceTest.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="589">
-              <caret line="48" column="25" lean-forward="false" selection-start-line="48" selection-start-column="25" selection-end-line="48" selection-end-column="25" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -305,14 +194,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>setInTray</find>
-      <find>toString</find>
-      <find>tray</find>
-      <find>whoIsFirst</find>
-      <find>getFirstTile</find>
-      <find>determineFirstTile</find>
-      <find>Tile Pool</find>
-      <find>displayTilePool</find>
       <find>DisplayTilePool</find>
       <find>displayTiles</find>
       <find>rows =</find>
@@ -321,7 +202,6 @@
       <find>drawTiles</find>
       <find>Player '</find>
       <find>setScore</find>
-      <find>playFirstTile</find>
       <find>playATile</find>
       <find>Match Left</find>
       <find>Tile to match</find>
@@ -335,6 +215,15 @@
       <find>leftCornerFi</find>
       <find>tLeft</find>
       <find>3-4-4</find>
+      <find />
+      <find>num_rows</find>
+      <find>updateTilesWithEmptyFaces</find>
+      <find>We don't have</find>
+      <find>fails middle</find>
+      <find>setMode</find>
+      <find>fails</find>
+      <find>playFirstTile</find>
+      <find>placeTile</find>
     </findStrings>
     <replaceStrings>
       <replace>getCornerA()</replace>
@@ -342,6 +231,7 @@
       <replace>getCornerC()</replace>
       <replace>cornerToMatch</replace>
       <replace>leftTile</replace>
+      <replace>.</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -365,24 +255,26 @@
         <option value="$PROJECT_DIR$/src/com/thirdsonsoftware/Game.java" />
         <option value="$PROJECT_DIR$/src/com/thirdsonsoftware/Board.java" />
         <option value="$PROJECT_DIR$/.vscode/launch.json" />
-        <option value="$PROJECT_DIR$/src/test/com.thirdsonsoftware/ChoiceTest.groovy" />
-        <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Choice.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Face.java" />
-        <option value="$PROJECT_DIR$/src/test/com.thirdsonsoftware/BoardTest.groovy" />
         <option value="$PROJECT_DIR$/src/test/com.thirdsonsoftware/FaceTest.groovy" />
-        <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Tile.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Game.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Player.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Board.java" />
-        <option value="$PROJECT_DIR$/src/test/com.thirdsonsoftware/GameTest.groovy" />
         <option value="$PROJECT_DIR$/src/test/com.thirdsonsoftware/TileTest.groovy" />
+        <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Tile.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Face.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Game.java" />
+        <option value="$PROJECT_DIR$/src/test/com.thirdsonsoftware/GameTest.groovy" />
+        <option value="$PROJECT_DIR$/src/test/com.thirdsonsoftware/MainTest.groovy" />
+        <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Main.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Choice.java" />
+        <option value="$PROJECT_DIR$/src/test/com.thirdsonsoftware/ChoiceTest.groovy" />
+        <option value="$PROJECT_DIR$/src/test/com.thirdsonsoftware/BoardTest.groovy" />
+        <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Board.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Player.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="24" />
+    <option name="x" value="537" />
     <option name="y" value="40" />
-    <option name="width" value="2084" />
+    <option name="width" value="2120" />
     <option name="height" value="1672" />
   </component>
   <component name="ProjectView">
@@ -497,7 +389,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.All in test">
+  <component name="RunManager" selected="Application.Main">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="WIDTH" value="400" />
       <option name="HEIGHT" value="300" />
@@ -557,7 +449,7 @@
       <envs />
       <patterns />
     </configuration>
-    <configuration name="GameTest.testDisplayPlayers" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ChoiceTest.testGetScore" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
           <option name="PATTERN" value="com.thirdsonsoftware.*" />
@@ -568,8 +460,8 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="com.thirdsonsoftware" />
-      <option name="MAIN_CLASS_NAME" value="com.thirdsonsoftware.GameTest" />
-      <option name="METHOD_NAME" value="testDisplayPlayers" />
+      <option name="MAIN_CLASS_NAME" value="com.thirdsonsoftware.ChoiceTest" />
+      <option name="METHOD_NAME" value="testGetScore" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
@@ -582,7 +474,7 @@
       <envs />
       <patterns />
     </configuration>
-    <configuration name="GameTest.testToString" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ChoiceTest.testSetScore" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
           <option name="PATTERN" value="com.thirdsonsoftware.*" />
@@ -593,9 +485,34 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="com.thirdsonsoftware" />
-      <option name="MAIN_CLASS_NAME" value="com.thirdsonsoftware.GameTest" />
-      <option name="METHOD_NAME" value="testToString" />
+      <option name="MAIN_CLASS_NAME" value="com.thirdsonsoftware.ChoiceTest" />
+      <option name="METHOD_NAME" value="testSetScore" />
       <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration name="MainTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="com.thirdsonsoftware.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="test" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="com.thirdsonsoftware" />
+      <option name="MAIN_CLASS_NAME" value="com.thirdsonsoftware.MainTest" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
@@ -623,31 +540,6 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <option name="TEST_SEARCH_SCOPE">
         <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
-    </configuration>
-    <configuration name="com.thirdsonsoftware in test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="com.thirdsonsoftware.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <module name="" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="com.thirdsonsoftware" />
-      <option name="MAIN_CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="file://$MODULE_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="wholeProject" />
       </option>
       <envs />
       <patterns />
@@ -694,18 +586,18 @@
     </configuration>
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Application.Main" />
-      <item index="1" class="java.lang.String" itemvalue="JUnit.All in test" />
-      <item index="2" class="java.lang.String" itemvalue="JUnit.com.thirdsonsoftware in test" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.GameTest.testToString" />
-      <item index="4" class="java.lang.String" itemvalue="JUnit.GameTest.testDisplayPlayers" />
+      <item index="1" class="java.lang.String" itemvalue="JUnit.ChoiceTest.testGetScore" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.ChoiceTest.testSetScore" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.All in test" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.MainTest" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="JUnit.All in test" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.GameTest.testDisplayPlayers" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.GameTest.testToString" />
-        <item index="3" class="java.lang.String" itemvalue="Application.Main" />
-        <item index="4" class="java.lang.String" itemvalue="JUnit.com.thirdsonsoftware in test" />
+        <item index="0" class="java.lang.String" itemvalue="Application.Main" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.MainTest" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.All in test" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.ChoiceTest.testSetScore" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.ChoiceTest.testGetScore" />
       </list>
     </recent_temporary>
   </component>
@@ -734,60 +626,61 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="All_in_test - 2017.12.10 at 17h 41m 14s.xml">
+    <history-entry file="All_in_test - 2017.12.10 at 23h 18m 51s.xml">
       <configuration name="All in test" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="All_in_test - 2017.12.10 at 17h 42m 50s.xml">
+    <history-entry file="All_in_test - 2017.12.10 at 23h 19m 39s.xml">
       <configuration name="All in test" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="All_in_test - 2017.12.10 at 17h 43m 30s.xml">
-      <configuration name="All in test" configurationId="JUnit" />
+    <history-entry file="ChoiceTest_testGetScore - 2017.12.10 at 23h 18m 32s.xml">
+      <configuration name="ChoiceTest.testGetScore" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="All_in_test - 2017.12.10 at 17h 44m 30s.xml">
-      <configuration name="All in test" configurationId="JUnit" />
+    <history-entry file="ChoiceTest_testSetScore - 2017.12.10 at 23h 18m 35s.xml">
+      <configuration name="ChoiceTest.testSetScore" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="All_in_test - 2017.12.10 at 17h 46m 00s.xml">
-      <configuration name="All in test" configurationId="JUnit" />
+    <history-entry file="MainTest - 2017.12.10 at 23h 31m 43s.xml">
+      <configuration name="MainTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="All_in_test - 2017.12.10 at 17h 46m 13s.xml">
-      <configuration name="All in test" configurationId="JUnit" />
+    <history-entry file="MainTest_testLoadGame - 2017.12.10 at 22h 05m 03s.xml">
+      <configuration name="MainTest.testLoadGame" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="All_in_test - 2017.12.10 at 17h 46m 34s.xml">
-      <configuration name="All in test" configurationId="JUnit" />
+    <history-entry file="MainTest_testLoadGame - 2017.12.10 at 22h 05m 14s.xml">
+      <configuration name="MainTest.testLoadGame" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="All_in_test - 2017.12.10 at 17h 46m 58s.xml">
-      <configuration name="All in test" configurationId="JUnit" />
+    <history-entry file="MainTest_testLoadGame - 2017.12.10 at 22h 06m 00s.xml">
+      <configuration name="MainTest.testLoadGame" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="All_in_test - 2017.12.10 at 17h 47m 21s.xml">
-      <configuration name="All in test" configurationId="JUnit" />
+    <history-entry file="MainTest_testSaveGame - 2017.12.10 at 22h 04m 34s.xml">
+      <configuration name="MainTest.testSaveGame" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="All_in_test - 2017.12.10 at 17h 47m 29s.xml">
-      <configuration name="All in test" configurationId="JUnit" />
+    <history-entry file="MainTest_testSaveGame - 2017.12.10 at 22h 04m 59s.xml">
+      <configuration name="MainTest.testSaveGame" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="24" y="40" width="2084" height="1672" extended-state="0" />
+    <frame x="537" y="40" width="2120" height="1672" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31625" sideWeight="0.487524" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31625" sideWeight="0.475" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31625" sideWeight="0.512476" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31625" sideWeight="0.525" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.41698655" sideWeight="0.78130674" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4240566" sideWeight="0.78130674" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.11660269" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.114622645" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294964" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34125" sideWeight="0.61804223" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34125" sideWeight="0.61415094" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -810,38 +703,34 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Board.java</url>
-          <line>217</line>
+          <line>465</line>
           <properties />
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Board.java</url>
-          <line>138</line>
+          <line>386</line>
           <properties />
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Board.java</url>
-          <line>550</line>
+          <line>769</line>
           <properties />
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Board.java</url>
-          <line>301</line>
+          <line>549</line>
           <properties />
           <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="12" />
+      <option name="time" value="13" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/thirdsonsoftware/Main.java" />
-    <entry file="file://$PROJECT_DIR$/test/test.iml" />
-    <entry file="file://$PROJECT_DIR$/test/com.thirdsonsoftware/GameTest.groovy" />
-    <entry file="file://$PROJECT_DIR$/src/com/thirdsonsoftware/Tile.java" />
     <entry file="file://$PROJECT_DIR$/test/com.thirdsonsoftware/BoardTest.groovy" />
     <entry file="file://$PROJECT_DIR$/src/com/thirdsonsoftware/Board.java" />
     <entry file="file://$PROJECT_DIR$/src/com/thirdsonsoftware/Player.java" />
@@ -875,26 +764,26 @@
         <state relative-caret-position="38">
           <caret line="2" column="16" lean-forward="false" selection-start-line="2" selection-start-column="16" selection-end-line="2" selection-end-column="16" />
           <folding>
-            <element signature="e#497#498#0" expanded="false" />
-            <element signature="e#524#525#0" expanded="false" />
-            <element signature="e#562#563#0" expanded="false" />
-            <element signature="e#594#595#0" expanded="false" />
-            <element signature="e#621#622#0" expanded="false" />
-            <element signature="e#647#648#0" expanded="false" />
-            <element signature="e#682#683#0" expanded="false" />
-            <element signature="e#712#713#0" expanded="false" />
-            <element signature="e#739#740#0" expanded="false" />
-            <element signature="e#765#766#0" expanded="false" />
-            <element signature="e#800#801#0" expanded="false" />
-            <element signature="e#830#831#0" expanded="false" />
-            <element signature="e#873#874#0" expanded="false" />
-            <element signature="e#907#908#0" expanded="false" />
-            <element signature="e#966#967#0" expanded="false" />
-            <element signature="e#1012#1013#0" expanded="false" />
-            <element signature="e#1044#1045#0" expanded="false" />
-            <element signature="e#1075#1076#0" expanded="false" />
-            <element signature="e#1120#1121#0" expanded="false" />
-            <element signature="e#1160#1161#0" expanded="false" />
+            <element signature="e#604#605#0" expanded="false" />
+            <element signature="e#631#632#0" expanded="false" />
+            <element signature="e#669#670#0" expanded="false" />
+            <element signature="e#701#702#0" expanded="false" />
+            <element signature="e#728#729#0" expanded="false" />
+            <element signature="e#759#760#0" expanded="false" />
+            <element signature="e#794#795#0" expanded="false" />
+            <element signature="e#824#825#0" expanded="false" />
+            <element signature="e#851#852#0" expanded="false" />
+            <element signature="e#882#883#0" expanded="false" />
+            <element signature="e#917#918#0" expanded="false" />
+            <element signature="e#947#948#0" expanded="false" />
+            <element signature="e#990#991#0" expanded="false" />
+            <element signature="e#1029#1030#0" expanded="false" />
+            <element signature="e#1088#1089#0" expanded="false" />
+            <element signature="e#1134#1135#0" expanded="false" />
+            <element signature="e#1166#1167#0" expanded="false" />
+            <element signature="e#1202#1203#0" expanded="false" />
+            <element signature="e#1247#1248#0" expanded="false" />
+            <element signature="e#1287#1288#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -904,26 +793,26 @@
         <state relative-caret-position="366">
           <caret line="251" column="67" lean-forward="false" selection-start-line="251" selection-start-column="67" selection-end-line="251" selection-end-column="67" />
           <folding>
-            <element signature="e#2505#2506#0" expanded="true" />
-            <element signature="e#2549#2550#0" expanded="true" />
-            <element signature="e#21578#21579#0" expanded="true" />
-            <element signature="e#21616#21617#0" expanded="true" />
-            <element signature="e#23493#23494#0" expanded="true" />
-            <element signature="e#23524#23525#0" expanded="true" />
-            <element signature="e#23573#23574#0" expanded="true" />
-            <element signature="e#23613#23614#0" expanded="true" />
-            <element signature="e#23649#23650#0" expanded="true" />
-            <element signature="e#23680#23681#0" expanded="true" />
-            <element signature="e#23729#23730#0" expanded="true" />
-            <element signature="e#23769#23770#0" expanded="true" />
-            <element signature="e#24142#24143#0" expanded="true" />
-            <element signature="e#24177#24178#0" expanded="true" />
-            <element signature="e#24519#24520#0" expanded="true" />
-            <element signature="e#24552#24553#0" expanded="true" />
-            <element signature="e#24879#24880#0" expanded="true" />
-            <element signature="e#24913#24914#0" expanded="true" />
-            <element signature="e#26844#26845#0" expanded="true" />
-            <element signature="e#26879#26880#0" expanded="true" />
+            <element signature="e#3657#3658#0" expanded="true" />
+            <element signature="e#3695#3696#0" expanded="true" />
+            <element signature="e#6000#6001#0" expanded="true" />
+            <element signature="e#6031#6032#0" expanded="true" />
+            <element signature="e#6162#6163#0" expanded="true" />
+            <element signature="e#6202#6203#0" expanded="true" />
+            <element signature="e#6306#6307#0" expanded="true" />
+            <element signature="e#6337#6338#0" expanded="true" />
+            <element signature="e#6470#6471#0" expanded="true" />
+            <element signature="e#6510#6511#0" expanded="true" />
+            <element signature="e#7282#7283#0" expanded="true" />
+            <element signature="e#7317#7318#0" expanded="true" />
+            <element signature="e#7829#7830#0" expanded="true" />
+            <element signature="e#7862#7863#0" expanded="true" />
+            <element signature="e#8411#8412#0" expanded="true" />
+            <element signature="e#8445#8446#0" expanded="true" />
+            <element signature="e#10462#10463#0" expanded="true" />
+            <element signature="e#10506#10507#0" expanded="true" />
+            <element signature="e#31973#31974#0" expanded="true" />
+            <element signature="e#32008#32009#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -933,24 +822,24 @@
         <state relative-caret-position="299">
           <caret line="365" column="0" lean-forward="false" selection-start-line="365" selection-start-column="0" selection-end-line="365" selection-end-column="0" />
           <folding>
-            <element signature="e#3628#3629#0" expanded="true" />
-            <element signature="e#3666#3667#0" expanded="true" />
-            <element signature="e#3789#3790#0" expanded="true" />
-            <element signature="e#3823#3824#0" expanded="true" />
-            <element signature="e#3874#3875#0" expanded="true" />
-            <element signature="e#3909#3910#0" expanded="true" />
-            <element signature="e#3977#3978#0" expanded="true" />
-            <element signature="e#4025#4026#0" expanded="true" />
-            <element signature="e#4091#4092#0" expanded="true" />
-            <element signature="e#4141#4142#0" expanded="true" />
-            <element signature="e#4348#4349#0" expanded="true" />
-            <element signature="e#4376#4377#0" expanded="true" />
-            <element signature="e#15284#15285#0" expanded="true" />
-            <element signature="e#15344#15345#0" expanded="true" />
-            <element signature="e#15389#15390#0" expanded="true" />
-            <element signature="e#15460#15461#0" expanded="true" />
-            <element signature="e#16827#16828#0" expanded="true" />
-            <element signature="e#16865#16866#0" expanded="true" />
+            <element signature="e#3670#3671#0" expanded="true" />
+            <element signature="e#3708#3709#0" expanded="true" />
+            <element signature="e#3831#3832#0" expanded="true" />
+            <element signature="e#3865#3866#0" expanded="true" />
+            <element signature="e#3916#3917#0" expanded="true" />
+            <element signature="e#3951#3952#0" expanded="true" />
+            <element signature="e#4019#4020#0" expanded="true" />
+            <element signature="e#4067#4068#0" expanded="true" />
+            <element signature="e#4133#4134#0" expanded="true" />
+            <element signature="e#4183#4184#0" expanded="true" />
+            <element signature="e#4390#4391#0" expanded="true" />
+            <element signature="e#4418#4419#0" expanded="true" />
+            <element signature="e#15326#15327#0" expanded="true" />
+            <element signature="e#15386#15387#0" expanded="true" />
+            <element signature="e#15431#15432#0" expanded="true" />
+            <element signature="e#15502#15503#0" expanded="true" />
+            <element signature="e#16869#16870#0" expanded="true" />
+            <element signature="e#16907#16908#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -980,26 +869,26 @@
         <state relative-caret-position="786">
           <caret line="309" column="26" lean-forward="true" selection-start-line="309" selection-start-column="26" selection-end-line="309" selection-end-column="26" />
           <folding>
-            <element signature="e#1409#1410#0" expanded="true" />
-            <element signature="e#1437#1438#0" expanded="true" />
-            <element signature="e#1602#1603#0" expanded="true" />
-            <element signature="e#1636#1637#0" expanded="true" />
-            <element signature="e#1667#1668#0" expanded="true" />
-            <element signature="e#1694#1695#0" expanded="true" />
-            <element signature="e#1734#1735#0" expanded="true" />
-            <element signature="e#1766#1767#0" expanded="true" />
-            <element signature="e#1800#1801#0" expanded="true" />
-            <element signature="e#1829#1830#0" expanded="true" />
-            <element signature="e#1874#1875#0" expanded="true" />
-            <element signature="e#1910#1911#0" expanded="true" />
-            <element signature="e#1947#1948#0" expanded="true" />
-            <element signature="e#1982#1983#0" expanded="true" />
-            <element signature="e#2036#2037#0" expanded="true" />
+            <element signature="e#1857#1858#0" expanded="true" />
+            <element signature="e#1885#1886#0" expanded="true" />
+            <element signature="e#2050#2051#0" expanded="true" />
             <element signature="e#2084#2085#0" expanded="true" />
-            <element signature="e#2124#2125#0" expanded="true" />
-            <element signature="e#2151#2152#0" expanded="true" />
-            <element signature="e#8773#8774#0" expanded="true" />
-            <element signature="e#8809#8810#0" expanded="true" />
+            <element signature="e#2115#2116#0" expanded="true" />
+            <element signature="e#2142#2143#0" expanded="true" />
+            <element signature="e#2182#2183#0" expanded="true" />
+            <element signature="e#2214#2215#0" expanded="true" />
+            <element signature="e#2248#2249#0" expanded="true" />
+            <element signature="e#2277#2278#0" expanded="true" />
+            <element signature="e#2322#2323#0" expanded="true" />
+            <element signature="e#2358#2359#0" expanded="true" />
+            <element signature="e#2395#2396#0" expanded="true" />
+            <element signature="e#2430#2431#0" expanded="true" />
+            <element signature="e#2484#2485#0" expanded="true" />
+            <element signature="e#2532#2533#0" expanded="true" />
+            <element signature="e#2572#2573#0" expanded="true" />
+            <element signature="e#2599#2600#0" expanded="true" />
+            <element signature="e#25924#25925#0" expanded="true" />
+            <element signature="e#25960#25961#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1072,43 +961,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/com.thirdsonsoftware/ChoiceTest.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="241">
-          <caret line="18" column="81" lean-forward="false" selection-start-line="18" selection-start-column="81" selection-end-line="18" selection-end-column="81" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Choice.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="232">
-          <caret line="17" column="12" lean-forward="false" selection-start-line="17" selection-start-column="12" selection-end-line="17" selection-end-column="12" />
-          <folding>
-            <element signature="e#497#498#0" expanded="false" />
-            <element signature="e#524#525#0" expanded="false" />
-            <element signature="e#562#563#0" expanded="false" />
-            <element signature="e#594#595#0" expanded="false" />
-            <element signature="e#621#622#0" expanded="false" />
-            <element signature="e#647#648#0" expanded="false" />
-            <element signature="e#682#683#0" expanded="false" />
-            <element signature="e#712#713#0" expanded="false" />
-            <element signature="e#739#740#0" expanded="false" />
-            <element signature="e#765#766#0" expanded="false" />
-            <element signature="e#800#801#0" expanded="false" />
-            <element signature="e#830#831#0" expanded="false" />
-            <element signature="e#873#874#0" expanded="false" />
-            <element signature="e#907#908#0" expanded="false" />
-            <element signature="e#966#967#0" expanded="false" />
-            <element signature="e#1012#1013#0" expanded="false" />
-            <element signature="e#1044#1045#0" expanded="false" />
-            <element signature="e#1075#1076#0" expanded="false" />
-            <element signature="e#1120#1121#0" expanded="false" />
-            <element signature="e#1160#1161#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_121.jdk/Contents/Home/src.zip!/java/util/Formatter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="359">
@@ -1120,14 +972,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-333">
           <caret line="21" column="6" lean-forward="false" selection-start-line="21" selection-start-column="6" selection-end-line="21" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/com.thirdsonsoftware/BoardTest.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1368">
-          <caret line="89" column="27" lean-forward="false" selection-start-line="89" selection-start-column="27" selection-end-line="89" selection-end-column="27" />
           <folding />
         </state>
       </provider>
@@ -1231,129 +1075,185 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/com.thirdsonsoftware/TileTest.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1013">
+          <caret line="175" column="29" lean-forward="true" selection-start-line="175" selection-start-column="29" selection-end-line="175" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_121.jdk/Contents/Home/src.zip!/java/io/ObjectOutputStream.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="356">
+          <caret line="1183" column="0" lean-forward="false" selection-start-line="1183" selection-start-column="0" selection-end-line="1183" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Face.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="722">
-          <caret line="57" column="0" lean-forward="false" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
+        <state relative-caret-position="190">
+          <caret line="29" column="53" lean-forward="false" selection-start-line="29" selection-start-column="53" selection-end-line="29" selection-end-column="53" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Tile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="475">
+          <caret line="44" column="53" lean-forward="false" selection-start-line="44" selection-start-column="53" selection-end-line="44" selection-end-column="53" />
+          <folding>
+            <element signature="e#2798#2799#0" expanded="true" />
+            <element signature="e#2828#2829#0" expanded="true" />
+            <element signature="e#3206#3207#0" expanded="true" />
+            <element signature="e#3252#3253#0" expanded="true" />
+            <element signature="e#3979#3980#0" expanded="true" />
+            <element signature="e#4008#4009#0" expanded="true" />
+            <element signature="e#4378#4379#0" expanded="true" />
+            <element signature="e#4405#4406#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Game.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="385">
-          <caret line="202" column="0" lean-forward="false" selection-start-line="202" selection-start-column="0" selection-end-line="202" selection-end-column="0" />
+        <state relative-caret-position="856">
+          <caret line="475" column="0" lean-forward="false" selection-start-line="475" selection-start-column="0" selection-end-line="475" selection-end-column="0" />
           <folding>
-            <element signature="e#3628#3629#0" expanded="true" />
-            <element signature="e#3666#3667#0" expanded="true" />
-            <element signature="e#3789#3790#0" expanded="true" />
-            <element signature="e#3823#3824#0" expanded="true" />
-            <element signature="e#3874#3875#0" expanded="true" />
-            <element signature="e#3909#3910#0" expanded="true" />
-            <element signature="e#3977#3978#0" expanded="true" />
-            <element signature="e#4025#4026#0" expanded="true" />
-            <element signature="e#4091#4092#0" expanded="true" />
-            <element signature="e#4141#4142#0" expanded="true" />
-            <element signature="e#4348#4349#0" expanded="true" />
-            <element signature="e#4376#4377#0" expanded="true" />
-            <element signature="e#15284#15285#0" expanded="true" />
-            <element signature="e#15344#15345#0" expanded="true" />
-            <element signature="e#15389#15390#0" expanded="true" />
-            <element signature="e#15460#15461#0" expanded="true" />
-            <element signature="e#16827#16828#0" expanded="true" />
-            <element signature="e#16865#16866#0" expanded="true" />
+            <element signature="e#3670#3671#0" expanded="true" />
+            <element signature="e#3708#3709#0" expanded="true" />
+            <element signature="e#3831#3832#0" expanded="true" />
+            <element signature="e#3865#3866#0" expanded="true" />
+            <element signature="e#3916#3917#0" expanded="true" />
+            <element signature="e#3951#3952#0" expanded="true" />
+            <element signature="e#4019#4020#0" expanded="true" />
+            <element signature="e#4067#4068#0" expanded="true" />
+            <element signature="e#4133#4134#0" expanded="true" />
+            <element signature="e#4183#4184#0" expanded="true" />
+            <element signature="e#4390#4391#0" expanded="true" />
+            <element signature="e#4418#4419#0" expanded="true" />
+            <element signature="e#15326#15327#0" expanded="true" />
+            <element signature="e#15386#15387#0" expanded="true" />
+            <element signature="e#15431#15432#0" expanded="true" />
+            <element signature="e#15502#15503#0" expanded="true" />
+            <element signature="e#16869#16870#0" expanded="true" />
+            <element signature="e#16907#16908#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../DevTools/groovy-2.4.13/lib/junit-4.12.jar!/org/junit/internal/runners/JUnit38ClassRunner.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/com.thirdsonsoftware/GameTest.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="855">
+          <caret line="258" column="5" lean-forward="false" selection-start-line="258" selection-start-column="5" selection-end-line="258" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/com.thirdsonsoftware/MainTest.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="36" column="83" lean-forward="false" selection-start-line="36" selection-start-column="83" selection-end-line="36" selection-end-column="83" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/com.thirdsonsoftware/ChoiceTest.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="969">
+          <caret line="61" column="42" lean-forward="false" selection-start-line="61" selection-start-column="42" selection-end-line="61" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/com.thirdsonsoftware/BoardTest.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="874">
+          <caret line="288" column="0" lean-forward="false" selection-start-line="288" selection-start-column="0" selection-end-line="288" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Choice.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="608">
+          <caret line="37" column="20" lean-forward="false" selection-start-line="37" selection-start-column="20" selection-end-line="37" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Board.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="765" column="64" lean-forward="false" selection-start-line="765" selection-start-column="64" selection-end-line="765" selection-end-column="64" />
+          <folding>
+            <element signature="e#3657#3658#0" expanded="true" />
+            <element signature="e#3695#3696#0" expanded="true" />
+            <element signature="e#6000#6001#0" expanded="true" />
+            <element signature="e#6031#6032#0" expanded="true" />
+            <element signature="e#6162#6163#0" expanded="true" />
+            <element signature="e#6202#6203#0" expanded="true" />
+            <element signature="e#6306#6307#0" expanded="true" />
+            <element signature="e#6337#6338#0" expanded="true" />
+            <element signature="e#6470#6471#0" expanded="true" />
+            <element signature="e#6510#6511#0" expanded="true" />
+            <element signature="e#7282#7283#0" expanded="true" />
+            <element signature="e#7317#7318#0" expanded="true" />
+            <element signature="e#7829#7830#0" expanded="true" />
+            <element signature="e#7862#7863#0" expanded="true" />
+            <element signature="e#8411#8412#0" expanded="true" />
+            <element signature="e#8445#8446#0" expanded="true" />
+            <element signature="e#10462#10463#0" expanded="true" />
+            <element signature="e#10506#10507#0" expanded="true" />
+            <element signature="e#31973#31974#0" expanded="true" />
+            <element signature="e#32008#32009#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Player.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="385">
-          <caret line="407" column="0" lean-forward="false" selection-start-line="407" selection-start-column="0" selection-end-line="407" selection-end-column="0" />
+        <state relative-caret-position="603">
+          <caret line="299" column="63" lean-forward="false" selection-start-line="299" selection-start-column="63" selection-end-line="299" selection-end-column="63" />
           <folding>
-            <element signature="e#1409#1410#0" expanded="true" />
-            <element signature="e#1437#1438#0" expanded="true" />
-            <element signature="e#1602#1603#0" expanded="true" />
-            <element signature="e#1636#1637#0" expanded="true" />
-            <element signature="e#1667#1668#0" expanded="true" />
-            <element signature="e#1694#1695#0" expanded="true" />
-            <element signature="e#1734#1735#0" expanded="true" />
-            <element signature="e#1766#1767#0" expanded="true" />
-            <element signature="e#1800#1801#0" expanded="true" />
-            <element signature="e#1829#1830#0" expanded="true" />
-            <element signature="e#1874#1875#0" expanded="true" />
-            <element signature="e#1910#1911#0" expanded="true" />
-            <element signature="e#1947#1948#0" expanded="true" />
-            <element signature="e#1982#1983#0" expanded="true" />
-            <element signature="e#2036#2037#0" expanded="true" />
+            <element signature="e#1857#1858#0" expanded="true" />
+            <element signature="e#1885#1886#0" expanded="true" />
+            <element signature="e#2050#2051#0" expanded="true" />
             <element signature="e#2084#2085#0" expanded="true" />
-            <element signature="e#2124#2125#0" expanded="true" />
-            <element signature="e#2151#2152#0" expanded="true" />
-            <element signature="e#8773#8774#0" expanded="true" />
-            <element signature="e#8809#8810#0" expanded="true" />
+            <element signature="e#2115#2116#0" expanded="true" />
+            <element signature="e#2142#2143#0" expanded="true" />
+            <element signature="e#2182#2183#0" expanded="true" />
+            <element signature="e#2214#2215#0" expanded="true" />
+            <element signature="e#2248#2249#0" expanded="true" />
+            <element signature="e#2277#2278#0" expanded="true" />
+            <element signature="e#2322#2323#0" expanded="true" />
+            <element signature="e#2358#2359#0" expanded="true" />
+            <element signature="e#2395#2396#0" expanded="true" />
+            <element signature="e#2430#2431#0" expanded="true" />
+            <element signature="e#2484#2485#0" expanded="true" />
+            <element signature="e#2532#2533#0" expanded="true" />
+            <element signature="e#2572#2573#0" expanded="true" />
+            <element signature="e#2599#2600#0" expanded="true" />
+            <element signature="e#25924#25925#0" expanded="true" />
+            <element signature="e#25960#25961#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Tile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="670">
-          <caret line="292" column="0" lean-forward="false" selection-start-line="292" selection-start-column="0" selection-end-line="292" selection-end-column="0" />
-          <folding>
-            <element signature="e#2754#2755#0" expanded="true" />
-            <element signature="e#2784#2785#0" expanded="true" />
-            <element signature="e#3162#3163#0" expanded="true" />
-            <element signature="e#3208#3209#0" expanded="true" />
-            <element signature="e#3935#3936#0" expanded="true" />
-            <element signature="e#3964#3965#0" expanded="true" />
-            <element signature="e#4334#4335#0" expanded="true" />
-            <element signature="e#4361#4362#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Board.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="331" column="17" lean-forward="true" selection-start-line="331" selection-start-column="17" selection-end-line="331" selection-end-column="17" />
-          <folding>
-            <element signature="e#2505#2506#0" expanded="true" />
-            <element signature="e#2549#2550#0" expanded="true" />
-            <element signature="e#21578#21579#0" expanded="true" />
-            <element signature="e#21616#21617#0" expanded="true" />
-            <element signature="e#23493#23494#0" expanded="true" />
-            <element signature="e#23524#23525#0" expanded="true" />
-            <element signature="e#23573#23574#0" expanded="true" />
-            <element signature="e#23613#23614#0" expanded="true" />
-            <element signature="e#23649#23650#0" expanded="true" />
-            <element signature="e#23680#23681#0" expanded="true" />
-            <element signature="e#23729#23730#0" expanded="true" />
-            <element signature="e#23769#23770#0" expanded="true" />
-            <element signature="e#24142#24143#0" expanded="true" />
-            <element signature="e#24177#24178#0" expanded="true" />
-            <element signature="e#24519#24520#0" expanded="true" />
-            <element signature="e#24552#24553#0" expanded="true" />
-            <element signature="e#24879#24880#0" expanded="true" />
-            <element signature="e#24913#24914#0" expanded="true" />
-            <element signature="e#26844#26845#0" expanded="true" />
-            <element signature="e#26879#26880#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/com.thirdsonsoftware/GameTest.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="439">
-          <caret line="235" column="39" lean-forward="false" selection-start-line="235" selection-start-column="39" selection-end-line="235" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/com.thirdsonsoftware/TileTest.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="596">
-          <caret line="188" column="27" lean-forward="false" selection-start-line="188" selection-start-column="27" selection-end-line="188" selection-end-column="27" />
-          <folding />
         </state>
       </provider>
     </entry>

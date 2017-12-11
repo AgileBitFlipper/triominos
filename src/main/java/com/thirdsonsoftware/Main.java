@@ -19,14 +19,51 @@
 
 package com.thirdsonsoftware;
 
+import java.io.*;
+
 class Main {
+
+    static Game game = null ;
 
     public static void main(String[] args) {
 
-        Game game = new Game(2);
+        game = new Game(2);
 
         game.play();
 
         System.out.println(game);
+    }
+
+    // Todo: We should be able to save and retrieve game state...finish this later.
+    static protected void saveGame() {
+        try {
+            System.out.println("Saving the current game state...") ;
+            FileOutputStream fos = new FileOutputStream("triominos.ser");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(game);
+            oos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static protected Game loadGame() {
+        Game loadedGame = null;
+        try {
+            System.out.println("Loading game from saved state...");
+            FileInputStream fis = new FileInputStream("triominos.ser");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            loadedGame = (Game) ois.readObject();
+            ois.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return loadedGame;
     }
 }

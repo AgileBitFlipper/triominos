@@ -19,6 +19,8 @@
 
 package com.thirdsonsoftware;
 
+import java.io.Serializable;
+
 /** Represents the orientation of a tile.
  */
 enum Orientation {
@@ -40,7 +42,7 @@ enum Orientation {
  * @version 0.1
  * @since 0.0
  */
-public class Tile implements Comparable {
+public class Tile implements Comparable, Serializable {
 
     private int id ;                    // Unique tile id
 

@@ -5,6 +5,9 @@ public class Choice {
     // Which tile?
     Tile tile ;
 
+    // If this choice is taken, what would the score be?
+    private int score ;
+
     // Where?
     private int row ;
     private int col ;
@@ -20,6 +23,7 @@ public class Choice {
         this.col = col;
         this.orientation = orientation;
         this.rotation = rotation;
+        this.score = 0 ;
     }
 
     public Tile getTile() {
@@ -31,7 +35,7 @@ public class Choice {
     }
 
     public int getRow() {
-        return row;
+        return this.row;
     }
 
     public void setRow(int row) {
@@ -39,7 +43,7 @@ public class Choice {
     }
 
     public int getCol() {
-        return col;
+        return this.col;
     }
 
     public void setCol(int col) {
@@ -47,7 +51,7 @@ public class Choice {
     }
 
     public Orientation getOrientation() {
-        return orientation;
+        return this.orientation;
     }
 
     public void setOrientation(Orientation orientation) {
@@ -55,11 +59,15 @@ public class Choice {
     }
 
     public int getRotation() {
-        return rotation;
+        return this.rotation;
     }
 
     public void setRotation(int rotation) {
         this.rotation = rotation;
     }
+
+    public int getScore() { return this.score ; }
+
+    public void setScore(int s) { this.score = s ; }
 
 }

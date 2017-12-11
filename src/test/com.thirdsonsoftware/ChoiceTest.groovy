@@ -51,4 +51,14 @@ class ChoiceTest extends GroovyTestCase {
         choice.setCol(0)
         assertEquals(0,choice.getCol())
     }
+
+    void testGetScore() {
+        assertEquals(0,choice.getScore())
+    }
+
+    void testSetScore() {
+        assertEquals(0,choice.getScore())
+        choice.setScore(50);
+        assertEquals(50,choice.getScore())
+    }
 }

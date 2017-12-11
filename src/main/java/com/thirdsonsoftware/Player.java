@@ -19,24 +19,41 @@
 
 package com.thirdsonsoftware;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.concurrent.atomic.AtomicReference;
 
 enum Mode {
     RELEASE,
     DEBUG
 }
 
-public class Player {
+public class Player implements Serializable {
 
     private Mode mode ;               // Playing around with the idea of an ouput mode
 
     private int score ;               // The players score
-    private boolean starts = false ;  // This player starts the game (highest tile)
+    private boolean starts;           // This player starts the game (highest tile)
     private String name ;             // The name of the player
     private Tile startingTile ;       // Get the starting tile
 
     final ArrayList<Tile> tray;       // The tray in the player's hand
+
+    /**
+     * @param name - name of player
+     */
+    public Player(String name) {
+        setScore(0);
+        setStarts(false);
+        setName(name);
+        tray = new ArrayList<>(56);
+        mode = Mode.RELEASE;
+        starts = false;
+    }
+
+    public void setMode( Mode m ) { mode = m; }
+    public Mode getMode() { return mode; }
 
     /**
      * Retrieve the Player's score
@@ -83,17 +100,6 @@ public class Player {
     }
 
     /**
-     * @param name - name of player
-     */
-    public Player(String name) {
-        setScore(0);
-        setStarts(false);
-        setName(name);
-        tray = new ArrayList<>(56);
-        mode = Mode.RELEASE;
-    }
-
-    /**
      * Pop the top tile from the pool
      * Assumes the pool has been properly shuffled for
      *   randomness
@@ -124,10 +130,35 @@ public class Player {
         return highestValue ;
     }
 
+    /**
+     * The highest value tile is not necessarily the first tile to play.
+     *   The reason is based on bonuses.
+     * @return (Tile) The tile that provides for the most points (value + bonus)
+     */
+    public Tile determineFirstTile() {
+        Tile myTileToPlay;
+        if ( hasZeroTriplet() ) {
+            myTileToPlay = getZeroTriplet();
+        } else if ( hasTriplet() ) {
+            myTileToPlay = getLargestTriplet();
+        } else {
+            myTileToPlay = highestValueTile();
+        }
+        setStartingTile(myTileToPlay);
+        return myTileToPlay;
+    }
+
+    /**
+     * This method is only called when the first tile is played.  The rules about
+     *   starting and choosing the first tile are a bit complex, and are score based.
+     * @param board - the board we are putting our pieces on
+     * @return (Tile) - the tile chosen to play after it was placed
+     */
     private Tile playFirstTile( Board board ) {
 
         int row ;
         int col ;
+        int score = 0;
         Tile myTileToPlay = null;
 
         // Am I the player that starts?
@@ -151,7 +182,7 @@ public class Player {
             row = 56;
             col = 56;
 
-            if ( board.placeTile(myTileToPlay,row,col) ) {
+            if ( board.placeTile(myTileToPlay,row,col,score) ) {
 
                 myTileToPlay.setPlayer(this);
 
@@ -163,150 +194,6 @@ public class Player {
         }
         // Return back the tile we played so we can us it for choosing faces next time
         return myTileToPlay ;
-    }
-
-    public Tile determineFirstTile() {
-        Tile myTileToPlay;
-        if ( hasZeroTriplet() ) {
-            myTileToPlay = getZeroTriplet();
-        } else if ( hasTriplet() ) {
-            myTileToPlay = getLargestTriplet();
-        } else {
-            myTileToPlay = highestValueTile();
-        }
-        setStartingTile(myTileToPlay);
-        return myTileToPlay;
-    }
-
-    /*
-     ================================= Game Board =======================================
-    |                       1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 4|
-    |     1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0|
-     ====================================================================================
-    |   | /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\ |
-    | 1 |/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \|
-    |   |\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /|
-    | 2 | \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/ |
-    |   | /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\ |
-    | 3 |/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \|
-    |   |\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /|
-    | 4 | \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/ |
-    |   | /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\ |
-    | 5 |/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \|
-    |   |\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /|
-    | 6 | \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/ |
-    |   | /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\ |
-    | 7 |/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \|
-    |   |\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /|
-    | 8 | \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/ |
-     ====================================================================================
-
-    Row + Col == Even means tile points up
-    Row + Col == Odd  means tile points down
-
-    */
-
-    private String displayComparisonOfTwoTiles(Tile a, Tile b) {
-
-        StringBuilder strReturn = new StringBuilder();
-
-        // Let's compare the two...
-        String lines[] = new String[5];
-
-        // Prefix for each line..
-        lines[0] = "    Tiles: " ;
-        lines[1] = "           " ;
-        lines[2] = "           " ;
-        lines[3] = "           " ;
-        lines[4] = "           " ;
-
-        // Adding the text for the first tile
-        if ( a != null ) {
-
-            a.draw(true,lines);
-
-            // Now, adding the separator between the tiles
-            if ( a.getOrientation() == Orientation.DOWN ) {
-                lines[0] += " - ";
-                lines[1] += " - ";
-                lines[2] += "  - ";
-                lines[3] += "   - ";
-                lines[4] += "    - ";
-            } else {
-                lines[4] += " - ";
-                lines[3] += " - ";
-                lines[2] += "  - ";
-                lines[1] += "   - ";
-                lines[0] += "    - ";
-            }
-
-        } else {
-            lines[0] += "      - " ;
-            lines[1] += "      - " ;
-            lines[2] += " none - " ;
-            lines[3] += "      - " ;
-            lines[4] += "      - " ;
-        }
-
-        if ( b != null ) {
-
-            // Now adding the second tile...
-            b.draw(true, lines);
-
-        } else {
-            lines[2] += " none " ;
-        }
-
-        // Move the String array to a string for display.
-        for ( String strRow : lines )
-            strReturn.append(strRow).append("\n");
-
-        return strReturn.toString();
-    }
-
-    static public void addTile(String[] rows, Tile tile, boolean solo) {
-        tile.draw(solo,rows);
-    }
-
-    static public String showTile(Tile tile) {
-        StringBuilder strReturn = new StringBuilder(50);
-        String[] rows = new String[5];
-        for (int i=0;i<5;i++)
-            rows[i]="";
-        addTile(rows,tile,true);
-        for ( String strRow : rows )
-            strReturn.append(strRow).append("\n");
-        return strReturn.toString();
-    }
-
-    static public String showTwoTilesLeftAndRight(Tile tileLeft, Tile tileRight) {
-        StringBuilder strReturn = new StringBuilder(50);
-        String[] rows = new String[5];
-        for (int i=0;i<5;i++)
-            rows[i]="";
-        addTile(rows,tileLeft,true);
-        addTile(rows,tileRight, true);
-        for ( String strRow : rows )
-            strReturn.append(strRow).append("\n");
-
-        return strReturn.toString();
-    }
-
-    static public String showTwoTilesTopAndBottom(Tile top, Tile bottom) {
-        StringBuilder strReturn = new StringBuilder(50);
-        String[] rowsTop = new String[5];
-        for (int i=0;i<5;i++)
-            rowsTop[i]="";
-        String[] rowsBottom = new String[5];
-        for (int i=0;i<5;i++)
-            rowsBottom[i]="";
-        addTile(rowsTop,top,true);
-        addTile(rowsBottom,bottom,true);
-        for ( String strRow : rowsTop )
-            strReturn.append(strRow).append("\n");
-        for ( String strRow : rowsBottom )
-            strReturn.append(strRow).append("\n");
-        return strReturn.toString();
     }
 
     /**
@@ -335,7 +222,7 @@ public class Player {
 
                 Tile played = iTile.next() ;
 
-                if ( mode == Mode.DEBUG )
+                if (getMode() == Mode.DEBUG )
                     System.out.println("Tile to match:\n" + showTile(played));
 
                 int tileRow = played.getRow();
@@ -357,8 +244,7 @@ public class Player {
                 ArrayList<Choice> choicesForAFace ;
                 Choice topChoice = null ;
 
-                // Todo: Could we have a case of bias in the order that we are
-                //       looking for matches?  What if we looked at middle first?
+                // Todo: Could we have a case of bias in the order that we are looking for matches?  What if we looked at middle first?
 
                 // Can we play any of our tiles to the left?
                 if ( bLeftFaceOpen ) {
@@ -381,16 +267,21 @@ public class Player {
                 value = 0 ;
 
                 // Spin through choices looking for the highest value or score
-                // Todo: Value and Score are two different entities.  Let's amend
-                //       this to choose the tile with the greatest score
+                // Todo: Value and Score are two different entities.  Let's amend this to choose the tile with the greatest score
                 for ( Choice c : choicesToPlay ) {
-                    if ( c.tile.getValue() > value ) {
-                        value = c.tile.getValue();
-                        topChoice = c ;
+
+                    // Test to see if the choice fits or not before deciding if it's worth it.
+                    if ( board.pieceFits(c.getTile(),c.getRow(),c.getCol(),c.getScore()) ) {
+
+                        // Get value for a tile needs to include bonus scoring...
+                        if (c.tile.getValue() > value) {
+                            value = c.tile.getValue();
+                            topChoice = c;
+                        }
                     }
                 }
 
-                if ( mode == Mode.DEBUG )
+                if ( getMode() == Mode.DEBUG )
                     displayChoices("  Choices:",choicesToPlay);
 
                 // Do we have a top choice from the list of choices?
@@ -398,6 +289,7 @@ public class Player {
 
                     int row = topChoice.getRow() ;
                     int col = topChoice.getCol() ;
+                    int score = topChoice.getScore();
                     Tile tileToPlay = topChoice.getTile();
 
                     tileToPlay.setOrientation(topChoice.getOrientation());
@@ -405,7 +297,7 @@ public class Player {
 
                     System.out.println(String.format("  Top choice: %s",topChoice.getTile()));
 
-                    if ( board.placeTile(tileToPlay, row, col)) {
+                    if ( board.placeTile(tileToPlay, row, col, score)) {
                         getTray().remove(topChoice.tile);
                         choice = topChoice.tile ;
                         System.out.println(board.display(false));
@@ -413,7 +305,8 @@ public class Player {
                         System.out.println(String.format("--- Unable to place tile '%s' on board @ (%d,%d) with o:%s r:%d ---", tileToPlay, row, col, tileToPlay.getOrientation(), tileToPlay.getRow() ) );
                     }
                 } else {
-                    System.out.println(String.format("--- We don't have a top choice for tile '%s' ---", played));
+                    if ( getMode() == Mode.DEBUG )
+                        System.out.println(String.format("--- We don't have a top choice for tile '%s' ---", played));
                 }
 
                 // If there are no more open faces, let's remove this tile from the list.
@@ -501,7 +394,7 @@ public class Player {
 
             // Assume we are going to play this one
             if ( aMatchWasFound ) {
-                if ( mode == Mode.DEBUG ) {
+                if ( getMode() == Mode.DEBUG ) {
                     if (orientationOfTileToMatch == Orientation.UP) {
                         System.out.println("== Match Face Below ==");
                         System.out.println(showTwoTilesTopAndBottom(played, trayTile));
@@ -554,7 +447,7 @@ public class Player {
             }
 
             if ( aMatchWasFound ) {
-                if ( mode == Mode.DEBUG ) {
+                if ( getMode() == Mode.DEBUG ) {
                     System.out.println("== Match Right Face ==");
                     System.out.println(showTwoTilesLeftAndRight(played, trayTile));
                 }
@@ -603,7 +496,7 @@ public class Player {
 
             // Assume we are going to play this one
             if ( aMatchWasFound ) {
-                if ( mode == Mode.DEBUG ) {
+                if ( getMode() == Mode.DEBUG ) {
                     System.out.println("== Match Left Face ==");
                     System.out.println(showTwoTilesLeftAndRight(trayTile, played));
                 }
@@ -690,6 +583,64 @@ public class Player {
         return zeroTriplet;
     }
 
+    private String displayComparisonOfTwoTiles(Tile a, Tile b) {
+
+        StringBuilder strReturn = new StringBuilder();
+
+        // Let's compare the two...
+        String lines[] = new String[5];
+
+        // Prefix for each line..
+        lines[0] = "    Tiles: " ;
+        lines[1] = "           " ;
+        lines[2] = "           " ;
+        lines[3] = "           " ;
+        lines[4] = "           " ;
+
+        // Adding the text for the first tile
+        if ( a != null ) {
+
+            a.draw(true,lines);
+
+            // Now, adding the separator between the tiles
+            if ( a.getOrientation() == Orientation.DOWN ) {
+                lines[0] += " - ";
+                lines[1] += " - ";
+                lines[2] += "  - ";
+                lines[3] += "   - ";
+                lines[4] += "    - ";
+            } else {
+                lines[4] += " - ";
+                lines[3] += " - ";
+                lines[2] += "  - ";
+                lines[1] += "   - ";
+                lines[0] += "    - ";
+            }
+
+        } else {
+            lines[0] += "      - " ;
+            lines[1] += "      - " ;
+            lines[2] += " none - " ;
+            lines[3] += "      - " ;
+            lines[4] += "      - " ;
+        }
+
+        if ( b != null ) {
+
+            // Now adding the second tile...
+            b.draw(true, lines);
+
+        } else {
+            lines[2] += " none " ;
+        }
+
+        // Move the String array to a string for display.
+        for ( String strRow : lines )
+            strReturn.append(strRow).append("\n");
+
+        return strReturn.toString();
+    }
+
     private String displayChoices(String name, ArrayList<Choice> list) {
         StringBuilder strTiles = new StringBuilder();
         strTiles.append(String.format("%s (%d):\n  [", name, list.size()));
@@ -708,7 +659,7 @@ public class Player {
         return strTiles.toString();
     }
 
-    protected String displayTiles(Boolean asTile, String name, ArrayList<Tile> list) {
+    static protected String displayTiles(Boolean asTile, String name, ArrayList<Tile> list) {
         StringBuilder strTiles = new StringBuilder();
         strTiles.append(String.format("%s (%d):\n", name, list.size()));
         if (list.isEmpty()) {
@@ -744,6 +695,53 @@ public class Player {
         }
         return strTiles.toString();
     }
+
+
+    static public void addTile(String[] rows, Tile tile, boolean solo) {
+        tile.draw(solo,rows);
+    }
+
+    static public String showTile(Tile tile) {
+        StringBuilder strReturn = new StringBuilder(50);
+        String[] rows = new String[5];
+        for (int i=0;i<5;i++)
+            rows[i]="";
+        addTile(rows,tile,true);
+        for ( String strRow : rows )
+            strReturn.append(strRow).append("\n");
+        return strReturn.toString();
+    }
+
+    static public String showTwoTilesLeftAndRight(Tile tileLeft, Tile tileRight) {
+        StringBuilder strReturn = new StringBuilder(50);
+        String[] rows = new String[5];
+        for (int i=0;i<5;i++)
+            rows[i]="";
+        addTile(rows,tileLeft,true);
+        addTile(rows,tileRight, true);
+        for ( String strRow : rows )
+            strReturn.append(strRow).append("\n");
+
+        return strReturn.toString();
+    }
+
+    static public String showTwoTilesTopAndBottom(Tile top, Tile bottom) {
+        StringBuilder strReturn = new StringBuilder(50);
+        String[] rowsTop = new String[5];
+        for (int i=0;i<5;i++)
+            rowsTop[i]="";
+        String[] rowsBottom = new String[5];
+        for (int i=0;i<5;i++)
+            rowsBottom[i]="";
+        addTile(rowsTop,top,true);
+        addTile(rowsBottom,bottom,true);
+        for ( String strRow : rowsTop )
+            strReturn.append(strRow).append("\n");
+        for ( String strRow : rowsBottom )
+            strReturn.append(strRow).append("\n");
+        return strReturn.toString();
+    }
+
     /**
      * @return string that represents the Player's state
      */

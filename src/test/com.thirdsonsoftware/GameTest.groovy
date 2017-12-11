@@ -257,5 +257,4 @@ class GameTest extends GroovyTestCase {
         game.setNumPlayers(2)
         assertFalse(DEFAULT_NUMBER_OF_PLAYERS == game.getNumPlayers())
     }
-
 }

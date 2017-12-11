@@ -19,11 +19,12 @@
 
 package com.thirdsonsoftware;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
 @SuppressWarnings("SpellCheckingInspection")
-class Game {
+class Game implements Serializable {
 
     static public final int TWO_PLAYER_DRAWS = 9 ;
     static public final int UP_TO_FOUR_PLAYER_DRAWS = 7 ;
@@ -472,4 +473,5 @@ class Game {
     public int getNumPlayers() {
         return this.numPlayers;
     }
+
 }
