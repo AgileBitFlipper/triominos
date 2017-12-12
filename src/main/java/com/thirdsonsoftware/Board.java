@@ -838,6 +838,14 @@ public class Board implements Serializable {
         int score = 0 ;
 
         boolean bCreatesABridge = false ;
+
+        boolean bULHexagon = false ;
+        boolean bURHexagon = false ;
+        boolean bUMHexagon = false ;
+        boolean bDLHexagon = false ;
+        boolean bDRHexagon = false ;
+        boolean bDMHexagon = false ;
+
         boolean bCreatesAHexagon = false ;
 
         boolean bLeftFaceEmpty ;
@@ -875,6 +883,46 @@ public class Board implements Serializable {
                 bCreatesABridge = true ;
             }
 
+            int hexLRD[] = {  0,  0,  1,  1, 1 } ;
+            int hexLCD[] = { -1, -2, -2, -1, 0 } ;
+            int hexRRD[] = {  1,  1,  1,  0, 0 } ;
+            int hexRCD[] = {  0,  1,  2,  2, 1 } ;
+            int hexARD[] = {  0, -1, -1, -1, 0 } ;
+            int hexACD[] = { -1, -1,  0,  1, 1 } ;
+
+            if ( row < num_rows-1 ) {
+                if ( col > 1 ) {
+                    bULHexagon = true ;
+                    // hexagon left
+                    for ( int i=0; i<5; i++ ) {
+                        bULHexagon &= ( pieceAtLocation(row + hexLRD[i],col + hexLCD[i]) != null ) ;
+                    }
+                    if ( bULHexagon )
+                        System.out.println("  Completed hexagon with Up-Left orientation!");
+                }
+                if ( col < num_cols-2 ) {
+                    bURHexagon = true ;
+                    // hexagon right
+                    for ( int i=0; i<5; i++ ) {
+                        bURHexagon &= ( pieceAtLocation(row + hexRRD[i],col + hexRCD[i]) != null ) ;
+                    }
+                    if ( bURHexagon )
+                        System.out.println("  Completed hexagon with Up-Right orientation!");
+                }
+            }
+
+            if ( row > 1 ) {
+                if ( col > 1 && col < num_cols - 1 ) {
+                    bUMHexagon = true ;
+                    // hexagon above
+                    for ( int i=0; i<5; i++ ) {
+                        bUMHexagon &= ( pieceAtLocation(row + hexARD[i],col + hexACD[i]) != null ) ;
+                    }
+                }
+                if ( bUMHexagon )
+                    System.out.println("  Completed hexagon with Up-Middle orientation!");
+            }
+
         } else {
 
             bMiddleFaceEmpty = (row > 0 ) && (pieceAtLocation(row - 1, col) == null);
@@ -904,15 +952,64 @@ public class Board implements Serializable {
                 bCreatesABridge = true ;
             }
 
+
+            int hexLRD[] = {  0,  0, -1, -1, -1 } ;
+            int hexLCD[] = { -1, -2, -2, -1,  0 } ;
+            int hexRRD[] = { -1, -1, -1,  0,  0 } ;
+            int hexRCD[] = {  0,  1,  2,  2,  1 } ;
+            int hexARD[] = {  0, +1, +1, +1,  0 } ;
+            int hexACD[] = { -1, -1,  0,  1,  1 } ;
+
+            if ( row > 0 ) {
+                if ( col > 1 ) {
+                    bDLHexagon = true ;
+                    // hexagon left
+                    for ( int i=0; i<5; i++ ) {
+                        bDLHexagon &= ( pieceAtLocation(row + hexLRD[i],col + hexLCD[i]) != null ) ;
+                    }
+                    if ( bDLHexagon )
+                        System.out.println("  Completed hexagon with Down-Left orientation!");
+                }
+                if ( col < num_cols-2 ) {
+                    bDRHexagon = true ;
+                    // hexagon right
+                    for ( int i=0; i<5; i++ ) {
+                        bDRHexagon &= ( pieceAtLocation(row + hexRRD[i],col + hexRCD[i]) != null ) ;
+                    }
+                    if ( bDRHexagon )
+                        System.out.println("  Completed hexagon with Down-Right orientation!");
+                }
+            }
+
+            if ( row < num_rows-1 ) {
+                if ( col > 1 && col < num_cols - 1 ) {
+                    bDMHexagon = true ;
+                    // hexagon below
+                    for ( int i=0; i<5; i++ ) {
+                        bDMHexagon &= ( pieceAtLocation(row + hexARD[i],col + hexACD[i]) != null ) ;
+                    }
+                    if ( bDMHexagon )
+                        System.out.println("  Completed hexagon with Down-Middle orientation!");
+                }
+            }
+
         }
 
-        // Todo: Don't forget to add in the logic to determine if there is a hexagon scoring bonus for this play
+        // If any one of six hexagons was created with tile placement, add the bonus!
+        bCreatesAHexagon = bULHexagon || bUMHexagon || bURHexagon ||
+                           bDLHexagon || bDMHexagon || bDRHexagon ;
 
         // Hexagon bonus
-        if ( bCreatesAHexagon ) score = HEXAGON_BONUS ;
+        if ( bCreatesAHexagon ) {
+            System.out.println(String.format("  Tile %s creates a hexagon @ (%d,%d)!  Bonus of %d points!", t, row, col, HEXAGON_BONUS));
+            score = HEXAGON_BONUS ;
+        }
 
         // Bridge bonus
-        if ( bCreatesABridge ) score = BRIDGE_BONUS ;
+        if ( bCreatesABridge ) {
+            System.out.println(String.format("  Tile %s creates a bridge @ (%d,%d)!  Bonus of %d points!", t, row, col, BRIDGE_BONUS));
+            score = BRIDGE_BONUS ;
+        }
 
         // Value of tile face
         score += t.getValue() ;
@@ -961,49 +1058,22 @@ public class Board implements Serializable {
         return false;
     }
 
-//    public void updateTilesWithEmptyFaces( ArrayList<Tile> tilesWithEmptyFaces)
-//    {
-//        Iterator<Tile> iTile = tilesWithEmptyFaces.iterator();
-//
-//        // Let's look at our played tiles and see if any have available faces...
-//        while (iTile.hasNext()) {
-//
-//            Tile tile = iTile.next() ;
-//
-//            int row = tile.getRow();
-//            int col = tile.getCol();
-//
-//            // Look left, right, up and down...is somebody touching me!!!
-//            boolean bRightFaceOpen  = ( col < getNumberOfCols()-1 ) && ( pieceAtLocation(row,col+1) == null );
-//            boolean bLeftFaceOpen   = ( col > 0 )                   && ( pieceAtLocation(row,col-1) == null );
-//            boolean bMiddleFaceOpen = ( ( ( tile.getOrientation() == Orientation.DOWN ) && ( row > 0 )
-//                                          && ( pieceAtLocation(row-1,col) == null ) ) ||
-//                                        ( ( tile.getOrientation() == Orientation.DOWN ) && ( row < getNumberOfRows()-1 )
-//                                          && ( pieceAtLocation(row+1,col) == null ) ) ) ;
-//
-//            // If there are no more free faces to examine, let's bail!
-//            if ( !bRightFaceOpen && !bLeftFaceOpen && !bMiddleFaceOpen ) {
-//                iTile.remove();
-//            }
-//        }
-//    }
-
     /**
      * Draws the horizontal scale for the board (across the top)
      * @return (String) a String representation of the column scale
      */
     private String drawColumnScale() {
         StringBuilder strScale = new StringBuilder(120);
-        strScale.append("------");
+        strScale.append(Colors.ANSI_PURPLE+"------"+Colors.ANSI_RESET);
         // Let's paint the rows and column numbers for reference
         for (int col = leftBorder; col <= rightBorder; col++)
-            strScale.append("---------");
+            strScale.append(Colors.ANSI_PURPLE+"---------"+Colors.ANSI_RESET);
         strScale.append("\n        ");
         for (int col = leftBorder; col <= rightBorder; col++)
             strScale.append(String.format(" %3d ", col));
-        strScale.append("\n------");
+        strScale.append(Colors.ANSI_PURPLE+"\n------"+Colors.ANSI_RESET);
         for (int col = leftBorder; col <= rightBorder; col++)
-            strScale.append("---------");
+            strScale.append(Colors.ANSI_PURPLE+"---------"+Colors.ANSI_RESET);
         strScale.append("\n");
 
         return strScale.toString() ;
@@ -1028,17 +1098,19 @@ public class Board implements Serializable {
      */
     private void drawRowScale(String[] strScale, int row, int col) {
         if (even(row + col)) {
-            strScale[0] += "|    |=";
-            strScale[1] += "|    |==";
-            strScale[2] += String.format("|%3d |===",row);
-            strScale[3] += "|    |====";
-            strScale[4] += "|    |=====";
+            strScale[0] += Colors.ANSI_PURPLE+"|    |"+Colors.ANSI_CYAN+"="    +Colors.ANSI_RESET;
+            strScale[1] += Colors.ANSI_PURPLE+"|    |"+Colors.ANSI_CYAN+"=="   +Colors.ANSI_RESET;
+            strScale[2] += String.format(
+                           Colors.ANSI_PURPLE+"|%3d |"+Colors.ANSI_CYAN+"==="  +Colors.ANSI_RESET,row);
+            strScale[3] += Colors.ANSI_PURPLE+"|    |"+Colors.ANSI_CYAN+"====" +Colors.ANSI_RESET;
+            strScale[4] += Colors.ANSI_PURPLE+"|    |"+Colors.ANSI_CYAN+"====="+Colors.ANSI_RESET;
         } else {
-            strScale[0] += "|    |+++++";
-            strScale[1] += "|    |++++";
-            strScale[2] += String.format("|%3d |+++",row);
-            strScale[3] += "|    |++";
-            strScale[4] += "|    |+";
+            strScale[0] += Colors.ANSI_PURPLE+"|    |"+Colors.ANSI_CYAN+"+++++"+Colors.ANSI_RESET;
+            strScale[1] += Colors.ANSI_PURPLE+"|    |"+Colors.ANSI_CYAN+"++++" +Colors.ANSI_RESET;
+            strScale[2] += String.format(
+                           Colors.ANSI_PURPLE+"|%3d |"+Colors.ANSI_CYAN+"+++"  +Colors.ANSI_RESET,row);
+            strScale[3] += Colors.ANSI_PURPLE+"|    |"+Colors.ANSI_CYAN+"++"   +Colors.ANSI_RESET;
+            strScale[4] += Colors.ANSI_PURPLE+"|    |"+Colors.ANSI_CYAN+"+"    +Colors.ANSI_RESET;
         }
     }
 
@@ -1077,23 +1149,36 @@ public class Board implements Serializable {
                 // If there is no tile here, let's fill it with empty space
                 if (playedTiles[row][col] == null) {
                     if ( even(row+col) ) {
-                        strRow[0] += "+++++++++";
-                        strRow[1] += "+++++++";
-                        strRow[2] += "+++++";
-                        strRow[3] += "+++";
-                        strRow[4] += "+";
+                        strRow[0] += Colors.ANSI_CYAN+"+++++++++"   +Colors.ANSI_RESET;
+                        strRow[1] += Colors.ANSI_CYAN+"+++++++"     +Colors.ANSI_RESET;
+                        strRow[2] += Colors.ANSI_CYAN+"+++++"       +Colors.ANSI_RESET;
+                        strRow[3] += Colors.ANSI_CYAN+"+++"         +Colors.ANSI_RESET;
+                        strRow[4] += Colors.ANSI_CYAN+"+"           +Colors.ANSI_RESET;
                     } else {
-                        strRow[0] += "=";
-                        strRow[1] += "===";
-                        strRow[2] += "=====";
-                        strRow[3] += "=======";
-                        strRow[4] += "=========";
+                        strRow[0] += Colors.ANSI_CYAN+"="           +Colors.ANSI_RESET;
+                        strRow[1] += Colors.ANSI_CYAN+"==="         +Colors.ANSI_RESET;
+                        strRow[2] += Colors.ANSI_CYAN+"====="       +Colors.ANSI_RESET;
+                        strRow[3] += Colors.ANSI_CYAN+"======="     +Colors.ANSI_RESET;
+                        strRow[4] += Colors.ANSI_CYAN+"========="   +Colors.ANSI_RESET;
                     }
                 } else {
                     playedTiles[row][col].draw(false, strRow);
                 }
             }
 
+            if (even(row+rightBorder)) {
+                strRow[0] += Colors.ANSI_CYAN+"="     + Colors.ANSI_RESET;
+                strRow[1] += Colors.ANSI_CYAN+"=="    + Colors.ANSI_RESET;
+                strRow[2] += Colors.ANSI_CYAN+"==="   + Colors.ANSI_RESET;
+                strRow[3] += Colors.ANSI_CYAN+"===="  + Colors.ANSI_RESET;
+                strRow[4] += Colors.ANSI_CYAN+"=====" + Colors.ANSI_RESET;
+            } else {
+                strRow[0] += Colors.ANSI_CYAN+"+++++" + Colors.ANSI_RESET;
+                strRow[1] += Colors.ANSI_CYAN+"++++"  + Colors.ANSI_RESET;
+                strRow[2] += Colors.ANSI_CYAN+"+++"   + Colors.ANSI_RESET;
+                strRow[3] += Colors.ANSI_CYAN+"++"    + Colors.ANSI_RESET;
+                strRow[4] += Colors.ANSI_CYAN+"+"     + Colors.ANSI_RESET;
+            }
             for ( int k=0; k<5; k++) {
                 strBoard.append(strRow[k]);
                 strBoard.append("\n");
