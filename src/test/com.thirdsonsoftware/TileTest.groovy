@@ -19,6 +19,8 @@
 
 package com.thirdsonsoftware
 
+import org.apache.tools.ant.taskdefs.condition.Or
+
 /** Represents a tile in the game.
  * @author Andrew B. Montcrieff
  * @author www.ThirdSonSoftware.com
@@ -42,8 +44,10 @@ class TileTest extends GroovyTestCase {
     static int TILE_SET_COL = 31
 
     Tile tile = null
+    Choice cTile = null
 
     Tile tripletTile = null
+    Choice cTriplet = null
 
     static int TRIPLET_CORNER = 3
     static int TRIPLET_ROTATION = 120
@@ -62,6 +66,8 @@ class TileTest extends GroovyTestCase {
         tile.col = TILE_COL
         tile.inTray = false
 
+        cTile = new Choice(tile,TILE_ROW,TILE_COL,Orientation.UP,EXPECTED_ROTATION)
+
         tripletTile = new Tile (TRIPLET_CORNER,TRIPLET_CORNER,TRIPLET_CORNER)
         tripletTile.placed = false
         tripletTile.rotation = TRIPLET_ROTATION
@@ -69,6 +75,8 @@ class TileTest extends GroovyTestCase {
         tripletTile.row = TRIPLET_TILE_ROW
         tripletTile.col = TRIPLET_TILE_COL
         tripletTile.inTray = true
+
+        cTriplet = new Choice(tripletTile,TRIPLET_TILE_ROW,TRIPLET_TILE_COL,Orientation.DOWN,TRIPLET_ROTATION)
     }
 
     void tearDown() {
@@ -110,11 +118,6 @@ class TileTest extends GroovyTestCase {
 
     }
 
-    void testSetCornerC() {
-        tile.setCornerC(1)
-        assertEquals(1,tile.getCornerC())
-    }
-
     void testGetRotation() {
         assertEquals(EXPECTED_ROTATION,tile.getRotation())
         assertEquals(TRIPLET_ROTATION, tripletTile.getRotation())
@@ -139,13 +142,6 @@ class TileTest extends GroovyTestCase {
     void testGetValue() {
         assertEquals(9,tile.getValue())
         assertEquals(9,tripletTile.getValue())
-    }
-
-    void testSetValue() {
-        assertEquals(9,tripletTile.getValue())
-        tripletTile.setValue(7)
-        tripletTile.cornerC = 2
-        assertEquals(7, tripletTile.getValue())
     }
 
     void testToString() {
@@ -178,7 +174,10 @@ class TileTest extends GroovyTestCase {
         for (int i=0;i<5;i++)
             row[i]=""
         Board board = new Board(1,1)
-        board.placeTile(tile,0,0)
+        cTile.setRow(0)
+        cTile.setCol(0)
+        cTile.setOrientation(Orientation.DOWN)
+        board.placeTile(cTile)
 
         tile.draw(true,row)
 
@@ -194,7 +193,9 @@ class TileTest extends GroovyTestCase {
         for (int i=0;i<5;i++)
             row[i]=""
         Board board = new Board(1,2)
-        board.placeTile(tile,0,1)
+        cTile.setRow(0)
+        cTile.setCol(1)
+        board.placeTile(cTile)
 
         tile.draw(true,row)
 

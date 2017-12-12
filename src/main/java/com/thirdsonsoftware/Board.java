@@ -59,6 +59,9 @@ import java.util.Iterator;
  */
 public class Board implements Serializable {
 
+    protected static final int BRIDGE_BONUS  = 40 ;
+    protected static final int HEXAGON_BONUS = 50 ;
+
     protected static final int DEFAULT_ROWS = 112 ;
     protected static final int DEFAULT_COLS = 112 ;
 
@@ -318,19 +321,27 @@ public class Board implements Serializable {
      * @param col - the column of the location to place the tile
      * @return true if it fits, and false otherwise
      */
-    public boolean pieceFits(Tile t, int row, int col, int score) {
+    public boolean pieceFits(Tile t, int row, int col, Choice choice) {
 
         boolean bItFits = false ;
+
+        // We need to adjust the tile to the choice setting first...for now
+        // Later, let's remove the use of the tile all together...
+        t.setOrientation(choice.getOrientation());
+        t.setRotation(choice.getRotation());
 
         // Is the slot empty?
         if ( playedTiles[row][col] == null )
         {
-            bItFits = leftFaceFits(t,row,col,score)   &&
-                    rightFaceFits(t,row,col,score)    &&
-                    middleFaceFits(t,row,col,score)   &&
-                    leftCornerFits(t,row,col,score)   &&
-                    middleCornerFits(t,row,col,score) &&
-                    rightCornerFits(t,row,col,score) ;
+            bItFits = leftFaceFits(t,row,col)   &&
+                    rightFaceFits(t,row,col)    &&
+                    middleFaceFits(t,row,col)   &&
+                    leftCornerFits(t,row,col)   &&
+                    middleCornerFits(t,row,col) &&
+                    rightCornerFits(t,row,col) ;
+
+            if ( bItFits )
+                choice.setScore( calculateScore(t,row,col) );
         }
         return bItFits ;
     }
@@ -343,7 +354,7 @@ public class Board implements Serializable {
      * @return true if the tile's left corner matches all other tiles on the
      *         board or blank spaces
      */
-    protected Boolean leftCornerFits(Tile t, int row, int col, int score) {
+    protected Boolean leftCornerFits(Tile t, int row, int col) {
 
         // This is a sample board, and we need to determine
         //   if a corner can fit or not.  In this case, we are
@@ -453,7 +464,7 @@ public class Board implements Serializable {
      * @param col - col for it to be placed in
      * @return true if the tile's middle corner fits the location
      */
-    protected boolean middleCornerFits(Tile t, int row, int col, int score) {
+    protected boolean middleCornerFits(Tile t, int row, int col) {
         boolean bItFits = true ;
 
         String whyItFails = "" ;
@@ -534,7 +545,7 @@ public class Board implements Serializable {
      * @param col - col for it to be placed in
      * @return true if the tile's right corner fits the location
      */
-    protected boolean rightCornerFits(Tile t, int row, int col, int score) {
+    protected boolean rightCornerFits(Tile t, int row, int col) {
         boolean bItFits = true;
 
         String whyItFails = "" ;
@@ -626,7 +637,7 @@ public class Board implements Serializable {
      * @return true if tile's left face matches or is adjacent to an empty spot,
      *         false otherwise
      */
-    protected Boolean leftFaceFits(Tile t, int row, int col, int score) {
+    protected Boolean leftFaceFits(Tile t, int row, int col) {
 
         // This test determines if a tile's (2) '0-0-1' left face fits on the
         //  board when the tile (2) is placed at (row,col) @ (56,57).  The left
@@ -676,7 +687,7 @@ public class Board implements Serializable {
      * @return true if tile's right face matches or is adjacent to an empty spot,
      *         false otherwise
      */
-    protected Boolean rightFaceFits(Tile t, int row, int col, int score) {
+    protected Boolean rightFaceFits(Tile t, int row, int col) {
 
         // Assume it fits...
         boolean bItFits = true ;
@@ -709,7 +720,7 @@ public class Board implements Serializable {
      * @return true if tile's middle face matches or is adjacent to an empty spot,
      *         false otherwise
      */
-    protected Boolean middleFaceFits(Tile t, int row, int col, int score) {
+    protected Boolean middleFaceFits(Tile t, int row, int col) {
 
         // Assume it fits...
         boolean bItFits = true ;
@@ -756,21 +767,182 @@ public class Board implements Serializable {
     }
 
     /**
+     * Let's calculate the possible score if this tile is placed where we
+     *   want it to be placed.
+     * @param t - tile to be placed
+     * @param row - position to place the tile
+     * @param col - position to place the tile
+     * @return  score - score if tile is placed
+     */
+    protected int calculateScore(Tile t, int row, int col) {
+
+        //***************************************************************
+        // Note:  This is a real board, and should be considered
+        //        valid.  It is only for demonstration purposes but
+        //        resulted from real gameplay.
+        //        *******************************************************
+        //        For this scoring round, the following will be used:
+        //          Piece 42 (2-3-4) completes a hexagon.
+        //          Piece 51 (3-4-5) completes a bridge.
+        //        *******************************************************
+        //  -------------------------------------------------------------
+        //            53   54   55   56   57   58   59   60   61   62
+        //  -------------------------------------------------------------
+        //  |    |+++++=+++++++++=+++++++++^+++++++++=+++++++++=+++++++++
+        //  |    |++++===+++++++===+++++++/2\+++++++===+++++++===+++++++
+        //  | 52 |+++=====+++++=====+++++/ A \+++++=====+++++=====+++++
+        //  |    |++=======+++=======+++/3 P 3\+++=======+++=======+++
+        //  |    |+=========+=========+ -- 41-- +=========+=========+
+        //  |    |=+++++++++=+++++++++^ -- 48-- ^+++++++++^ -- 56-- =
+        //  |    |==+++++++===+++++++/3\\3 P 3//3\+++++++/5\\5 P 5/===
+        //  | 53 |===+++++=====+++++/ B \\ A // B \+++++/ A \\ A /=====
+        //  |    |====+++=======+++/2 P 4\\4//4 P 4\+++/4 P 5\\5/=======
+        //  |    |=====+=========+ -- 42-- v -- 50-- + -- 55-- v=========
+        //  |    |+++++^ --  3-- ^ -- 39-- ^ -- 53-- ^ -- 35-- ^ -- 21--
+        //  |    |++++/0\\0 P 2//2\\2 P 4//4\\4 P 4//4\\4 P 5//5\\5 P 0/
+        //  | 54 |+++/ A \\ A // A \\ B // A \\ B // A \\ B // B \\ B /
+        //  |    |++/5 P 0\\0//0 P 2\\2//2 P 4\\4//4 P 1\\1//1 P 5\\5/
+        //  |    |+ --  6-- v -- 12-- v -- 44-- v -- 34-- v -- 36-- v
+        //  |    |= -- 20-- = -- 15-- ^ -- 45-- ^+++++++++= -- 11-- =
+        //  |    |==\5 P 0/===\0 P 2//2\\2 P 4//4\+++++++===\1 P 5/===
+        //  | 55 |===\ B /=====\ B // A \\ A // B \+++++=====\ A /=====
+        //  |    |====\4/=======\5//5 P 5\\5//5 P 4\+++=======\0/=======
+        //  |    |=====v=========v -- 46-- v -- 54-- +=========v=========
+        //  |    |+++++= -- 51-- ^ -- 52-- ^+++++++++=+++++++++=+++++++++
+        //  |    |++++===\4 P 5//5\\5 P 5//5\+++++++===+++++++===+++++++
+        //  | 56 |+++=====\ A // B \\ B // A \+++++=====+++++=====+++++
+        //  |    |++=======\3//3 P 3\\3//3 P 0\+++=======+++=======+++
+        //  |    |+=========v -- 49-- v -- 18-- +=========+=========+
+
+        // Does this piece complete a bridge?
+        //   row = 56
+        //   col = 54
+        //   Orientation.DOWN
+        //     ( ( row > 0 ) && ( col > 0 ) && ( col < num_cols ) &&
+        //          ( ( [row-1,col-1] != null ) || ( [row-1,col+1] != null ) || ( [row ) ) ||
+        //     ( ( row < num_rows-1 ) && ( col < num_cols-2 ) &&
+        //          ( ( [row,  col+2] != null ) || ( [row+1,col+1] != null ) ) ) ||
+        //     ( ( row < num_rows-1 ) && ( col < num_cols-2 ) &&
+        //          ( ( [row,  col-2] != null ) || ( [row+1,col-1] != null ) ) )
+        //
+        //   row = 57
+        //   col = 58
+        //   Orientation.UP
+        //     ( ( row < num_rows-1 ) && ( col > 0 ) && ( col < num_cols ) &&
+        //          ( ( [row+1,col-1] != null ) || ( [row+1,col+1] != null ) ) ) ||
+        //     ( ( row > 0 ) && ( col > 1 ) &&
+        //          ( ( [row,  col-2] != null ) || ( [row-1,col-1] != null ) ) ) ||
+        //     ( ( row > 0 ) && ( col < num_cols - 2 ) &&
+        //          ( ( [row,  col+2] != null
+        //
+        int score = 0 ;
+
+        boolean bCreatesABridge = false ;
+        boolean bCreatesAHexagon = false ;
+
+        boolean bLeftFaceEmpty ;
+        boolean bRightFaceEmpty ;
+        boolean bMiddleFaceEmpty ;
+
+        bLeftFaceEmpty  = (col > 0)          && (pieceAtLocation(row, col - 1) == null);
+        bRightFaceEmpty = (col < num_cols-1) && (pieceAtLocation(row, col + 1) == null);
+
+        if ( t.getOrientation() == Orientation.UP ) {
+
+            bMiddleFaceEmpty = (row < num_rows-1) && (pieceAtLocation(row + 1, col) == null);
+
+            boolean bAnchorAbove =
+                    (
+                      ( ( col > 0 )          && ( row > 0 )          && ( pieceAtLocation(row-1, col-1) != null ) ) ||
+                      (                         ( row > 0 )          && ( pieceAtLocation(row-1,col) != null ) ) ||
+                      ( ( col < num_cols-1 ) && ( row > 0 )          && ( pieceAtLocation(row-1,col+1) != null ) ) ) ;
+            boolean bAnchorLeft =
+                    (
+                      ( ( col > 1 )                                  && ( pieceAtLocation(row, col-2) != null ) ) ||
+                      ( ( col > 1 )          && ( row < num_rows-1 ) && ( pieceAtLocation(row+1,col-2 ) != null ) ) ||
+                      ( ( col > 0 )          && ( row < num_rows-1 ) && ( pieceAtLocation(row+1,col-1 ) != null ) )
+                    ) ;
+            boolean bAnchorRight =
+                    (
+                      ( ( col < num_cols-2 )                         && ( pieceAtLocation(row,col+2) != null ) ) ||
+                      ( ( row < num_rows-1 ) && ( col < num_cols-2 ) && ( pieceAtLocation(row+1,col+2) != null ) ) ||
+                      ( ( row < num_rows-1 ) && ( col < num_cols-1 ) && ( pieceAtLocation(row+1,col+1) != null ) )
+                    ) ;
+
+            if ( ( bLeftFaceEmpty   && bAnchorAbove && bAnchorLeft  ) ||
+                 ( bRightFaceEmpty  && bAnchorAbove && bAnchorRight ) ||
+                 ( bMiddleFaceEmpty && bAnchorLeft  && bAnchorRight ) ) {
+                bCreatesABridge = true ;
+            }
+
+        } else {
+
+            bMiddleFaceEmpty = (row > 0 ) && (pieceAtLocation(row - 1, col) == null);
+
+            boolean bAnchorBelow =
+                    (
+                       ( ( col > 0 )          && ( row < num_rows-1 ) && ( pieceAtLocation(row+1, col-1) != null ) ) ||
+                       (                         ( row < num_rows-1 ) && ( pieceAtLocation(row+1,col) != null ) ) ||
+                       ( ( col < num_cols-1 ) && ( row < num_rows-1 ) && ( pieceAtLocation(row+1,col+1) != null ) )
+                    ) ;
+            boolean bAnchorLeft =
+                    (
+                       ( ( col > 1 )                                  && ( pieceAtLocation(row, col-2) != null ) ) ||
+                       ( ( col > 1 )          && ( row > 0 )          && ( pieceAtLocation(row-1,col-2 ) != null ) ) ||
+                       ( ( col > 0 )          && ( row > 0 )          && ( pieceAtLocation(row-1,col-1 ) != null ) )
+                    ) ;
+            boolean bAnchorRight =
+                    (
+                       ( ( col < num_cols-2 )                         && ( pieceAtLocation(row,col+2) != null ) ) ||
+                       ( ( col < num_cols-2 ) && ( row > 0 )          && ( pieceAtLocation(row-1,col+2) != null ) ) ||
+                       ( ( col < num_cols-1 ) && ( row > 0 )          && ( pieceAtLocation(row-1,col+1) != null ) )
+                    ) ;
+
+            if ( ( bLeftFaceEmpty   && bAnchorBelow && bAnchorLeft  ) ||
+                 ( bRightFaceEmpty  && bAnchorBelow && bAnchorRight ) ||
+                 ( bMiddleFaceEmpty && bAnchorLeft  && bAnchorRight ) ) {
+                bCreatesABridge = true ;
+            }
+
+        }
+
+        // Todo: Don't forget to add in the logic to determine if there is a hexagon scoring bonus for this play
+
+        // Hexagon bonus
+        if ( bCreatesAHexagon ) score = HEXAGON_BONUS ;
+
+        // Bridge bonus
+        if ( bCreatesABridge ) score = BRIDGE_BONUS ;
+
+        // Value of tile face
+        score += t.getValue() ;
+
+        return score;
+    }
+
+
+    /**
      * Places the provided tile on the board at the location specified, if and
      *   only if, it will fit.
-     * @param t - tile to place on board
-     * @param row - row of where to place it
-     * @param col - column of where to place it
+     * @param choice - the choice we've made to place a tile
      * @return true if placed, false otherwise.
      */
-    public boolean placeTile(Tile t, int row, int col, int score ) {
+    public boolean placeTile( Choice choice ) {
+
+        int row = choice.getRow();
+        int col = choice.getCol();
+
+        if ( row < 0 || col < 0 || row > num_rows-1 || col > num_cols-1)
+            return false ;
+
+        Tile t = choice.getTile();
 
         // Orientation needs to be set based on the tile position.
         // Do it now so the checks and balances can work.
         t.setOrientation( getOrientationForPositionOnBoard(row,col) ) ;
 
         // Does the piece fit into that location on the board?
-        if ( pieceFits( t, row, col, score ) ) {
+        if ( pieceFits( t, row, col, choice ) ) {
 
             // Play the tile and setup the piece information.
             playedTiles[row][col] = t;

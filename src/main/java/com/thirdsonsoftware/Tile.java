@@ -46,14 +46,14 @@ public class Tile implements Comparable, Serializable {
 
     private int id ;                    // Unique tile id
 
-    private int cornerA ;               // Reference corner A
-    private int cornerB ;               // Reference corner B
-    private int cornerC ;               // Reference corner C
+    final private int cornerA ;               // Reference corner A
+    final private int cornerB ;               // Reference corner B
+    final private int cornerC ;               // Reference corner C
 
     private int row ;                   // Where on the board is this tile?
     private int col ;                   // Where on the board is this tile?
 
-    private int value ;                 // Value of the tile (corner adds)
+    final private int value ;           // Value of the tile (corner adds)
     private int rotation ;              // 0, 120, or 240
 
     private Boolean placed ;            // Has this piece been placed?
@@ -66,14 +66,15 @@ public class Tile implements Comparable, Serializable {
 
     public Tile(int cornerA, int cornerB, int cornerC) {
 
-        setCornerA( cornerA );
-        setCornerB( cornerB );
-        setCornerC( cornerC );
+        // These properties are immutable
+        this.cornerA = cornerA;
+        this.cornerB = cornerB;
+        this.cornerC = cornerC;
+        this.value = cornerA + cornerB + cornerC ;
 
         setRotation(0) ;
         setOrientation(Orientation.DOWN);
 
-        setValue( cornerA + cornerB + cornerC );
 
         setInTray(false) ;
         setPlayer(null) ;
@@ -87,21 +88,10 @@ public class Tile implements Comparable, Serializable {
     public void setId(int id) { this.id = id; }
     public int getId() { return id; }
 
-    private void setCornerA(int cornerA) {
-        this.cornerA = cornerA;
-    }
-    private void setCornerB(int cornerB) {
-        this.cornerB = cornerB;
-    }
-    public void setCornerC(int cornerC) {
-        this.cornerC = cornerC;
-    }
-
-    public int getCornerA() {
-        return cornerA;
-    }
+    public int getCornerA() { return cornerA; }
     public int getCornerB() { return cornerB; }
     public int getCornerC() { return cornerC; }
+    public int getValue() { return value; }
 
     public int getRotation() {
         return rotation;
@@ -115,11 +105,6 @@ public class Tile implements Comparable, Serializable {
     }
     public void setOrientation(Orientation orientation) {
         this.orientation = orientation;
-    }
-
-    public int getValue() { return value; }
-    public void setValue(int value) {
-        this.value = value;
     }
 
     public int getRow() {

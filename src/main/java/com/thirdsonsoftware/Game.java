@@ -364,9 +364,8 @@ class Game implements Serializable {
                 for (int c = cStart; c <= 5; c++) {      // 12 0-2-2 1-3-5
                     Tile tile = new Tile(a, b, c);       // 13 0-2-3 1-4-4
                     tile.setId(id++);                    // 14 0-2-4 1-4-5
-                    tile.setValue(a+b+c);                // 15 0-2-5 1-5-5
-                    tile.setRotation(0);                 // 16 0-3-3
-                    tile.rotate(0);
+                    tile.setRotation(0);                 // 15 0-2-5 1-5-5
+                    tile.rotate(0);                    // 16 0-3-3
                     tile.setOrientation(Orientation.UP); // 17 0-3-4
                     tiles.add(tile);                     // 18 0-3-5
                 }                                        // 19 0-4-4

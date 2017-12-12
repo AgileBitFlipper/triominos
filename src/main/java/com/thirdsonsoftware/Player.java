@@ -152,48 +152,32 @@ public class Player implements Serializable {
      * This method is only called when the first tile is played.  The rules about
      *   starting and choosing the first tile are a bit complex, and are score based.
      * @param board - the board we are putting our pieces on
-     * @return (Tile) - the tile chosen to play after it was placed
+     * @return (Choice) - the tile chosen to play after it was placed
      */
-    private Tile playFirstTile( Board board ) {
+    private Choice playFirstTile( Board board ) {
 
-        int row ;
-        int col ;
-        int score = 0;
-        Tile myTileToPlay = null;
+        // Always start in the middle of the board.
+        int row = 56 ;
+        int col = 56 ;
+        int score ;
 
-        // Am I the player that starts?
-        if ( getStarts() ) {
+        Tile myTileToPlay = determineFirstTile() ;
 
-            // Determines the first tile to play
-            determineFirstTile();
+        Choice myChoice = new Choice( myTileToPlay,56,56, board.getOrientationForPositionOnBoard(row,col),0) ;
 
-            myTileToPlay = getStartingTile();
-            if ( myTileToPlay.getValue() == 0 ) {
-                System.out.println("   Playing zero-triplet tile for 30 point bonus!");
-                setScore(getScore() + 30);
-            } else if ( myTileToPlay.isTriplet() ) {
-                System.out.println("   Playing highest value triplet tile for 10 point bonus!");
-                setScore(getScore() + 10);
-            } else {
-                System.out.println("   Playing highest value tile for no bonus!");
-            }
-
-            // Always start in the middle of the board.
-            row = 56;
-            col = 56;
-
-            if ( board.placeTile(myTileToPlay,row,col,score) ) {
-
-                myTileToPlay.setPlayer(this);
-
-                System.out.println(String.format("   Played first tile '%s' at location (%d,%d).", myTileToPlay, row, col));
-
-                // Now that we've played it, remove it from the players tray
-                getTray().remove(myTileToPlay);
-            }
+        if ( myTileToPlay.getValue() == 0 ) {
+            System.out.println("   Playing zero-triplet tile for 30 point bonus!");
+            myChoice.setScore(30);
+        } else if ( myTileToPlay.isTriplet() ) {
+            System.out.println("   Playing highest value triplet tile for 10 point bonus!");
+            myChoice.setScore(10);
+        } else {
+            System.out.println("   Playing highest value tile for no bonus!");
+            myChoice.setScore(0);
         }
+
         // Return back the tile we played so we can us it for choosing faces next time
-        return myTileToPlay ;
+        return myChoice ;
     }
 
     /**
@@ -201,129 +185,128 @@ public class Player implements Serializable {
      */
     public Tile playATile(Board board, ArrayList<Tile> playedTiles, ArrayList<Tile> tilesWithAvailableFaces ) {
 
-        Tile choice ;
+        // Let's see if we have any choices to play
+        ArrayList<Choice> choicesToPlay = new ArrayList<Choice>();
 
-        // Is this the first tile played?
+        // If this is our first piece, add the first tile
         if ( board.count() == 0 ) {
+            choicesToPlay.add(playFirstTile(board));
+        }
 
-            choice = playFirstTile(board);
+        Iterator<Tile> iTile = tilesWithAvailableFaces.iterator();
 
-        } else {
+        // Let's look at our played tiles and see if any have available faces...
+        //   Add all choices to the list so we can find the most valuable
+        while (iTile.hasNext()) {
 
-            choice = null;
+            Tile played = iTile.next();
 
-            // Let's see if we have any choices to play
-            ArrayList<Choice> choicesToPlay = new ArrayList<Choice>();
+            if (getMode() == Mode.DEBUG)
+                System.out.println("Tile to match:\n" + showTile(played));
 
-            Iterator<Tile> iTile = tilesWithAvailableFaces.iterator();
+            int tileRow = played.getRow();
+            int tileCol = played.getCol();
 
-            // Let's look at our played tiles and see if any have available faces...
-            while (iTile.hasNext()) {
+            Orientation playedTileOrientation = played.getOrientation();
+            int directionToLook = (playedTileOrientation == Orientation.UP) ? 1 : -1;
 
-                Tile played = iTile.next() ;
+            boolean bWeCanLookLeft = (tileCol > 0);
+            boolean bWeCanLookRight = (tileCol < board.getNumberOfCols() - 1);
+            boolean bWeCanLookDown = ((directionToLook > 0) && (tileRow < board.getNumberOfRows() - 1));
+            boolean bWeCanLookUp = ((directionToLook < 0) && (tileRow > 0));
 
-                if (getMode() == Mode.DEBUG )
-                    System.out.println("Tile to match:\n" + showTile(played));
+            boolean bLeftFaceOpen = bWeCanLookLeft && (board.playedTiles[tileRow][tileCol - 1] == null);
+            boolean bRightFaceOpen = bWeCanLookRight && (tileCol > 0) && (board.playedTiles[tileRow][tileCol + 1] == null);
+            boolean bMiddleFaceOpen = (bWeCanLookDown || bWeCanLookUp) && (board.playedTiles[tileRow + directionToLook][tileCol] == null);
 
-                int tileRow = played.getRow();
-                int tileCol = played.getCol();
+            ArrayList<Choice> choicesForAFace;
 
-                Orientation playedTileOrientation = played.getOrientation() ;
-                int directionToLook = ( playedTileOrientation == Orientation.UP ) ? 1 : -1 ;
-                int value ;
+            // Can we play any of our tiles to the left?
+            if (bLeftFaceOpen) {
+                choicesForAFace = getTileFromTrayForLeftFace(board, played, played.getLeftFace(), tileRow, tileCol - 1);
+                choicesToPlay.addAll(choicesForAFace);
+            }
 
-                boolean bWeCanLookLeft  = ( tileCol > 0 );
-                boolean bWeCanLookRight = ( tileCol < board.getNumberOfCols()-1 ) ;
-                boolean bWeCanLookDown  = ( ( directionToLook > 0 ) && ( tileRow < board.getNumberOfRows()-1 ) );
-                boolean bWeCanLookUp    = ( ( directionToLook < 0 ) && ( tileRow > 0 ) ) ;
+            // Can we play any of our tiles to the right?
+            if (bRightFaceOpen) {
+                choicesForAFace = getTileFromTrayForRightFace(board, played, played.getRightFace(), tileRow, tileCol + 1);
+                choicesToPlay.addAll(choicesForAFace);
+            }
 
-                boolean bLeftFaceOpen   = bWeCanLookLeft && ( board.playedTiles[tileRow][tileCol - 1] == null ) ;
-                boolean bRightFaceOpen  = bWeCanLookRight && ( tileCol > 0 ) && ( board.playedTiles[tileRow][tileCol + 1] == null ) ;
-                boolean bMiddleFaceOpen = ( bWeCanLookDown || bWeCanLookUp ) && ( board.playedTiles[tileRow + directionToLook][tileCol] == null ) ;
+            // Can we play any of our tiles up or down?
+            if (bMiddleFaceOpen) {
+                choicesForAFace = getTileFromTrayForMiddleFace(board, played, played.getMiddleFace(), tileRow + directionToLook, tileCol);
+                choicesToPlay.addAll(choicesForAFace);
+            }
 
-                ArrayList<Choice> choicesForAFace ;
-                Choice topChoice = null ;
+            // If there are no more open faces, let's remove this tile from the list.
+            if ( !bLeftFaceOpen && !bRightFaceOpen && !bMiddleFaceOpen ) {
+                iTile.remove();
+            }
+        }
 
-                // Todo: Could we have a case of bias in the order that we are looking for matches?  What if we looked at middle first?
+        int score = -1 ;            // 0 is a valid score for tile '0-0-0'
+        Tile choice = null ;
+        Choice topChoice = null ;
 
-                // Can we play any of our tiles to the left?
-                if ( bLeftFaceOpen ) {
-                    choicesForAFace = getTileFromTrayForLeftFace(board, played, played.getLeftFace(), tileRow, tileCol - 1);
-                    choicesToPlay.addAll(choicesForAFace);
-                }
+        // Spin through choices looking for the highest value or score
+        for ( Choice c : choicesToPlay ) {
 
-                // Can we play any of our tiles to the right?
-                if ( bRightFaceOpen ) {
-                    choicesForAFace = getTileFromTrayForRightFace(board, played, played.getRightFace(), tileRow, tileCol + 1);
-                    choicesToPlay.addAll(choicesForAFace);
-                }
+            // Test to see if the choice fits or not before deciding if it's worth it.
+            if ( board.pieceFits( c.getTile(), c.getRow(), c.getCol(), c) ) {
 
-                // Can we play any of our tiles up or down?
-                if ( bMiddleFaceOpen ) {
-                    choicesForAFace = getTileFromTrayForMiddleFace(board, played, played.getMiddleFace(), tileRow + directionToLook, tileCol);
-                    choicesToPlay.addAll(choicesForAFace);
-                }
-
-                value = 0 ;
-
-                // Spin through choices looking for the highest value or score
-                // Todo: Value and Score are two different entities.  Let's amend this to choose the tile with the greatest score
-                for ( Choice c : choicesToPlay ) {
-
-                    // Test to see if the choice fits or not before deciding if it's worth it.
-                    if ( board.pieceFits(c.getTile(),c.getRow(),c.getCol(),c.getScore()) ) {
-
-                        // Get value for a tile needs to include bonus scoring...
-                        if (c.tile.getValue() > value) {
-                            value = c.tile.getValue();
-                            topChoice = c;
-                        }
-                    }
-                }
-
-                if ( getMode() == Mode.DEBUG )
-                    displayChoices("  Choices:",choicesToPlay);
-
-                // Do we have a top choice from the list of choices?
-                if ( topChoice != null ) {
-
-                    int row = topChoice.getRow() ;
-                    int col = topChoice.getCol() ;
-                    int score = topChoice.getScore();
-                    Tile tileToPlay = topChoice.getTile();
-
-                    tileToPlay.setOrientation(topChoice.getOrientation());
-                    tileToPlay.setRotation(topChoice.getRotation());
-
-                    System.out.println(String.format("  Top choice: %s",topChoice.getTile()));
-
-                    if ( board.placeTile(tileToPlay, row, col, score)) {
-                        getTray().remove(topChoice.tile);
-                        choice = topChoice.tile ;
-                        System.out.println(board.display(false));
-                    } else {
-                        System.out.println(String.format("--- Unable to place tile '%s' on board @ (%d,%d) with o:%s r:%d ---", tileToPlay, row, col, tileToPlay.getOrientation(), tileToPlay.getRow() ) );
-                    }
-                } else {
-                    if ( getMode() == Mode.DEBUG )
-                        System.out.println(String.format("--- We don't have a top choice for tile '%s' ---", played));
-                }
-
-                // If there are no more open faces, let's remove this tile from the list.
-                if ( !bLeftFaceOpen && !bRightFaceOpen && !bMiddleFaceOpen ) {
-                    iTile.remove();
-                }
-
-                // If we can't play a tile...tell them so...otherwise set the player on the tile
-                if ( choice != null ){
-                    System.out.println(String.format("   Played tile '%s' at location (%d,%d).", choice, choice.getRow(), choice.getCol()));
-                    choice.setPlayer(this);
-                    break;
+                // Get value for a tile needs to include bonus scoring...
+                if (c.getScore() > score) {
+                    score = c.getScore();
+                    topChoice = c;
                 }
             }
         }
 
-        if ( choice == null ) {
+        if ( getMode() == Mode.DEBUG )
+            displayChoices("  Choices:",choicesToPlay);
+
+        // Do we have a top choice from the list of choices?
+        if ( topChoice != null ) {
+
+            int row   = topChoice.getRow() ;
+            int col   = topChoice.getCol() ;
+
+            Tile tileToPlay = topChoice.getTile();
+
+            score = topChoice.getScore();
+
+            tileToPlay.setOrientation(topChoice.getOrientation());
+            tileToPlay.setRotation(topChoice.getRotation());
+            tileToPlay.setPlayer(this);
+
+            System.out.println(String.format("  Top choice: %s",topChoice.getTile()));
+
+            if ( board.placeTile(topChoice)) {
+
+                getTray().remove(topChoice.tile);
+                choice = topChoice.tile ;
+                choice.setPlayer(this);
+                System.out.println(board.display(false));
+
+                System.out.println(String.format("   Played tile '%s' at location (%d,%d).", choice, choice.getRow(), choice.getCol()));
+
+                // We found a tile to play, so let's add it to the list
+                if ( tileHasAnEmptyFace(board, choice) ) {
+                    System.out.println("  Tile added to empty faces pool: " + choice );
+                    tilesWithAvailableFaces.add(choice);
+                } else {
+                    System.out.println("  Tile removed from empty faces pool: " + choice );
+                    tilesWithAvailableFaces.remove(choice);
+                }
+
+            } else {
+                System.out.println(String.format("--- Unable to place tile '%s' on board @ (%d,%d) with o:%s r:%d ---", tileToPlay, row, col, tileToPlay.getOrientation(), tileToPlay.getRow() ) );
+            }
+
+        } else {
+
+            System.out.println(String.format("--- Player '%s' can't find a tile to play ---", this.getName()));
 
             StringBuilder strTray = new StringBuilder("    No matches: ");
 
@@ -334,16 +317,6 @@ public class Player implements Serializable {
 
             System.out.println(strTray);
 
-        } else {
-
-            // We found a tile to play, so let's add it to the list
-            if ( tileHasAnEmptyFace(board, choice) ) {
-                System.out.println("  Tile added to empty faces pool: " + choice );
-                tilesWithAvailableFaces.add(choice);
-            } else {
-                System.out.println("  Tile removed from empty faces pool: " + choice );
-                tilesWithAvailableFaces.remove(choice);
-            }
         }
 
         return choice;
