@@ -183,7 +183,7 @@ class TileTest extends GroovyTestCase {
 
         assertEquals("--  0-- ", row[0])
         assertEquals("\\3 P 4/  ", row[1])
-        assertEquals(" \\ ? /   ", row[2])
+        assertEquals(" \\   /   ", row[2])
         assertEquals("  \\2/    ", row[3])
         assertEquals("   v     ", row[4])
     }
@@ -201,7 +201,7 @@ class TileTest extends GroovyTestCase {
 
         assertEquals("   ^    ",  row[0])
         assertEquals("  /2\\   ", row[1])
-        assertEquals(" / ? \\  ", row[2])
+        assertEquals(" /   \\  ", row[2])
         assertEquals("/4 P 3\\ ", row[3])
         assertEquals("--  0-- ",   row[4])
     }

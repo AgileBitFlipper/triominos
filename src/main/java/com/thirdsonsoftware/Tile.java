@@ -66,7 +66,13 @@ public class Tile implements Comparable, Serializable {
 
     private Player playedBy ;           // Which player played this tile
 
-    String colors[] = new String[5];
+    static protected boolean bUseColors = false ;
+
+    static String colors[] = new String[5];
+
+    static String c ; // Color
+    static String b ; // Color Blue
+    static String r ; // Color Reset
 
     public Tile(int cornerA, int cornerB, int cornerC) {
 
@@ -85,14 +91,26 @@ public class Tile implements Comparable, Serializable {
         setRotation(0) ;
         setOrientation(Orientation.DOWN);
 
-
         setInTray(false) ;
         setPlayer(null) ;
         setPlaced(false) ;
+
+        setUseColor(false);
     }
 
     public String toString() {
-        return String.format(Colors.ANSI_BLUE + "%d-%d-%d" + Colors.ANSI_RESET, cornerA, cornerB, cornerC );
+        return String.format(c + "%d-%d-%d" + r, cornerA, cornerB, cornerC );
+    }
+
+    static protected void setUseColor(boolean useColor) {
+        bUseColors = useColor;
+        if ( bUseColors ) {
+            c = Colors.ANSI_CYAN ;
+            b = Colors.ANSI_BLUE ;
+            r = Colors.ANSI_RESET ;
+        } else {
+            c = b = r = "";
+        }
     }
 
     public void setId(int id) { this.id = id; }
@@ -235,7 +253,7 @@ public class Tile implements Comparable, Serializable {
      */
     public void draw( Boolean solo, String[] row ) {
 
-        int playerColor ;
+        String c = "";
         char playerIndexChar ;
 
         if ( getPlayer() != null && getPlayer().getName() != null )
@@ -243,12 +261,9 @@ public class Tile implements Comparable, Serializable {
         else
             playerIndexChar = NONE ;
 
-        if ( playerIndexChar != NONE ) {
-            playerColor = playerIndexChar-'A';
-        } else {
-            playerColor = 4 ;
+        if ( bUseColors ) {
+            c = (playerIndexChar != NONE) ? colors[playerIndexChar - 'A'] : colors[4];
         }
-
         char ch ;
 
         if ( getInTray() ) {
@@ -262,19 +277,19 @@ public class Tile implements Comparable, Serializable {
         // Column
         if ( getOrientation()==Orientation.DOWN ) {
 
-            row[0] += String.format(colors[playerColor]+"%s--%3d--%s"  +Colors.ANSI_RESET, (solo) ? "" : " "  , getId()                              , (solo) ? " "    :" ");
-            row[1] += String.format(colors[playerColor]+"\\%d %c %d/%s"+Colors.ANSI_RESET, getLeftCorner()    , ch                , getRightCorner() , (solo) ? "  "   :"");
-            row[2] += String.format(colors[playerColor]+"%s\\ %c /%s"  +Colors.ANSI_RESET, (solo) ? " " : ""  , playerIndexChar                      , (solo) ? "   "  :"");
-            row[3] += String.format(colors[playerColor]+"%s\\%d/%s"    +Colors.ANSI_RESET, (solo) ? "  " : "" , getMiddleCorner()                    , (solo) ? "    " :"");
-            row[4] += String.format(colors[playerColor]+"%sv%s"        +Colors.ANSI_RESET, (solo) ? "   " : ""                                       , (solo) ? "     ":"");
+            row[0] += String.format(c+"%s--%3d--%s"  +r, (solo) ? "" : " "  , getId()                              , (solo) ? " "    :" ");
+            row[1] += String.format(c+"\\%d %c %d/%s"+r, getLeftCorner()    , ch                , getRightCorner() , (solo) ? "  "   :"");
+            row[2] += String.format(c+"%s\\ %c /%s"  +r, (solo) ? " " : ""  , playerIndexChar                      , (solo) ? "   "  :"");
+            row[3] += String.format(c+"%s\\%d/%s"    +r, (solo) ? "  " : "" , getMiddleCorner()                    , (solo) ? "    " :"");
+            row[4] += String.format(c+"%sv%s"        +r, (solo) ? "   " : ""                                       , (solo) ? "     ":"");
 
         } else {
 
-            row[0] += String.format(colors[playerColor]+"%s^%s"        +Colors.ANSI_RESET, (solo) ? "   " :""                                   , (solo) ? "    ":"");
-            row[1] += String.format(colors[playerColor]+"%s/%d\\%s"    +Colors.ANSI_RESET, (solo) ? "  "  :""  , getMiddleCorner()              , (solo) ? "   " :"");
-            row[2] += String.format(colors[playerColor]+"%s/ %c \\%s"  +Colors.ANSI_RESET, (solo) ? " "   :""  , playerIndexChar                , (solo) ? "  "  :"") ;
-            row[3] += String.format(colors[playerColor]+"/%d %c %d\\%s"+Colors.ANSI_RESET, getLeftCorner()     , ch      , getRightCorner()     , (solo) ? " "   :"");
-            row[4] += String.format(colors[playerColor]+"%s--%3d--%s%s"+Colors.ANSI_RESET, (solo) ? ""    :" " , getId() , (solo) ? "" : " "    , (solo) ? " "   :"");
+            row[0] += String.format(c+"%s^%s"        +r, (solo) ? "   " :""                                   , (solo) ? "    ":"");
+            row[1] += String.format(c+"%s/%d\\%s"    +r, (solo) ? "  "  :""  , getMiddleCorner()              , (solo) ? "   " :"");
+            row[2] += String.format(c+"%s/ %c \\%s"  +r, (solo) ? " "   :""  , playerIndexChar                , (solo) ? "  "  :"") ;
+            row[3] += String.format(c+"/%d %c %d\\%s"+r, getLeftCorner()     , ch      , getRightCorner()     , (solo) ? " "   :"");
+            row[4] += String.format(c+"%s--%3d--%s%s"+r, (solo) ? ""    :" " , getId() , (solo) ? "" : " "    , (solo) ? " "   :"");
         }
     }
 

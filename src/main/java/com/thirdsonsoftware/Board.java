@@ -59,6 +59,12 @@ import java.util.Iterator;
  */
 public class Board implements Serializable {
 
+    protected boolean bUseColor = false ;
+
+    private String  c = Colors.ANSI_CYAN,
+                    p = Colors.ANSI_PURPLE,
+                    r = Colors.ANSI_RESET;
+
     protected static final int BRIDGE_BONUS  = 40 ;
     protected static final int HEXAGON_BONUS = 50 ;
 
@@ -79,6 +85,7 @@ public class Board implements Serializable {
         playedTiles = new Tile[DEFAULT_ROWS][DEFAULT_COLS];
         num_cols=DEFAULT_COLS;
         num_rows=DEFAULT_ROWS;
+        setUseColor(false);
         clearBoard();
     }
 
@@ -86,7 +93,20 @@ public class Board implements Serializable {
         playedTiles = new Tile[rows][cols] ;
         num_rows=rows;
         num_cols=cols;
+        setUseColor(false);
         clearBoard();
+    }
+
+    protected void setUseColor(boolean useColor) {
+        bUseColor = useColor;
+        Tile.setUseColor(useColor);
+        if ( bUseColor ) {
+            c = Colors.ANSI_CYAN ;
+            p = Colors.ANSI_PURPLE ;
+            r = Colors.ANSI_RESET ;
+        } else {
+            c = p = r = "";
+        }
     }
 
     /**
@@ -331,17 +351,19 @@ public class Board implements Serializable {
         t.setRotation(choice.getRotation());
 
         // Is the slot empty?
-        if ( playedTiles[row][col] == null )
-        {
-            bItFits = leftFaceFits(t,row,col)   &&
-                    rightFaceFits(t,row,col)    &&
-                    middleFaceFits(t,row,col)   &&
-                    leftCornerFits(t,row,col)   &&
-                    middleCornerFits(t,row,col) &&
-                    rightCornerFits(t,row,col) ;
+        if ( playedTiles[row][col] == null ) {
+            bItFits = leftFaceFits(t, row, col) &&
+                    rightFaceFits(t, row, col) &&
+                    middleFaceFits(t, row, col) &&
+                    leftCornerFits(t, row, col) &&
+                    middleCornerFits(t, row, col) &&
+                    rightCornerFits(t, row, col);
 
-            if ( bItFits )
-                choice.setScore( calculateScore(t,row,col) );
+            if (bItFits) {
+                int score = calculateScore(t, row, col);
+                System.out.println(String.format("  Score for playing tile %s @ (%d,%d) is %s.", t, row, col, score));
+                choice.setScore(score);
+            }
         }
         return bItFits ;
     }
@@ -1063,18 +1085,19 @@ public class Board implements Serializable {
      * @return (String) a String representation of the column scale
      */
     private String drawColumnScale() {
+
         StringBuilder strScale = new StringBuilder(120);
-        strScale.append(Colors.ANSI_PURPLE+"------"+Colors.ANSI_RESET);
+        strScale.append(p+"------");
         // Let's paint the rows and column numbers for reference
         for (int col = leftBorder; col <= rightBorder; col++)
-            strScale.append(Colors.ANSI_PURPLE+"---------"+Colors.ANSI_RESET);
+            strScale.append(p+"---------");
         strScale.append("\n        ");
         for (int col = leftBorder; col <= rightBorder; col++)
-            strScale.append(String.format(" %3d ", col));
-        strScale.append(Colors.ANSI_PURPLE+"\n------"+Colors.ANSI_RESET);
+            strScale.append(p+String.format(" %3d ", col));
+        strScale.append(p+"\n------");
         for (int col = leftBorder; col <= rightBorder; col++)
-            strScale.append(Colors.ANSI_PURPLE+"---------"+Colors.ANSI_RESET);
-        strScale.append("\n");
+            strScale.append(p+"---------");
+        strScale.append("\n"+r);
 
         return strScale.toString() ;
     }
@@ -1098,19 +1121,19 @@ public class Board implements Serializable {
      */
     private void drawRowScale(String[] strScale, int row, int col) {
         if (even(row + col)) {
-            strScale[0] += Colors.ANSI_PURPLE+"|    |"+Colors.ANSI_CYAN+"="    +Colors.ANSI_RESET;
-            strScale[1] += Colors.ANSI_PURPLE+"|    |"+Colors.ANSI_CYAN+"=="   +Colors.ANSI_RESET;
+            strScale[0] += p+"|    |"+c+"="    ;
+            strScale[1] += p+"|    |"+c+"=="   ;
             strScale[2] += String.format(
-                           Colors.ANSI_PURPLE+"|%3d |"+Colors.ANSI_CYAN+"==="  +Colors.ANSI_RESET,row);
-            strScale[3] += Colors.ANSI_PURPLE+"|    |"+Colors.ANSI_CYAN+"====" +Colors.ANSI_RESET;
-            strScale[4] += Colors.ANSI_PURPLE+"|    |"+Colors.ANSI_CYAN+"====="+Colors.ANSI_RESET;
+                           p+"|%3d |"+c+"==="  ,row);
+            strScale[3] += p+"|    |"+c+"====" ;
+            strScale[4] += p+"|    |"+c+"=====";
         } else {
-            strScale[0] += Colors.ANSI_PURPLE+"|    |"+Colors.ANSI_CYAN+"+++++"+Colors.ANSI_RESET;
-            strScale[1] += Colors.ANSI_PURPLE+"|    |"+Colors.ANSI_CYAN+"++++" +Colors.ANSI_RESET;
+            strScale[0] += p+"|    |"+c+"+++++";
+            strScale[1] += p+"|    |"+c+"++++" ;
             strScale[2] += String.format(
-                           Colors.ANSI_PURPLE+"|%3d |"+Colors.ANSI_CYAN+"+++"  +Colors.ANSI_RESET,row);
-            strScale[3] += Colors.ANSI_PURPLE+"|    |"+Colors.ANSI_CYAN+"++"   +Colors.ANSI_RESET;
-            strScale[4] += Colors.ANSI_PURPLE+"|    |"+Colors.ANSI_CYAN+"+"    +Colors.ANSI_RESET;
+                           p+"|%3d |"+c+"+++"  ,row);
+            strScale[3] += p+"|    |"+c+"++"   ;
+            strScale[4] += p+"|    |"+c+"+"    ;
         }
     }
 
@@ -1149,17 +1172,17 @@ public class Board implements Serializable {
                 // If there is no tile here, let's fill it with empty space
                 if (playedTiles[row][col] == null) {
                     if ( even(row+col) ) {
-                        strRow[0] += Colors.ANSI_CYAN+"+++++++++"   +Colors.ANSI_RESET;
-                        strRow[1] += Colors.ANSI_CYAN+"+++++++"     +Colors.ANSI_RESET;
-                        strRow[2] += Colors.ANSI_CYAN+"+++++"       +Colors.ANSI_RESET;
-                        strRow[3] += Colors.ANSI_CYAN+"+++"         +Colors.ANSI_RESET;
-                        strRow[4] += Colors.ANSI_CYAN+"+"           +Colors.ANSI_RESET;
+                        strRow[0] += c+"+++++++++" ;
+                        strRow[1] += c+"+++++++"   ;
+                        strRow[2] += c+"+++++"     ;
+                        strRow[3] += c+"+++"       ;
+                        strRow[4] += c+"+"         ;
                     } else {
-                        strRow[0] += Colors.ANSI_CYAN+"="           +Colors.ANSI_RESET;
-                        strRow[1] += Colors.ANSI_CYAN+"==="         +Colors.ANSI_RESET;
-                        strRow[2] += Colors.ANSI_CYAN+"====="       +Colors.ANSI_RESET;
-                        strRow[3] += Colors.ANSI_CYAN+"======="     +Colors.ANSI_RESET;
-                        strRow[4] += Colors.ANSI_CYAN+"========="   +Colors.ANSI_RESET;
+                        strRow[0] += c+"="         ;
+                        strRow[1] += c+"==="       ;
+                        strRow[2] += c+"====="     ;
+                        strRow[3] += c+"======="   ;
+                        strRow[4] += c+"=========" ;
                     }
                 } else {
                     playedTiles[row][col].draw(false, strRow);
@@ -1167,21 +1190,21 @@ public class Board implements Serializable {
             }
 
             if (even(row+rightBorder)) {
-                strRow[0] += Colors.ANSI_CYAN+"="     + Colors.ANSI_RESET;
-                strRow[1] += Colors.ANSI_CYAN+"=="    + Colors.ANSI_RESET;
-                strRow[2] += Colors.ANSI_CYAN+"==="   + Colors.ANSI_RESET;
-                strRow[3] += Colors.ANSI_CYAN+"===="  + Colors.ANSI_RESET;
-                strRow[4] += Colors.ANSI_CYAN+"=====" + Colors.ANSI_RESET;
+                strRow[0] += c+"="     ;
+                strRow[1] += c+"=="    ;
+                strRow[2] += c+"==="   ;
+                strRow[3] += c+"===="  ;
+                strRow[4] += c+"=====" ;
             } else {
-                strRow[0] += Colors.ANSI_CYAN+"+++++" + Colors.ANSI_RESET;
-                strRow[1] += Colors.ANSI_CYAN+"++++"  + Colors.ANSI_RESET;
-                strRow[2] += Colors.ANSI_CYAN+"+++"   + Colors.ANSI_RESET;
-                strRow[3] += Colors.ANSI_CYAN+"++"    + Colors.ANSI_RESET;
-                strRow[4] += Colors.ANSI_CYAN+"+"     + Colors.ANSI_RESET;
+                strRow[0] += c+"+++++" ;
+                strRow[1] += c+"++++"  ;
+                strRow[2] += c+"+++"   ;
+                strRow[3] += c+"++"    ;
+                strRow[4] += c+"+"     ;
             }
             for ( int k=0; k<5; k++) {
                 strBoard.append(strRow[k]);
-                strBoard.append("\n");
+                strBoard.append("\n"+r);
             }
         }
         return strBoard.toString();

@@ -28,6 +28,7 @@ class Main {
     public static void main(String[] args) {
 
         game = new Game(2);
+        game.getBoard().setUseColor(true);
 
         game.play();
 
