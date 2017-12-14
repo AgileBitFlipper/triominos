@@ -2,15 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="40656ce1-131b-4f97-93f5-416d19880c54" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Round.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/test/com.thirdsonsoftware/RoundTest.groovy" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Board.java" afterPath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Board.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Game.java" afterPath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Game.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Log.java" afterPath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Log.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Main.java" afterPath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Main.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Player.java" afterPath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Player.java" />
       <change beforePath="$PROJECT_DIR$/src/test/com.thirdsonsoftware/GameTest.groovy" afterPath="$PROJECT_DIR$/src/test/com.thirdsonsoftware/GameTest.groovy" />
+      <change beforePath="$PROJECT_DIR$/src/test/com.thirdsonsoftware/LogTest.groovy" afterPath="$PROJECT_DIR$/src/test/com.thirdsonsoftware/LogTest.groovy" />
+      <change beforePath="$PROJECT_DIR$/src/test/com.thirdsonsoftware/RoundTest.groovy" afterPath="$PROJECT_DIR$/src/test/com.thirdsonsoftware/RoundTest.groovy" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -189,41 +183,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Choice.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Choice.java">
+      <file leaf-file-name="LogTest.groovy" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/com.thirdsonsoftware/LogTest.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="226">
-              <caret line="86" column="0" lean-forward="false" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
-              <folding>
-                <element signature="e#1551#1552#0" expanded="true" />
-                <element signature="e#1578#1579#0" expanded="true" />
-                <element signature="e#1681#1682#0" expanded="true" />
-                <element signature="e#1713#1714#0" expanded="true" />
-                <element signature="e#1805#1806#0" expanded="true" />
-                <element signature="e#1836#1837#0" expanded="true" />
-                <element signature="e#1939#1940#0" expanded="true" />
-                <element signature="e#1969#1970#0" expanded="true" />
-                <element signature="e#2094#2095#0" expanded="true" />
-                <element signature="e#2199#2200#0" expanded="true" />
-                <element signature="e#2229#2230#0" expanded="true" />
-                <element signature="e#2344#2345#0" expanded="true" />
-                <element signature="e#2383#2384#0" expanded="true" />
-                <element signature="e#2525#2526#0" expanded="true" />
-                <element signature="e#2571#2572#0" expanded="true" />
-                <element signature="e#2672#2673#0" expanded="true" />
-                <element signature="e#2708#2709#0" expanded="true" />
-                <element signature="e#2830#2831#0" expanded="true" />
-                <element signature="e#2870#2871#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="361">
+              <caret line="19" column="20" lean-forward="false" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="20" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Round.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Round.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Round.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="10070">
-              <caret line="530" column="36" lean-forward="false" selection-start-line="530" selection-start-column="36" selection-end-line="530" selection-end-column="36" />
+            <state relative-caret-position="217">
+              <caret line="324" column="16" lean-forward="false" selection-start-line="324" selection-start-column="16" selection-end-line="324" selection-end-column="16" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2011#2019#0" expanded="true" />
@@ -255,18 +229,18 @@
       <file leaf-file-name="GameTest.groovy" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/com.thirdsonsoftware/GameTest.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="623">
-              <caret line="99" column="18" lean-forward="false" selection-start-line="99" selection-start-column="18" selection-end-line="99" selection-end-column="18" />
+            <state relative-caret-position="528">
+              <caret line="87" column="0" lean-forward="true" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RoundTest.groovy" pinned="false" current-in-tab="false">
+      <file leaf-file-name="RoundTest.groovy" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/test/com.thirdsonsoftware/RoundTest.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-10">
-              <caret line="79" column="42" lean-forward="false" selection-start-line="79" selection-start-column="42" selection-end-line="79" selection-end-column="42" />
+            <state relative-caret-position="404">
+              <caret line="30" column="28" lean-forward="false" selection-start-line="30" selection-start-column="28" selection-end-line="30" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -283,10 +257,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Debug</find>
-      <find>getMode</find>
-      <find>this</find>
-      <find>choice</find>
       <find>topChoiceTile</find>
       <find>board</find>
       <find>getTileFromTrayForMiddleFace</find>
@@ -313,6 +283,10 @@
       <find>Top choice</find>
       <find>playATile</find>
       <find>Tile Pool</find>
+      <find>game</find>
+      <find>testGetTiles</find>
+      <find>\</find>
+      <find>getNum</find>
     </findStrings>
     <replaceStrings>
       <replace>getCornerA()</replace>
@@ -331,6 +305,9 @@
       <replace>tileToPlay</replace>
       <replace>pRoundWinner</replace>
       <replace />
+      <replace>round</replace>
+      <replace>round.</replace>
+      <replace>\\</replace>
       <replace>pOver400</replace>
     </replaceStrings>
   </component>
@@ -362,17 +339,17 @@
         <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Colors.java" />
         <option value="$PROJECT_DIR$/src/test/com.thirdsonsoftware/BoardTest.groovy" />
         <option value="$PROJECT_DIR$/src/test/com.thirdsonsoftware/TileTest.groovy" />
-        <option value="$PROJECT_DIR$/src/test/com.thirdsonsoftware/LogTest.groovy" />
         <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Tile.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Choice.java" />
-        <option value="$PROJECT_DIR$/src/test/com.thirdsonsoftware/RoundTest.groovy" />
         <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Board.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Game.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Player.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Main.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Log.java" />
-        <option value="$PROJECT_DIR$/src/test/com.thirdsonsoftware/GameTest.groovy" />
         <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Round.java" />
+        <option value="$PROJECT_DIR$/src/test/com.thirdsonsoftware/GameTest.groovy" />
+        <option value="$PROJECT_DIR$/src/test/com.thirdsonsoftware/LogTest.groovy" />
+        <option value="$PROJECT_DIR$/src/test/com.thirdsonsoftware/RoundTest.groovy" />
       </list>
     </option>
   </component>
@@ -492,31 +469,12 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="JUnit.com.thirdsonsoftware in test">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="WIDTH" value="400" />
       <option name="HEIGHT" value="300" />
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <module />
-    </configuration>
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="com.thirdsonsoftware.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="MAIN_CLASS_NAME" value="com.thirdsonsoftware.Main" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="triominos" />
-      <envs />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
@@ -532,7 +490,7 @@
       <module name="" />
       <envs />
     </configuration>
-    <configuration name="RoundTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="GameTest.testToString" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
           <option name="PATTERN" value="com.thirdsonsoftware.*" />
@@ -543,33 +501,8 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="com.thirdsonsoftware" />
-      <option name="MAIN_CLASS_NAME" value="com.thirdsonsoftware.RoundTest" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
-    </configuration>
-    <configuration name="RoundTest.testGetBoard" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="com.thirdsonsoftware.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <module name="test" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="com.thirdsonsoftware" />
-      <option name="MAIN_CLASS_NAME" value="com.thirdsonsoftware.RoundTest" />
-      <option name="METHOD_NAME" value="testGetBoard" />
+      <option name="MAIN_CLASS_NAME" value="com.thirdsonsoftware.GameTest" />
+      <option name="METHOD_NAME" value="testToString" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
@@ -582,7 +515,7 @@
       <envs />
       <patterns />
     </configuration>
-    <configuration name="RoundTest.testSetPiecesOnBoardWithEmptyFaces" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="RoundTest.testDisplayPlayers" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
           <option name="PATTERN" value="com.thirdsonsoftware.*" />
@@ -594,7 +527,32 @@
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="com.thirdsonsoftware" />
       <option name="MAIN_CLASS_NAME" value="com.thirdsonsoftware.RoundTest" />
-      <option name="METHOD_NAME" value="testSetPiecesOnBoardWithEmptyFaces" />
+      <option name="METHOD_NAME" value="testDisplayPlayers" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration name="RoundTest.testDisplayTilePool" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="com.thirdsonsoftware.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="test" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="com.thirdsonsoftware" />
+      <option name="MAIN_CLASS_NAME" value="com.thirdsonsoftware.RoundTest" />
+      <option name="METHOD_NAME" value="testDisplayTilePool" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
@@ -652,6 +610,31 @@
       <envs />
       <patterns />
     </configuration>
+    <configuration name="com.thirdsonsoftware in test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="com.thirdsonsoftware.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="test" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="com.thirdsonsoftware" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="package" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
       <option name="SERVER_MODE" value="false" />
@@ -694,17 +677,17 @@
     </configuration>
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="JUnit.RoundTest.testSetPiecesPlayed" />
-      <item index="1" class="java.lang.String" itemvalue="JUnit.RoundTest.testSetPiecesOnBoardWithEmptyFaces" />
-      <item index="2" class="java.lang.String" itemvalue="JUnit.RoundTest.testGetBoard" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.RoundTest" />
-      <item index="4" class="java.lang.String" itemvalue="Application.Main" />
+      <item index="1" class="java.lang.String" itemvalue="JUnit.com.thirdsonsoftware in test" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.GameTest.testToString" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.RoundTest.testDisplayTilePool" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.RoundTest.testDisplayPlayers" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Application.Main" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.RoundTest" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.RoundTest.testGetBoard" />
-        <item index="3" class="java.lang.String" itemvalue="JUnit.RoundTest.testSetPiecesOnBoardWithEmptyFaces" />
+        <item index="0" class="java.lang.String" itemvalue="JUnit.com.thirdsonsoftware in test" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.RoundTest.testDisplayPlayers" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.RoundTest.testDisplayTilePool" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.GameTest.testToString" />
         <item index="4" class="java.lang.String" itemvalue="JUnit.RoundTest.testSetPiecesPlayed" />
       </list>
     </recent_temporary>
@@ -734,48 +717,47 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="RoundTest - 2017.12.14 at 00h 58m 03s.xml">
-      <configuration name="RoundTest" configurationId="JUnit" />
+    <history-entry file="GameTest_testToString - 2017.12.14 at 17h 53m 42s.xml">
+      <configuration name="GameTest.testToString" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RoundTest - 2017.12.14 at 00h 58m 27s.xml">
-      <configuration name="RoundTest" configurationId="JUnit" />
+    <history-entry file="RoundTest_testDisplayPlayers - 2017.12.14 at 18h 04m 17s.xml">
+      <configuration name="RoundTest.testDisplayPlayers" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RoundTest - 2017.12.14 at 12h 16m 26s.xml">
-      <configuration name="RoundTest" configurationId="JUnit" />
+    <history-entry file="RoundTest_testDisplayPlayers - 2017.12.14 at 18h 05m 54s.xml">
+      <configuration name="RoundTest.testDisplayPlayers" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RoundTest_testGetBoard - 2017.12.14 at 00h 56m 36s.xml">
-      <configuration name="RoundTest.testGetBoard" configurationId="JUnit" />
+    <history-entry file="RoundTest_testDisplayPlayers - 2017.12.14 at 18h 06m 08s.xml">
+      <configuration name="RoundTest.testDisplayPlayers" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RoundTest_testGetBoard - 2017.12.14 at 00h 56m 54s.xml">
-      <configuration name="RoundTest.testGetBoard" configurationId="JUnit" />
+    <history-entry file="RoundTest_testDisplayTilePool - 2017.12.14 at 18h 04m 09s.xml">
+      <configuration name="RoundTest.testDisplayTilePool" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RoundTest_testGetPiecesPlayed - 2017.12.14 at 00h 53m 29s.xml">
-      <configuration name="RoundTest.testGetPiecesPlayed" configurationId="JUnit" />
+    <history-entry file="com_thirdsonsoftware_in_test - 2017.12.14 at 17h 50m 44s.xml">
+      <configuration name="com.thirdsonsoftware in test" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RoundTest_testSetPiecesOnBoardWithEmptyFaces - 2017.12.14 at 00h 55m 36s.xml">
-      <configuration name="RoundTest.testSetPiecesOnBoardWithEmptyFaces" configurationId="JUnit" />
+    <history-entry file="com_thirdsonsoftware_in_test - 2017.12.14 at 17h 54m 21s.xml">
+      <configuration name="com.thirdsonsoftware in test" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RoundTest_testSetPiecesOnBoardWithEmptyFaces - 2017.12.14 at 00h 55m 56s.xml">
-      <configuration name="RoundTest.testSetPiecesOnBoardWithEmptyFaces" configurationId="JUnit" />
+    <history-entry file="com_thirdsonsoftware_in_test - 2017.12.14 at 17h 55m 09s.xml">
+      <configuration name="com.thirdsonsoftware in test" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RoundTest_testSetPiecesPlayed - 2017.12.14 at 00h 54m 13s.xml">
-      <configuration name="RoundTest.testSetPiecesPlayed" configurationId="JUnit" />
+    <history-entry file="com_thirdsonsoftware_in_test - 2017.12.14 at 17h 56m 04s.xml">
+      <configuration name="com.thirdsonsoftware in test" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RoundTest_testSetPiecesPlayed - 2017.12.14 at 00h 54m 27s.xml">
-      <configuration name="RoundTest.testSetPiecesPlayed" configurationId="JUnit" />
+    <history-entry file="com_thirdsonsoftware_in_test - 2017.12.14 at 18h 06m 23s.xml">
+      <configuration name="com.thirdsonsoftware in test" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="2048" height="1152" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3139746" sideWeight="0.41796875" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3139746" sideWeight="0.4091797" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3139746" sideWeight="0.58203125" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34029037" sideWeight="0.40527344" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="true" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4321289" sideWeight="0.78130674" order="9" side_tool="false" content_ui="tabs" />
@@ -789,7 +771,7 @@
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34029037" sideWeight="0.59716797" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34029037" sideWeight="0.59472656" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -837,7 +819,7 @@
           <option name="timeStamp" value="21" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="29" />
+      <option name="time" value="32" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1173,26 +1155,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/com.thirdsonsoftware/LogTest.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="20" column="24" lean-forward="false" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/com.thirdsonsoftware/PlayerTest.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="256">
           <caret line="84" column="15" lean-forward="false" selection-start-line="84" selection-start-column="15" selection-end-line="84" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/com.thirdsonsoftware/RoundTest.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-10">
-          <caret line="79" column="42" lean-forward="false" selection-start-line="79" selection-start-column="42" selection-end-line="79" selection-end-column="42" />
           <folding />
         </state>
       </provider>
@@ -1303,16 +1269,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/com.thirdsonsoftware/GameTest.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="623">
-          <caret line="99" column="18" lean-forward="false" selection-start-line="99" selection-start-column="18" selection-end-line="99" selection-end-column="18" />
+        <state relative-caret-position="528">
+          <caret line="87" column="0" lean-forward="true" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/com.thirdsonsoftware/LogTest.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="19" column="20" lean-forward="false" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Round.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="10070">
-          <caret line="530" column="36" lean-forward="false" selection-start-line="530" selection-start-column="36" selection-end-line="530" selection-end-column="36" />
+        <state relative-caret-position="217">
+          <caret line="324" column="16" lean-forward="false" selection-start-line="324" selection-start-column="16" selection-end-line="324" selection-end-column="16" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2011#2019#0" expanded="true" />
@@ -1337,6 +1311,14 @@
             <element signature="e#18982#18983#0" expanded="true" />
             <element signature="e#19054#19055#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/com.thirdsonsoftware/RoundTest.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="404">
+          <caret line="30" column="28" lean-forward="false" selection-start-line="30" selection-start-column="28" selection-end-line="30" selection-end-column="28" />
+          <folding />
         </state>
       </provider>
     </entry>
