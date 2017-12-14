@@ -77,9 +77,9 @@ class GameTest extends GroovyTestCase {
 
     void testToString() {
         game.board.findBoardMinMax(true)
-        String strExpectedGame = "Game:\nTile Pool (56):\n" +
+        String strExpectedGame = "Game:\n Tile Pool (56):\n" +
                 EXPECTED_UNSORTED_TILE_IMAGE_ARRAYLIST + "\n" +
-                "Players (3):\n" +
+                " Players (3):\n" +
                 "  Name: Player A\n" +
                 "    Starts: no\n" +
                 "    Score: 0\n" +
@@ -92,12 +92,12 @@ class GameTest extends GroovyTestCase {
                 "    Starts: no\n" +
                 "    Score: 0\n" +
                 "    Hand (0):\n  [<empty>]\n" +
-                "Played Tiles (0):\n" +
+                " Played Tiles (0):\n" +
                 "  [<empty>]\n" +
-                "Board:\n" +
+                " Board:\n" +
                 "  Played Piece Count:0\n" +
                 "  Boundaries:(112,0,112,0)\n" +
-                "Pieces on Board with Empty Faces (0):\n" +
+                " Pieces on Board with Empty Faces (0):\n" +
                 "  [<empty>]\n"
         String strActualGame = game.toString()
         assertEquals(strExpectedGame,strActualGame)
