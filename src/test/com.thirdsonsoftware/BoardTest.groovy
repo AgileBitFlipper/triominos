@@ -27,7 +27,7 @@ class BoardTest extends GroovyTestCase {
     protected final int TILE_A_ROW = 56
     protected final int TILE_A_COL = 56
     protected final int TILE_B_ROW = 56
-    protected final int TILE_B_COL = 57
+    protected final int TILE_B_COL = 55
 
     Board board = new Board()
 
@@ -37,13 +37,18 @@ class BoardTest extends GroovyTestCase {
     Tile tileD = new Tile(0,1,1)
     Tile tileE = new Tile(0,0,5)
 
+    Choice choiceA = new Choice(tileA,TILE_A_ROW,TILE_A_COL,Orientation.DOWN,0)
+    Choice choiceB = new Choice(tileB,TILE_B_ROW,TILE_B_COL,Orientation.UP,0)
+    Choice choiceC = new Choice(tileC,57,54,Orientation.UP,0)
+    Choice choiceD = new Choice(tileD,57,55,Orientation.DOWN,240)
+    Choice choiceE = new Choice(tileE,56,57,Orientation.UP,240)
 
     void setUp() {
         super.setUp()
-        assertTrue(board.placeTile( tileA, TILE_A_ROW, TILE_A_COL ))
+        assertTrue(board.placeTile( choiceA ))
 
         tileB.setRotation(240)
-        assertTrue(board.placeTile( tileB, TILE_B_ROW, TILE_B_COL ))
+        assertTrue(board.placeTile( choiceB ))
     }
 
     void tearDown() {
@@ -55,9 +60,9 @@ class BoardTest extends GroovyTestCase {
     }
 
     void testPlaceTile() {
-        board.placeTile( tileC,0,0)
-        Tile tileD = getBoard().pieceAtLocation(0,0)
-        assertEquals("Placed nonTripletTile is not the one expected.", tileC, tileD)
+        board.placeTile(choiceC)
+        Tile tileTemp = getBoard().pieceAtLocation(choiceC.getRow(),choiceC.getCol())
+        assertEquals(tileC, tileTemp)
     }
 
     void testDisplay() {
@@ -78,17 +83,18 @@ class BoardTest extends GroovyTestCase {
     void testToString() {
         System.out.println(board.toString())
         String strExpected = \
-        "Board:\n" +
-        "  Played Piece Count:2\n" +
-        "  Boundaries:(56,56,56,57)\n" +
-        "------------------------\n" +
-        "          56   57 \n" +
-        "------------------------\n" +
-        "|    |= ------- ^\n" +
-        "|    |==\\0   0//0\\\n" +
-        "| 56 |===\\   //   \\\n" +
-        "|    |====\\0//0   1\\\n" +
-        "|    |=====v ------- \n"
+        "Board:\n"+
+        "  Played Piece Count:2\n"+
+        "  Boundaries:(56,56,55,56)\n"+
+        "------------------------\n"+
+        "          55   56 \n"+
+        "------------------------\n"+
+        "|    |+++++^ --  0-- =\n"+
+        "|    |++++/0\\\\0 P 0/==\n"+
+        "| 56 |+++/   \\\\   /===\n"+
+        "|    |++/1 P 0\\\\0/====\n"+
+        "|    |+ --  0-- v=====\n"
+
         String strActual = board.toString()
         assertEquals(strExpected,strActual)
     }
@@ -132,9 +138,9 @@ class BoardTest extends GroovyTestCase {
         int top = board.getTopBorder()
         assertEquals(TILE_A_ROW,board.getTopBorder())
         int left = board.getLeftBorder()
-        assertEquals(TILE_A_COL,board.getLeftBorder())
+        assertEquals(TILE_B_COL,board.getLeftBorder())
         int right = board.getRightBorder()
-        assertEquals(TILE_B_COL,board.getRightBorder())
+        assertEquals(TILE_A_COL,board.getRightBorder())
         int bottom = board.getBottomBorder()
         assertEquals(TILE_B_ROW,board.getBottomBorder())
 
@@ -191,7 +197,7 @@ class BoardTest extends GroovyTestCase {
 
     void testGetLeftBorder() {
         board.findBoardMinMax(false)
-        assertEquals(TILE_A_COL,board.getLeftBorder())
+        assertEquals(TILE_B_COL,board.getLeftBorder())
     }
 
     void testSetLeftBorder() {
@@ -213,7 +219,7 @@ class BoardTest extends GroovyTestCase {
     }
     void testGetRightBorder() {
         board.findBoardMinMax()
-        assertEquals(TILE_B_COL, board.getRightBorder())
+        assertEquals(TILE_A_COL, board.getRightBorder())
     }
 
     void testSetRightBorder() {
@@ -235,11 +241,11 @@ class BoardTest extends GroovyTestCase {
     }
 
     void testLeftFaceFits() {
-        assertFalse(board.leftFaceFits(tileD,56,58))
+        assertTrue(board.leftFaceFits(tileD,56,58))
         tileD.rotate(120)
         assertTrue(board.leftFaceFits(tileD,56,58))
         tileD.rotate(240)
-        assertFalse(board.leftFaceFits(tileD,56,58))
+        assertTrue(board.leftFaceFits(tileD,56,58))
     }
 
     void testRightFaceFits() {
@@ -261,27 +267,27 @@ class BoardTest extends GroovyTestCase {
     }
 
     void testPieceFits() {
-        tileE.setOrientation(Orientation.UP)
-        assertFalse(board.pieceFits(tileE,55,56))
-        tileE.rotate(120)
-        assertTrue(board.pieceFits(tileE, 55,56))
-        tileE.rotate(240)
-        assertFalse(board.pieceFits(tileE, 55, 56))
+        choiceE.setOrientation(Orientation.UP)
+        assertTrue(board.pieceFits(tileE,56,57, choiceE))
+        choiceE.setRotation(120)
+        assertFalse(board.pieceFits(tileE, 56, 57, choiceE))
+        choiceE.setRotation(240)
+        assertTrue(board.pieceFits(tileE, 56,57, choiceE))
     }
 
     void testFindBoardMinMax() {
         board.findBoardMinMax()
-        assertEquals(56,board.getLeftBorder())
-        assertEquals(57,board.getRightBorder())
+        assertEquals(55,board.getLeftBorder())
+        assertEquals(56,board.getRightBorder())
         assertEquals(56,board.getTopBorder())
         assertEquals(56,board.getBottomBorder())
 
         tileE.rotate(120)
-        board.placeTile(tileE,55,56)
+        board.placeTile(choiceE)
         board.findBoardMinMax()
-        assertEquals(56,board.getLeftBorder())
+        assertEquals(55,board.getLeftBorder())
         assertEquals(57,board.getRightBorder())
-        assertEquals(55,board.getTopBorder())
+        assertEquals(56,board.getTopBorder())
         assertEquals(56,board.getBottomBorder())
 
         System.out.println(board.display(false))

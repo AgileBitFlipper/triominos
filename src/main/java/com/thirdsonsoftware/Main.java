@@ -19,14 +19,60 @@
 
 package com.thirdsonsoftware;
 
+import java.io.*;
+
 class Main {
+
+    static Game game = null ;
 
     public static void main(String[] args) {
 
-        Game game = new Game(2);
+        game = new Game(2);
+        game.getBoard().setUseColor(true);
 
         game.play();
 
-        System.out.println(game);
+        Log.Info("Main", game.toString());
+    }
+
+    // Todo: We should be able to save and retrieve game state...finish this later.
+
+    /**
+     * Save the game to a file
+     */
+    static protected void saveGame() {
+        try {
+            Log.Info("Main","Saving the current game state...") ;
+            FileOutputStream fos = new FileOutputStream("triominos.ser");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(game);
+            oos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Load a game from a file
+     * @return (Game) the game after loading from a saved state
+     */
+    static protected Game loadGame() {
+        Game loadedGame = null;
+        try {
+            Log.Info("Main","Loading game from saved state...");
+            FileInputStream fis = new FileInputStream("triominos.ser");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            loadedGame = (Game) ois.readObject();
+            ois.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return loadedGame;
     }
 }

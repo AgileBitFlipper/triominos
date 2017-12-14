@@ -19,13 +19,15 @@
 
 package com.thirdsonsoftware;
 
+import java.io.Serializable;
+
 /** Represents a single face of a tile.
  * @author Andrew B. Montcrieff
  * @author www.ThirdSonSoftware.com
  * @version 0.1
  * @since 0.0
  */
-public class Face implements Comparable {
+public class Face implements Comparable, Serializable {
 
     // Left corner facing away from tile face
     private final int left;
