@@ -61,9 +61,9 @@ public class Board implements Serializable {
 
     protected boolean bUseColor = false ;
 
-    private String  c = Colors.ANSI_CYAN,
-                    p = Colors.ANSI_PURPLE,
-                    r = Colors.ANSI_RESET;
+    private String  c = Log.CYAN,
+                    p = Log.PURPLE,
+                    r = Log.RESET;
 
     protected static final int BRIDGE_BONUS  = 40 ;
     protected static final int HEXAGON_BONUS = 50 ;
@@ -81,6 +81,9 @@ public class Board implements Serializable {
 
     final Tile[][] playedTiles ;
 
+    /**
+     * Build the game board with the default size
+     */
     public Board() {
         playedTiles = new Tile[DEFAULT_ROWS][DEFAULT_COLS];
         num_cols=DEFAULT_COLS;
@@ -89,6 +92,11 @@ public class Board implements Serializable {
         clearBoard();
     }
 
+    /**
+     * Build the game board with the specified rows and columns
+     * @param rows
+     * @param cols
+     */
     public Board( int rows, int cols ) {
         playedTiles = new Tile[rows][cols] ;
         num_rows=rows;
@@ -97,13 +105,19 @@ public class Board implements Serializable {
         clearBoard();
     }
 
+    /**
+     * Tell the board to use color or not.  Some terminals don't
+     *   support ANSI colors, so this is a way to turn it off if
+     *   needed.  In the case of testing, color is turned off.
+     * @param useColor
+     */
     protected void setUseColor(boolean useColor) {
         bUseColor = useColor;
         Tile.setUseColor(useColor);
         if ( bUseColor ) {
-            c = Colors.ANSI_CYAN ;
-            p = Colors.ANSI_PURPLE ;
-            r = Colors.ANSI_RESET ;
+            c = Log.CYAN ;
+            p = Log.PURPLE ;
+            r = Log.RESET ;
         } else {
             c = p = r = "";
         }
@@ -361,7 +375,7 @@ public class Board implements Serializable {
 
             if (bItFits) {
                 int score = calculateScore(t, row, col);
-                System.out.println(String.format("  Score for playing tile %s @ (%d,%d) is %s.", t, row, col, score));
+//                Log.Info(this.getClass().getName(),String.format("  Score for playing tile %s @ (%d,%d) is %s.", t, row, col, score));
                 choice.setScore(score);
             }
         }
@@ -421,7 +435,7 @@ public class Board implements Serializable {
             Tile tileToTheLeft = pieceAtLocation(row,col-1);
             if ( ( tileToTheLeft != null) &&
                  ( tileToTheLeft.getMiddleCorner() != cornerToMatch ) ) {
-                System.out.println(Player.showTwoTilesLeftAndRight(tileToTheLeft, t));
+                Log.Info(this.getClass().getName(),Player.showTwoTilesLeftAndRight(tileToTheLeft, t));
                 bItFits = false;
                 whyItFails = "left";
             }
@@ -473,7 +487,7 @@ public class Board implements Serializable {
             }
         }
         if (!bItFits)
-            System.out.println( String.format("  Tile '%s' placement @ (%d,%d) fails left corner test - %s", t, row, col, whyItFails) ) ;
+            Log.Info(this.getClass().getName(), String.format("  Tile '%s' placement @ (%d,%d) fails left corner test - %s", t, row, col, whyItFails) ) ;
         return bItFits ;
     }
 
@@ -505,7 +519,7 @@ public class Board implements Serializable {
                     Tile tileDownAndRight = pieceAtLocation(row, col + 1);
                     if ((tileDownAndRight != null) &&
                             (tileDownAndRight.getLeftCorner() != t.getMiddleCorner())) {
-                        System.out.println(Player.showTwoTilesLeftAndRight(t, pieceAtLocation(row, col + 1)));
+                        Log.Info(this.getClass().getName(),Player.showTwoTilesLeftAndRight(t, pieceAtLocation(row, col + 1)));
                         bItFits = false;
                         whyItFails = "down & right";
                     }
@@ -554,7 +568,7 @@ public class Board implements Serializable {
         }
 
         if (!bItFits)
-            System.out.println( String.format("  Tile '%s' placement @ (%d,%d) fails middle corner test - %s", t, row, col, whyItFails) ) ;
+            Log.Info(this.getClass().getName(), String.format("  Tile '%s' placement @ (%d,%d) fails middle corner test - %s", t, row, col, whyItFails) ) ;
         return bItFits;
     }
 
@@ -584,7 +598,7 @@ public class Board implements Serializable {
             Tile tileToTheRight = pieceAtLocation(row, col + 1) ;
             if ( ( tileToTheRight != null ) &&
                  ( tileToTheRight.getMiddleCorner() != cornerToMatch ) ) {
-                System.out.println(Player.showTwoTilesLeftAndRight(t, pieceAtLocation(row, col + 1)));
+                Log.Info(this.getClass().getName(),Player.showTwoTilesLeftAndRight(t, pieceAtLocation(row, col + 1)));
                 bItFits = false;
                 whyItFails = "right";
             }
@@ -646,7 +660,7 @@ public class Board implements Serializable {
             }
         }
         if (!bItFits)
-            System.out.println( String.format("  Tile '%s' placement @ (%d,%d) rails right corner test - %s", t, row, col, whyItFails) ) ;
+            Log.Info(this.getClass().getName(), String.format("  Tile '%s' placement @ (%d,%d) rails right corner test - %s", t, row, col, whyItFails) ) ;
         return bItFits;
     }
 
@@ -920,7 +934,7 @@ public class Board implements Serializable {
                         bULHexagon &= ( pieceAtLocation(row + hexLRD[i],col + hexLCD[i]) != null ) ;
                     }
                     if ( bULHexagon )
-                        System.out.println("  Completed hexagon with Up-Left orientation!");
+                        Log.Info(this.getClass().getName(),"  Completed hexagon with Up-Left orientation!");
                 }
                 if ( col < num_cols-2 ) {
                     bURHexagon = true ;
@@ -929,7 +943,7 @@ public class Board implements Serializable {
                         bURHexagon &= ( pieceAtLocation(row + hexRRD[i],col + hexRCD[i]) != null ) ;
                     }
                     if ( bURHexagon )
-                        System.out.println("  Completed hexagon with Up-Right orientation!");
+                        Log.Info(this.getClass().getName(),"  Completed hexagon with Up-Right orientation!");
                 }
             }
 
@@ -942,7 +956,7 @@ public class Board implements Serializable {
                     }
                 }
                 if ( bUMHexagon )
-                    System.out.println("  Completed hexagon with Up-Middle orientation!");
+                    Log.Info(this.getClass().getName(),"  Completed hexagon with Up-Middle orientation!");
             }
 
         } else {
@@ -990,7 +1004,7 @@ public class Board implements Serializable {
                         bDLHexagon &= ( pieceAtLocation(row + hexLRD[i],col + hexLCD[i]) != null ) ;
                     }
                     if ( bDLHexagon )
-                        System.out.println("  Completed hexagon with Down-Left orientation!");
+                        Log.Info(this.getClass().getName(),"  Completed hexagon with Down-Left orientation!");
                 }
                 if ( col < num_cols-2 ) {
                     bDRHexagon = true ;
@@ -999,7 +1013,7 @@ public class Board implements Serializable {
                         bDRHexagon &= ( pieceAtLocation(row + hexRRD[i],col + hexRCD[i]) != null ) ;
                     }
                     if ( bDRHexagon )
-                        System.out.println("  Completed hexagon with Down-Right orientation!");
+                        Log.Info(this.getClass().getName(),"  Completed hexagon with Down-Right orientation!");
                 }
             }
 
@@ -1011,7 +1025,7 @@ public class Board implements Serializable {
                         bDMHexagon &= ( pieceAtLocation(row + hexARD[i],col + hexACD[i]) != null ) ;
                     }
                     if ( bDMHexagon )
-                        System.out.println("  Completed hexagon with Down-Middle orientation!");
+                        Log.Info(this.getClass().getName(),"  Completed hexagon with Down-Middle orientation!");
                 }
             }
 
@@ -1023,14 +1037,29 @@ public class Board implements Serializable {
 
         // Hexagon bonus
         if ( bCreatesAHexagon ) {
-            System.out.println(String.format("  Tile %s creates a hexagon @ (%d,%d)!  Bonus of %d points!", t, row, col, HEXAGON_BONUS));
+            Log.Info(this.getClass().getName(),String.format("  Tile %s creates a hexagon @ (%d,%d)!  Bonus of %d points!", t, row, col, HEXAGON_BONUS));
             score = HEXAGON_BONUS ;
         }
 
         // Bridge bonus
         if ( bCreatesABridge ) {
-            System.out.println(String.format("  Tile %s creates a bridge @ (%d,%d)!  Bonus of %d points!", t, row, col, BRIDGE_BONUS));
+            Log.Info(this.getClass().getName(),String.format("  Tile %s creates a bridge @ (%d,%d)!  Bonus of %d points!", t, row, col, BRIDGE_BONUS));
             score = BRIDGE_BONUS ;
+        }
+
+
+        // The first tile played
+        if (count() == 0) {
+
+            // Starting player can earn 10 points if tile is a triplet
+            if (t.isTriplet()) {
+
+                score += 10 ;
+
+                // If three 0's start, there is a 30 point bonus
+                if (t.getValue() == 0)
+                    score += 30 ;
+            }
         }
 
         // Value of tile face

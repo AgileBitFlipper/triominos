@@ -32,13 +32,17 @@ class Main {
 
         game.play();
 
-        System.out.println(game);
+        Log.Info("Main", game.toString());
     }
 
     // Todo: We should be able to save and retrieve game state...finish this later.
+
+    /**
+     * Save the game to a file
+     */
     static protected void saveGame() {
         try {
-            System.out.println("Saving the current game state...") ;
+            Log.Info("Main","Saving the current game state...") ;
             FileOutputStream fos = new FileOutputStream("triominos.ser");
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(game);
@@ -50,10 +54,14 @@ class Main {
         }
     }
 
+    /**
+     * Load a game from a file
+     * @return (Game) the game after loading from a saved state
+     */
     static protected Game loadGame() {
         Game loadedGame = null;
         try {
-            System.out.println("Loading game from saved state...");
+            Log.Info("Main","Loading game from saved state...");
             FileInputStream fis = new FileInputStream("triominos.ser");
             ObjectInputStream ois = new ObjectInputStream(fis);
             loadedGame = (Game) ois.readObject();

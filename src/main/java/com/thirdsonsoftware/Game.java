@@ -56,23 +56,15 @@ class Game implements Serializable {
      */
     Game(int numPlayers) {
 
-        System.out.println("Let's play triominos!");
+        Log.Info(this.getClass().getName(),"Let's play triominos!");
 
         // Setup the board to place the tiles
         board = new Board();
 
+        // Set the number of players for this game
         setNumPlayers(numPlayers);
 
-        // Decide how many tray each player draws
-        if (numPlayers <= DEFAULT_NUMBER_OF_PLAYERS) {
-            setNumDraws(TWO_PLAYER_DRAWS);
-        } else if (numPlayers <= UP_TO_FOUR_NUMBER_OF_PLAYERS) {
-            setNumDraws(UP_TO_FOUR_PLAYER_DRAWS);
-        } else {
-            throw new IllegalArgumentException(String.format("Invalid number of players: %d\nValue must be between 2 and 4.", numPlayers));
-        }
-
-        System.out.println(String.format(" Setting up for %d players.", numPlayers));
+        Log.Info(this.getClass().getName(),String.format(" Setting up for %d players.", numPlayers));
 
         // Allocate the number of players specified
         setPlayers(new ArrayList<Player>(numPlayers));
@@ -92,83 +84,13 @@ class Game implements Serializable {
         setPiecesOnBoardWithEmptyFaces(new ArrayList<Tile>(56));
 
         // Generate the tray and put them in the pool
-        System.out.println(" Generating tiles...");
+        Log.Info(this.getClass().getName()," Generating tiles...");
 
         generateTiles();
     }
 
-    public int getNumDraws() {
-        return numDraws;
-    }
-
-    public void setNumDraws(int numDraws) {
-        this.numDraws = numDraws;
-    }
-
-    public ArrayList<Player> getPlayers() {
-        return players;
-    }
-
-    public Player getPlayer(int index) {
-        if ( ( index < players.size() ) && ( index >= 0 ) )
-            return players.get(index) ;
-        else
-            return null;
-    }
-
-    protected void setPlayers(ArrayList<Player> players) {
-        this.players = players;
-    }
-
-    public ArrayList<Tile> getTiles() {
-        return tiles;
-    }
-
-    protected void setTiles(ArrayList<Tile> tiles) {
-        this.tiles = tiles;
-    }
-
-    protected ArrayList<Tile> getPiecesPlayed() {
-        return piecesPlayed;
-    }
-
-    protected void setPiecesPlayed(ArrayList<Tile> piecesPlayed) {
-        this.piecesPlayed = piecesPlayed;
-    }
-
-    protected ArrayList<Tile> getPiecesOnBoardWithEmptyFaces() {
-        return piecesOnBoardWithEmptyFaces;
-    }
-
-    protected void setPiecesOnBoardWithEmptyFaces(ArrayList<Tile> piecesOnBoardWithEmptyFaces) {
-        this.piecesOnBoardWithEmptyFaces = piecesOnBoardWithEmptyFaces;
-    }
-
-    public Board getBoard() {
-        return board;
-    }
-
-    protected void drawTiles() {
-
-        // Draw tray for each player, taking turns
-        System.out.println(" Drawing tiles for each player's tray...");
-        for ( int draw = 0; draw < getNumDraws(); draw++ ) {
-            System.out.println(String.format("  Draw %s", draw ));
-            for ( Player p : getPlayers() ) {
-                p.drawTile(getTiles());
-            }
-        }
-    }
-
-    protected void shuffleTilePool() {
-
-        // Shuffle the tray for randomized picking
-        System.out.println(" Shuffelling tile pool...");
-        Collections.shuffle(tiles);
-    }
-
     /**
-     * Do you want to play a game?
+     * Do you want to play a game?  Let's play triominos!!
      */
     public void play() {
 
@@ -181,7 +103,7 @@ class Game implements Serializable {
         // Shuffle tile pool
         shuffleTilePool();
 
-        // Fill the player trays with tiles
+        // Draw the inital tiles for each player from the tile pool
         drawTiles();
 
         // The player with the highest value goes first
@@ -191,26 +113,40 @@ class Game implements Serializable {
         player = firstPlayer ;
 
         // Let's show the game board to everyone!
-        System.out.println(this);
+        Log.Info(this.getClass().getName(),this.toString());
 
         // Gameplay continues until all players can't play
         int blockedPlayerCount = 0 ;
         boolean playBlocked = false ;
         while ( !playBlocked ) {
 
-            System.out.println(String.format(" Turn %d by %s ...",turn++,player.getName()));
+            Log.Info(this.getClass().getName(),String.format(" Turn %d by %s ...",turn++,player.getName()));
 
             // Keep running through the players
             tilePlayed = player.playATile(getBoard(),getPiecesPlayed(),getPiecesOnBoardWithEmptyFaces());
 
-            // If the player can't play a tile, make them choose another
-            if ( tilePlayed == null ) {
+            // If the player played a tile, let's update the necessary elements
+            if ( tilePlayed != null ) {
+
+                // Add the newly played piece to the list of pieces played
+                piecesPlayed.add(tilePlayed);
+
+                // Show the board
+                Log.Info(this.getClass().getName(),this.toString());
+
+                // reset the blocked player count
+                blockedPlayerCount = 0 ;
+
+            } else {
 
                 // Are there tiles left to play?
                 if ( !getTiles().isEmpty() ) {
 
                     // Deduct 5 points
                     player.setScore(player.getScore() - 5);
+
+                    Log.Info(this.getClass().getName(),"   Unable to play a tile, deducting 5 points and drawing another tile.");
+                    Log.Info(this.getClass().getName(), String.format("Player %s's score is now %d.",player.getName(),player.getScore()));
 
                     // Choose a new tile for the player
                     player.drawTile(tiles);
@@ -219,60 +155,197 @@ class Game implements Serializable {
                     continue ;
 
                 } else {
+
                     // If there are no more tiles in the well deduct 10 points.
                     player.setScore(player.getScore() - 10);
+
+                    Log.Info(this.getClass().getName(),"   Unable to play a tile, and more more tiles in the pool.  Deducting 10 points.");
+                    Log.Info(this.getClass().getName(), String.format("Player %s's score is now %d.",player.getName(),player.getScore()));
                 }
 
                 // Let's start incrementing the blocked count
                 blockedPlayerCount += 1 ;
-
-            } else {
-
-                // The first tile played
-                if (getPiecesPlayed().size() == 0) {
-
-                    // Starting player can earn 10 points if tile is a triplet
-                    if (tilePlayed.isTriplet()) {
-
-                        player.setScore(player.getScore() + 10);
-
-                        // If three 0's start, there is a 30 point bonus
-                        if (tilePlayed.getValue() == 0)
-                            player.setScore(player.getScore() + 30);
-                    }
-                }
-
-                // Add the newly played piece to the list of pieces played
-                piecesPlayed.add(tilePlayed);
-
-                // Add the points for the tile.
-                player.setScore(player.getScore() + tilePlayed.getValue());
-
-                // Need to add points for special plays
-                // Complete a hexagon, get 50 points (plus tile value).
-                // Forming a bridge, get 40 points (plus tile value).
-                // Adding to a bridge, get 40 points (plus tile value).
-
-
-                // Show the board
-                System.out.println(this);
-
-                blockedPlayerCount = 0 ;
             }
 
             // Choose the next player
             indexPlayer = ( indexPlayer + 1 ) % players.size();
             player = players.get(indexPlayer);
 
-            // If no one can play a tile, we are blocked
+            // If we've been to every player, and no one can play a tile, we are blocked
             if ( blockedPlayerCount >= players.size() )
                 playBlocked = true ;
         }
 
         // The game is over...let's account for points.
-        System.out.println("\n\n ==== GAME OVER === \n\n");
-        System.out.println(this);
+        Log.Info(this.getClass().getName(),"\n\n ==== GAME OVER === \n\n");
+        Log.Info(this.getClass().getName(),this.toString());
 
+    }
+
+    /**
+     * The number of players needs to be setup so we can deterine
+     *   the number of pieces per player, and how each draw is
+     *   handled.
+     * @param numPlayers - the number of players in the game
+     */
+    public void setNumPlayers(int numPlayers) {
+
+        // Set the number of players first
+        if ( ( numPlayers >= 2) && ( numPlayers <= 4 ) ) {
+
+            this.numPlayers = numPlayers ;
+
+        } else {
+
+            this.numPlayers = DEFAULT_NUMBER_OF_PLAYERS ;
+
+        }
+
+        // Set the number of draws based on the number of players
+        if (numPlayers <= DEFAULT_NUMBER_OF_PLAYERS) {
+
+            setNumDraws(TWO_PLAYER_DRAWS);
+
+        } else {
+
+            setNumDraws(UP_TO_FOUR_PLAYER_DRAWS);
+        }
+
+    }
+
+    /**
+     * How many players are in this game?
+     * @return (int) number of players in the game
+     */
+    public int getNumPlayers() {
+        return this.numPlayers;
+    }
+
+    /**
+     * How many draws does each player start with?
+     * @return (int) number of draws per player
+     */
+    public int getNumDraws() {
+        return numDraws;
+    }
+
+    /**
+     * Set the totaly number of draws per player
+     * @param numDraws (int) number of draws per player
+     */
+    public void setNumDraws(int numDraws) {
+        this.numDraws = numDraws;
+    }
+
+    /**
+     * The list of players in the game.
+     * @return players (ArrayList<Player>) - List of players in the game
+     */
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    /**
+     * Returns back a single player from the list of players in the game
+     * @param index - the index of which player is requested
+     * @return (Player) the instance of the player that is specified.
+     */
+    public Player getPlayer(int index) {
+        if ( ( index < players.size() ) && ( index >= 0 ) )
+            return players.get(index) ;
+        else
+            return null;
+    }
+
+    /**
+     * Establishes the list of players in the Game.
+     * @param players (ArrayList<Player>) - Array list of players in the game.
+     */
+    protected void setPlayers(ArrayList<Player> players) {
+        this.players = players;
+    }
+
+    /**
+     * The complete list of tiles (56) for this game.
+     * @return (ArrayList<Tile>) the array list of tiles in the game.
+     */
+    public ArrayList<Tile> getTiles() {
+        return tiles;
+    }
+
+    /**
+     * Sets up the ArrayList of tiles in the game.
+     * @param tiles
+     */
+    protected void setTiles(ArrayList<Tile> tiles) {
+        this.tiles = tiles;
+    }
+
+    /**
+     * Returns back the ArrayList of pieces played on the boad.
+     * @return (ArrayList<Tile>) - the list of pieces played.
+     */
+    protected ArrayList<Tile> getPiecesPlayed() {
+        return piecesPlayed;
+    }
+
+    /**
+     * Sets the ArrayList of pieces played on the boad.
+     * @return (ArrayList<Tile>) - the list of pieces played.
+     */
+    protected void setPiecesPlayed(ArrayList<Tile> piecesPlayed) {
+        this.piecesPlayed = piecesPlayed;
+    }
+
+    /**
+     * A list of tiles on the board that have at least one empty face.
+     *   This speeds up the search for pieces that the player can play off of.
+     * @return
+     */
+    protected ArrayList<Tile> getPiecesOnBoardWithEmptyFaces() {
+        return piecesOnBoardWithEmptyFaces;
+    }
+
+    /**
+     * Sets the number of pieces on the board with empty faces.
+     * @param piecesOnBoardWithEmptyFaces
+     */
+    protected void setPiecesOnBoardWithEmptyFaces(ArrayList<Tile> piecesOnBoardWithEmptyFaces) {
+        this.piecesOnBoardWithEmptyFaces = piecesOnBoardWithEmptyFaces;
+    }
+
+    /**
+     * Returns the current board for the game.
+     * @return (Board) the current board
+     */
+    public Board getBoard() {
+        return board;
+    }
+
+    /**
+     * Spins through the players and performs a draw to pull the inital
+     *   number of tiles that each player starts with
+     */
+    protected void drawTiles() {
+
+        // Draw tray for each player, taking turns
+        Log.Info(this.getClass().getName()," Drawing tiles for each player's tray...");
+        for ( int draw = 0; draw < getNumDraws(); draw++ ) {
+            Log.Info(this.getClass().getName(),String.format("  Draw %s", draw ));
+            for ( Player p : getPlayers() ) {
+                p.drawTile(getTiles());
+            }
+        }
+    }
+
+    /**
+     * Shuffles the tiles in the tile pool so that we randomize the picking order.
+     */
+    protected void shuffleTilePool() {
+
+        // Shuffle the tray for randomized picking
+        Log.Info(this.getClass().getName()," Shuffelling tile pool...");
+        Collections.shuffle(tiles);
     }
 
     /**
@@ -304,14 +377,14 @@ class Game implements Serializable {
             tile = p.determineFirstTile() ;
 
             if ( tile.getValue() == 0 ) {
-                System.out.println(String.format("  Player '%s' has tile '%s'!", p.getName(), tile ));
+                Log.Info(this.getClass().getName(),String.format("  Player '%s' has tile '%s'!", p.getName(), tile ));
                 startTile = tile ;
                 first = p ;
                 break;
             } else if ( tile.isTriplet() ) {
                 if ( ( highestTriplet == null ) ||
                         ( tile.getValue() > highestTriplet.getValue() ) ) {
-                    System.out.println(String.format("  Player '%s' has highest triplet tile '%s' so far...", p.getName(), tile ));
+                    Log.Info(this.getClass().getName(),String.format("  Player '%s' has highest triplet tile '%s' so far...", p.getName(), tile ));
                     startTile = tile ;
                     highestTriplet = tile ;
                     first = p ;
@@ -320,7 +393,7 @@ class Game implements Serializable {
                 if ( ( highestTriplet == null ) &&
                         ( ( highestValue == null )  ||
                           ( tile.getValue() > highestValue.getValue() ) ) ) {
-                    System.out.println(String.format("  Player '%s' has highest value tile '%s' so far...", p.getName(), tile ));
+                    Log.Info(this.getClass().getName(),String.format("  Player '%s' has highest value tile '%s' so far...", p.getName(), tile ));
                     startTile = tile ;
                     highestValue = tile ;
                     first = p ;
@@ -332,7 +405,7 @@ class Game implements Serializable {
         for ( Player p : players )
             p.setStarts( p == first );
 
-        System.out.println(String.format("  Player '%s' will start with tile '%s'.",first.getName(),startTile));
+        Log.Info(this.getClass().getName(),String.format("  Player '%s' will start with tile '%s'.",first.getName(),startTile));
         return first;
     }
 
@@ -426,10 +499,18 @@ class Game implements Serializable {
         return displayTiles(true,"Tile Pool", tiles);
     }
 
+    /**
+     * Displays the complete list of played tiles
+     * @return - String containing the complete list of played tiles.
+     */
     protected String displayPlayedTiles() {
         return displayTiles(true, "Played Tiles", piecesPlayed);
     }
 
+    /**
+     * Displays the tiles on the board that still have open faces (playable)
+     * @return - String containing the list of tiles that still have at least one open face.
+     */
     protected String displayTilesWithFacesRemaining() {
         return displayTiles( true,"Pieces on Board with Empty Faces", piecesOnBoardWithEmptyFaces );
     }
@@ -459,18 +540,6 @@ class Game implements Serializable {
                 displayPlayedTiles() +
                 board +
                 displayTilesWithFacesRemaining());
-    }
-
-    public void setNumPlayers(int numPlayers) {
-        if ( ( numPlayers >= 2) && ( numPlayers <= 4 ) ) {
-            this.numPlayers = numPlayers ;
-        } else {
-            this.numPlayers = DEFAULT_NUMBER_OF_PLAYERS ;
-        }
-    }
-
-    public int getNumPlayers() {
-        return this.numPlayers;
     }
 
 }

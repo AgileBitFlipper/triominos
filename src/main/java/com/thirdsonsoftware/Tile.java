@@ -46,9 +46,9 @@ public class Tile implements Comparable, Serializable {
 
     private int id ;                    // Unique tile id
 
-    final private int cornerA ;               // Reference corner A
-    final private int cornerB ;               // Reference corner B
-    final private int cornerC ;               // Reference corner C
+    final private int cornerA ;         // Reference corner A
+    final private int cornerB ;         // Reference corner B
+    final private int cornerC ;         // Reference corner C
 
     final private char NONE = ' ' ;
 
@@ -74,6 +74,12 @@ public class Tile implements Comparable, Serializable {
     static String b ; // Color Blue
     static String r ; // Color Reset
 
+    /**
+     * Constructs a tile with the provided corner values.
+     * @param cornerA - value for corner A
+     * @param cornerB - value for corner B
+     * @param cornerC - value for corner C
+     */
     public Tile(int cornerA, int cornerB, int cornerC) {
 
         // These properties are immutable
@@ -82,11 +88,11 @@ public class Tile implements Comparable, Serializable {
         this.cornerC = cornerC;
         this.value = cornerA + cornerB + cornerC ;
 
-        colors[0] = Colors.ANSI_RED;
-        colors[1] = Colors.ANSI_GREEN;
-        colors[2] = Colors.ANSI_BLUE;
-        colors[3] = Colors.ANSI_YELLOW;
-        colors[4] = Colors.ANSI_WHITE;
+        colors[0] = Log.RED;
+        colors[1] = Log.GREEN;
+        colors[2] = Log.BLUE;
+        colors[3] = Log.YELLOW;
+        colors[4] = Log.WHITE;
 
         setRotation(0) ;
         setOrientation(Orientation.DOWN);
@@ -98,16 +104,26 @@ public class Tile implements Comparable, Serializable {
         setUseColor(false);
     }
 
+    /**
+     * A string representation of the tile.  This shows only the four corner
+     *   values in a single row, separated by a dash.
+     * @return (String) a string representing the corner values of the tile
+     */
     public String toString() {
         return String.format(c + "%d-%d-%d" + r, cornerA, cornerB, cornerC );
     }
 
+    /**
+     * Determines if the tile should be displayed in color or not.  Note that
+     *   some terminals are incapable of displaying colors
+     * @param useColor - should we use color nor not
+     */
     static protected void setUseColor(boolean useColor) {
         bUseColors = useColor;
         if ( bUseColors ) {
-            c = Colors.ANSI_CYAN ;
-            b = Colors.ANSI_BLUE ;
-            r = Colors.ANSI_RESET ;
+            c = Log.CYAN ;
+            b = Log.BLUE ;
+            r = Log.RESET ;
         } else {
             c = b = r = "";
         }
@@ -149,10 +165,18 @@ public class Tile implements Comparable, Serializable {
         this.col = col;
     }
 
+    /**
+     * Do all three corners match in value?
+     * @return (boolean) true if they match all three corners (a triplet)
+     */
     public boolean isTriplet() {
         return ( ( getCornerA() == getCornerB() ) && ( getCornerB() == getCornerC() ) );
     }
 
+    /**
+     * Rotate the tile about the center axis by 'r' degrees.
+     * @param r - the degrees to rotate the
+     */
     public void rotate( int r ) {
         rotation = r ;
     }
@@ -293,6 +317,10 @@ public class Tile implements Comparable, Serializable {
         }
     }
 
+    /**
+     * Taking the horizontal orientation, the left corner
+     * @return (int) the value of the left corner of the tile
+     */
     public int getLeftCorner() {
         switch (getRotation()) {
             case 0:
@@ -316,6 +344,10 @@ public class Tile implements Comparable, Serializable {
         }
     }
 
+    /**
+     * Taking the horizontal orientation, the right corner
+     * @return (int) the value of the right corner of the tile
+     */
     public int getRightCorner() {
         switch (getRotation()) {
             case 0:
@@ -339,6 +371,11 @@ public class Tile implements Comparable, Serializable {
         }
     }
 
+    /**
+     * Taking the horizontal orientation, the middle corner
+     *   either up or down depending on the tile's orientation.
+     * @return (int) the value of the middle corner of the tile
+     */
     public int getMiddleCorner() {
         switch (getRotation()) {
             case 0:
@@ -363,6 +400,10 @@ public class Tile implements Comparable, Serializable {
     }
 
     @Override
+    /**
+     * Used to compare two tiles to determine if they are the same
+     * @return (int) -1 if less, 0 if the same, or 1 if greater
+     */
     public int compareTo(Object o) {
         Tile t = (Tile)o;
         if ( getCornerA() < t.getCornerA() )
