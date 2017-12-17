@@ -19,8 +19,8 @@ public class Round {
     // The number of draws are dependent on the number of players
     private int numDraws;
 
-    // The index of this round
-    private final int index ;
+    // The roundNumber of this round
+    private final int roundNumber;
 
     // The board setup for each round
     private final Board board ;
@@ -37,10 +37,10 @@ public class Round {
     // Setup for pieces that have faces empty
     private ArrayList<Tile> piecesOnBoardWithEmptyFaces ;
 
-    public Round( int index, ArrayList<Player> players ) {
+    public Round(int roundNumber, ArrayList<Player> players ) {
 
-        // Setup the index
-        this.index = index ;
+        // Setup the roundNumber
+        this.roundNumber = roundNumber;
 
         // Let's keep the list of players for each round
         this.players = players ;
@@ -65,6 +65,10 @@ public class Round {
 
         generateTiles();
 
+    }
+
+    public int getRoundNumber() {
+        return roundNumber;
     }
 
     protected ArrayList<Player> hasWon() {
@@ -551,7 +555,7 @@ public class Round {
      * @return - String containing a snapshot view of the current Game.
      */
     public String toString() {
-        return ("Round " + this.index + ":\n" +
+        return ("Round " + this.roundNumber + ":\n" +
                 displayPlayers() +
                 displayTilePool() +
                 displayPlayedTiles() +
