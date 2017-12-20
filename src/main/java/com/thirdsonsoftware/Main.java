@@ -27,11 +27,18 @@ class Main {
 
     public static void main(String[] args) {
 
+        Event.logEvent(EventType.START_A_GAME);
+
         game = new Game(2);
 
         game.play();
 
         Log.Info(game.toString());
+
+        Event.logEvent(EventType.END_A_GAME);
+
+        String eventlog = EventManager.logEvents();
+        EventManager.getInstance().dumpEventData(eventlog) ;
     }
 
     // Todo: We should be able to save and retrieve game state...finish this later.

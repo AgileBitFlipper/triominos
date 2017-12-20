@@ -2,6 +2,8 @@ package com.thirdsonsoftware;
 
 public class Log {
 
+    public static boolean debugMode = false ;
+
     // Foreground colors
     public static final String RESET  = "\u001B[0m";
     public static final String BLACK  = "\u001B[30m";
@@ -42,7 +44,8 @@ public class Log {
 
     //debug
     public static void Debug(String message) {
-        System.out.println(BLUE + message + RESET);
+        if ( debugMode )
+            System.out.println(BLUE + message + RESET);
     }
 
     //warning

@@ -1,5 +1,6 @@
 package com.thirdsonsoftware;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -9,7 +10,7 @@ import java.util.Collections;
  *   or all possible plays for each player have been completed.
  *   The game ends when a player reaches over 400 points.
  */
-public class Round {
+public class Round implements Serializable {
 
     static public final int TWO_PLAYER_DRAWS = 9 ;
     static public final int UP_TO_FOUR_PLAYER_DRAWS = 7 ;
@@ -47,6 +48,7 @@ public class Round {
 
         // Setup the board to place the tiles
         board = new Board();
+        board.setRound(getRoundNumber());
 
         // Allocate enough space for the tile pool
         setTiles(new ArrayList<Tile>(56));
@@ -118,7 +120,7 @@ public class Round {
      * The main gameplay loop, looping through players and making plays based
      *   on the rules of the game.
      */
-    public void play() {
+    public void playRound() {
 
         int indexPlayer ;
         int turn = 1 ;
@@ -129,7 +131,7 @@ public class Round {
         // Shuffle tile pool
         shuffleTilePool();
 
-        // Draw the inital tiles for each player from the tile pool
+        // Draw the initial tiles for each player from the tile pool
         drawTiles();
 
         // The player with the highest value goes first
@@ -158,7 +160,7 @@ public class Round {
                 piecesPlayed.add(tilePlayed);
 
                 // Show the board
-                Log.Info(this.toString());
+                //Log.Info(this.toString());
 
                 // reset the blocked player count
                 blockedPlayerCount = 0 ;
@@ -172,12 +174,12 @@ public class Round {
                     player.setScore(player.getScore() - 5);
 
                     Log.Info("   Unable to play a tile, deducting 5 points and drawing another tile.");
-                    Log.Info( String.format("Player %s's score is now %d.",player.getName(),player.getScore()));
+                    Log.Debug( String.format("Player %s's score is now %d.",player.getName(),player.getScore()));
 
                     // Choose a new tile for the player
-                    player.drawTile(tiles);
+                    player.drawTile(tiles,getRoundNumber());
 
-                    // Same player has to keep playing untl they get a pick or the well is dry.
+                    // Same player has to keep playing until they get a pick or the well is dry.
                     continue ;
 
                 } else {
@@ -186,7 +188,7 @@ public class Round {
                     player.setScore(player.getScore() - 10);
 
                     Log.Info("   Unable to play a tile, and more more tiles in the pool.  Deducting 10 points.");
-                    Log.Info( String.format("Player %s's score is now %d.",player.getName(),player.getScore()));
+                    Log.Debug( String.format("Player %s's score is now %d.",player.getName(),player.getScore()));
                 }
 
                 // Let's start incrementing the blocked count
@@ -206,6 +208,8 @@ public class Round {
         //   Otherwise it is a draw.
         Player pRoundWinner = hasAnEmptyTray() ;
         if ( pRoundWinner != null ) {
+            Event.logEvent(EventType.WIN_A_ROUND_BY_EMPTY_TRAY,this);
+
             pRoundWinner.setScore(pRoundWinner.getScore()+BONUS_EMPTY_TRAY);
             pRoundWinner.setScore(pRoundWinner.getScore()+pointsTotalFromOtherPlayersTrays(pRoundWinner));
             pRoundWinner.setWonAGameCount(pRoundWinner.getWonAGameCount()+1);
@@ -214,6 +218,8 @@ public class Round {
         // Else, the player with the fewest tiles at the end of the Round wins and
         // gets the value of all the tiles in the other player's trays.
         } else {
+            Event.logEvent(EventType.WIN_A_ROUND_BY_FEWEST_TILES,this);
+
             pRoundWinner = getPlayerWithFewestTiles() ;
             pRoundWinner.setScore(pRoundWinner.getScore()+pointsTotalFromOtherPlayersTrays(pRoundWinner));
             Log.Info( String.format("  Player '%s' won this round with the fewest tiles remaining in their tray.", pRoundWinner.getName()));
@@ -247,6 +253,7 @@ public class Round {
             } else if ( pOver400.size() == 1 ){
                 Log.Info( "  Only one player is above 400 points.");
                 pWinner = pOver400.get(0);
+                Event.logEvent(EventType.WIN_A_GAME,this);
             } else {
                 pWinner = null;
             }
@@ -349,12 +356,14 @@ public class Round {
      */
     protected void drawTiles() {
 
+        Event.logEvent(EventType.SETUP_PLAYER_TRAY,this);
+
         // Draw tray for each player, taking turns
         Log.Info(" Drawing tiles for each player's tray...");
         for ( int draw = 0; draw < getNumDraws(); draw++ ) {
             Log.Info(String.format("  Draw %s", draw ));
             for ( Player p : getPlayers() ) {
-                p.drawTile(getTiles());
+                p.drawTile(getTiles(),getRoundNumber());
             }
         }
     }
@@ -363,6 +372,8 @@ public class Round {
      * Shuffles the tiles in the tile pool so that we randomize the picking order.
      */
     protected void shuffleTilePool() {
+
+        Event.logEvent(EventType.SHUFFLE_TILES,this);
 
         // Shuffle the tray for randomized picking
         Log.Info(" Shuffelling tile pool...");
@@ -441,7 +452,9 @@ public class Round {
      * Note: No three corners repeat with another tile.  Values
      *       4-5-4 and 4-5-5 appear only once.
      */
-    protected void generateTiles() {                     // The 56-pieces generated should match this table
+    protected void generateTiles() {
+        Event.logEvent(EventType.GENERATE_TILES,this);
+                                                         // The 56-pieces generated should match this table
         int id = 1 ;                                     // -----------------------------------------------
         int cStart ;                                     // 01 0-0-0 1-1-1 2-2-2 3-3-3 4-4-4 5-5-4
         // 02 0-0-1 1-1-2 2-2-3 3-3-4 4-4-5 5-5-5

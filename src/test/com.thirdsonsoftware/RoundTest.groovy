@@ -72,7 +72,7 @@ class RoundTest extends GroovyTestCase {
     }
 
     void testPlay() {
-        round.play()
+        round.playRound()
     }
 
     void testGenerateTiles() {

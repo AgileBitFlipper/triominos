@@ -122,9 +122,10 @@ public class Player implements Serializable {
      *
      * @param tilePool - the pool of tray to draw from
      */
-    public boolean drawTile( ArrayList<Tile> tilePool ) {
+    public boolean drawTile( ArrayList<Tile> tilePool, int round ) {
         Tile t = tilePool.remove(0);
         t.setPlayer(this);
+        Event.logEvent(EventType.DRAW_A_TILE,t,this,round);
         Log.Info(String.format( "   Removing tile %s and adding it to %s's tray.", t, name ) );
         return getTray().add(t);
     }
@@ -182,10 +183,13 @@ public class Player implements Serializable {
 
         // Let's let everyone know the type of tile this choice is...
         if ( myTileToPlay.getValue() == 0 ) {
+            Event.logEvent(EventType.TRIPLE_ZERO_BONUS, board.getRound());
             Log.Info("   Playing zero-triplet tile for 30 point bonus!");
         } else if ( myTileToPlay.isTriplet() ) {
+            Event.logEvent(EventType.TRIPLE_PLAY_BONUS, board.getRound());
             Log.Info("   Playing highest value triplet tile for 10 point bonus!");
         } else {
+            Event.logEvent(EventType.HIGHEST_TILE_START, board.getRound());
             Log.Info("   Playing highest value tile for no bonus!");
         }
 
@@ -265,8 +269,10 @@ public class Player implements Serializable {
         // Spin through choices looking for the highest value or score
         for ( Choice c : choicesToPlay ) {
 
+            c.setTestForFitOnly(true);
+
             // Test to see if the choice fits or not before deciding if it's worth it.
-            if ( board.pieceFits( c.getTile(), c.getRow(), c.getCol(), c) ) {
+            if ( board.pieceFits( c ) ) {
 
                 // Get value for a tile needs to include bonus scoring...
                 if (c.getScore() > highestScore) {
@@ -291,14 +297,18 @@ public class Player implements Serializable {
             tileToPlay.setRotation(topChoice.getRotation());
             tileToPlay.setPlayer(this);
 
-            Log.Info(String.format("  Top choice: %s",topChoice.getTile()));
+            topChoice.setTestForFitOnly(false);
+
+            Log.Debug(String.format("  Top choice: %s",topChoice.getTile()));
 
             if ( board.placeTile(topChoice)) {
+
+                Event.logEvent(EventType.PLACE_A_TILE, board.getRound());
 
                 this.setScore(this.getScore()+topChoice.getScore());
 
                 getTray().remove(tileToPlay);
-                Log.Info(board.display(false));
+                Log.Debug(board.display(false));
                 Log.Info(String.format("   Played tile '%s' at location (%d,%d).", tileToPlay, tileToPlay.getRow(), tileToPlay.getCol()));
 
                 // We found a tile to play, so let's add it to the list
@@ -321,7 +331,7 @@ public class Player implements Serializable {
         // Ultimately, did we play a tile?
         if ( tileToPlay == null ) {
 
-            Log.Info(String.format("--- Player '%s' can't find a tile to play ---", this.getName()));
+            Log.Debug(String.format("--- Player '%s' can't find a tile to play ---", this.getName()));
 
             StringBuilder strTray = new StringBuilder("    No matches: ");
 
@@ -330,7 +340,7 @@ public class Player implements Serializable {
                 strTray.append(trayTile).append(",");
             }
 
-            Log.Info(strTray.toString());
+            Log.Debug(strTray.toString());
 
         }
 

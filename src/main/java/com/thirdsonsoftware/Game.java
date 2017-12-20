@@ -46,6 +46,8 @@ class Game implements Serializable {
 
         Log.Info("Let's play triominos!");
 
+        Event.logEvent(EventType.SETUP_PLAYERS);
+
         // Set the number of players for this game
         setNumPlayers(numPlayers);
 
@@ -63,6 +65,10 @@ class Game implements Serializable {
         setRounds(new ArrayList<Round>(DEFAULT_NUM_ROUNDS));
     }
 
+    /**
+     * Determines if any of the players have won by reaching a score of 400 or more
+     * @return True if a player has won, otherwise False
+     */
     protected boolean hasWon() {
         boolean playerIsOver400 = false ;
         for( Player p : players ) {
@@ -86,7 +92,9 @@ class Game implements Serializable {
             Round round = new Round(++index, players);
             round.getBoard().setUseColor(true);
             rounds.add(round);
-            round.play();
+            Event.logEvent(EventType.START_A_ROUND,round);
+            round.playRound();
+            Event.logEvent(EventType.END_A_ROUND,round);
         } while ( !hasWon() ) ;
 
         Log.Info(String.format("  Game completed in %d rounds.", index));
