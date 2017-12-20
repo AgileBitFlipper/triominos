@@ -2,6 +2,8 @@ package com.thirdsonsoftware;
 
 public class Log {
 
+    public static boolean debugMode = false ;
+
     // Foreground colors
     public static final String RESET  = "\u001B[0m";
     public static final String BLACK  = "\u001B[30m";
@@ -23,24 +25,32 @@ public class Log {
     public static final String CYAN_BG   = "\u001B[46m";
     public static final String WHITE_BG  = "\u001B[47m";
 
+    // Retrieve the calling class
+    public static Class getCallerClass(int level) throws ClassNotFoundException {
+        StackTraceElement[] stElements = Thread.currentThread().getStackTrace();
+        String rawFQN = stElements[level+1].toString().split("\\(")[0];
+        return Class.forName(rawFQN.substring(0, rawFQN.lastIndexOf('.')));
+    }
+
     //info
-    public static void Info(String className, String message) {
-        System.out.println(WHITE + " : " + message + RESET);
+    public static void Info(String message) {
+        System.out.println(WHITE + message + RESET);
     }
 
     //error
-    public static void Error(String className, String message) {
-        System.out.println(RED + " : " + message + RESET);
+    public static void Error(String message) {
+        System.out.println(RED + message + RESET);
     }
 
     //debug
-    public static void Debug(String className, String message) {
-        System.out.println(BLUE + " : " + message + RESET);
+    public static void Debug(String message) {
+        if ( debugMode )
+            System.out.println(BLUE + message + RESET);
     }
 
     //warning
-    public static void Warning(String className, String message) {
-        System.out.println(YELLOW + className + " : " + message + RESET);
+    public static void Warning(String message) {
+        System.out.println(YELLOW + message + RESET);
     }
 
     // Todo: Add logging to a file support

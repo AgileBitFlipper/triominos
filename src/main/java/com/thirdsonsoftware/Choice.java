@@ -12,6 +12,8 @@ public class Choice {
     // Which tile?
     Tile tile ;
 
+    boolean testForFitOnly ;
+
     // If this choice is taken, what would the score be?
     private int score ;
 
@@ -61,6 +63,24 @@ public class Choice {
      */
     public void setTile(Tile tile) {
         this.tile = tile;
+    }
+
+    /**
+     * Getter for the testForFitOnly flag
+     * @return
+     */
+    public boolean isTestForFitOnly() {
+        return testForFitOnly;
+    }
+
+    /**
+     * Setter for the testForFitOnly flag.  If set, this means that
+     *   this test is only to see if it fits, not that it is actually
+     *   placing a Tile.
+     * @param testForFitOnly
+     */
+    public void setTestForFitOnly(boolean testForFitOnly) {
+        this.testForFitOnly = testForFitOnly;
     }
 
     /**

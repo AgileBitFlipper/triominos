@@ -36,6 +36,7 @@ public class Player implements Serializable {
 
     private Mode mode ;               // Playing around with the idea of an output mode
 
+    private int wonAGameCount ;       // How many times has this player won a game
     private int score ;               // The players score
     private boolean starts;           // This player starts the game (highest tile)
     private String name ;             // The name of the player
@@ -47,6 +48,7 @@ public class Player implements Serializable {
      * @param name - name of player
      */
     public Player(String name) {
+        setWonAGameCount(0);
         setScore(0);
         setStarts(false);
         setName(name);
@@ -54,6 +56,13 @@ public class Player implements Serializable {
         setMode(Mode.RELEASE);
         setStarts(false);
     }
+
+    /**
+     * How many games has this player won?
+     * @param count
+     */
+    public void setWonAGameCount(int count) { wonAGameCount = count ; }
+    public int getWonAGameCount() { return wonAGameCount ; }
 
     /**
      * For now, we use this to determine if we are in debug output mode or not
@@ -113,10 +122,11 @@ public class Player implements Serializable {
      *
      * @param tilePool - the pool of tray to draw from
      */
-    public boolean drawTile( ArrayList<Tile> tilePool ) {
+    public boolean drawTile( ArrayList<Tile> tilePool, int round ) {
         Tile t = tilePool.remove(0);
         t.setPlayer(this);
-        Log.Info(this.getClass().getName(), String.format( "   Removing tile %s and adding it to %s's tray.", t, name ) );
+        Event.logEvent(EventType.DRAW_A_TILE,t,this,round);
+        Log.Info(String.format( "   Removing tile %s and adding it to %s's tray.", t, name ) );
         return getTray().add(t);
     }
 
@@ -173,11 +183,14 @@ public class Player implements Serializable {
 
         // Let's let everyone know the type of tile this choice is...
         if ( myTileToPlay.getValue() == 0 ) {
-            Log.Info(this.getClass().getName(),"   Playing zero-triplet tile for 30 point bonus!");
+            Event.logEvent(EventType.TRIPLE_ZERO_BONUS, board.getRound());
+            Log.Info("   Playing zero-triplet tile for 30 point bonus!");
         } else if ( myTileToPlay.isTriplet() ) {
-            Log.Info(this.getClass().getName(),"   Playing highest value triplet tile for 10 point bonus!");
+            Event.logEvent(EventType.TRIPLE_PLAY_BONUS, board.getRound());
+            Log.Info("   Playing highest value triplet tile for 10 point bonus!");
         } else {
-            Log.Info(this.getClass().getName(),"   Playing highest value tile for no bonus!");
+            Event.logEvent(EventType.HIGHEST_TILE_START, board.getRound());
+            Log.Info("   Playing highest value tile for no bonus!");
         }
 
         // Return back the tile we played so we can us it for choosing faces next time
@@ -206,7 +219,7 @@ public class Player implements Serializable {
             Tile played = iTile.next();
 
             if (getMode() == Mode.DEBUG)
-                Log.Debug(this.getClass().getName(),"Tile to match:\n" + showTile(played));
+                Log.Debug("Tile to match:\n" + showTile(played));
 
             int tileRow = played.getRow();
             int tileCol = played.getCol();
@@ -256,8 +269,10 @@ public class Player implements Serializable {
         // Spin through choices looking for the highest value or score
         for ( Choice c : choicesToPlay ) {
 
+            c.setTestForFitOnly(true);
+
             // Test to see if the choice fits or not before deciding if it's worth it.
-            if ( board.pieceFits( c.getTile(), c.getRow(), c.getCol(), c) ) {
+            if ( board.pieceFits( c ) ) {
 
                 // Get value for a tile needs to include bonus scoring...
                 if (c.getScore() > highestScore) {
@@ -282,29 +297,33 @@ public class Player implements Serializable {
             tileToPlay.setRotation(topChoice.getRotation());
             tileToPlay.setPlayer(this);
 
-            Log.Info(this.getClass().getName(),String.format("  Top choice: %s",topChoice.getTile()));
+            topChoice.setTestForFitOnly(false);
+
+            Log.Debug(String.format("  Top choice: %s",topChoice.getTile()));
 
             if ( board.placeTile(topChoice)) {
+
+                Event.logEvent(EventType.PLACE_A_TILE, board.getRound());
 
                 this.setScore(this.getScore()+topChoice.getScore());
 
                 getTray().remove(tileToPlay);
-                Log.Info(this.getClass().getName(),board.display(false));
-                Log.Info(this.getClass().getName(),String.format("   Played tile '%s' at location (%d,%d).", tileToPlay, tileToPlay.getRow(), tileToPlay.getCol()));
+                Log.Debug(board.display(false));
+                Log.Info(String.format("   Played tile '%s' at location (%d,%d).", tileToPlay, tileToPlay.getRow(), tileToPlay.getCol()));
 
                 // We found a tile to play, so let's add it to the list
                 if ( tileHasAnEmptyFace(board, tileToPlay) ) {
-                    Log.Info(this.getClass().getName(),"  Tile added to empty faces pool: " + tileToPlay );
+                    Log.Debug("  Tile added to empty faces pool: " + tileToPlay );
                     tilesWithAvailableFaces.add(tileToPlay);
                 } else {
-                    Log.Info(this.getClass().getName(),"  Tile removed from empty faces pool: " + tileToPlay );
+                    Log.Debug("  Tile removed from empty faces pool: " + tileToPlay );
                     tilesWithAvailableFaces.remove(tileToPlay);
                 }
 
             } else {
                 // We can't place it, so let's not pretend we can!
                 tileToPlay = null ;
-                Log.Info(this.getClass().getName(),String.format("--- Unable to place tile '%s' on board @ (%d,%d) with o:%s r:%d ---", tileToPlay, row, col, tileToPlay.getOrientation(), tileToPlay.getRow() ) );
+                Log.Info(String.format("--- Unable to place tile '%s' on board @ (%d,%d) with o:%s r:%d ---", tileToPlay, row, col, tileToPlay.getOrientation(), tileToPlay.getRow() ) );
             }
 
         }
@@ -312,7 +331,7 @@ public class Player implements Serializable {
         // Ultimately, did we play a tile?
         if ( tileToPlay == null ) {
 
-            Log.Info(this.getClass().getName(),String.format("--- Player '%s' can't find a tile to play ---", this.getName()));
+            Log.Debug(String.format("--- Player '%s' can't find a tile to play ---", this.getName()));
 
             StringBuilder strTray = new StringBuilder("    No matches: ");
 
@@ -321,7 +340,7 @@ public class Player implements Serializable {
                 strTray.append(trayTile).append(",");
             }
 
-            Log.Info(this.getClass().getName(),strTray.toString());
+            Log.Debug(strTray.toString());
 
         }
 
@@ -385,11 +404,11 @@ public class Player implements Serializable {
             if ( aMatchWasFound ) {
                 if ( getMode() == Mode.DEBUG ) {
                     if (orientationOfTileToMatch == Orientation.UP) {
-                        Log.Info(this.getClass().getName(),"== Match Face Below ==");
-                        Log.Info(this.getClass().getName(),showTwoTilesTopAndBottom(played, trayTile));
+                        Log.Info("== Match Face Below ==");
+                        Log.Info(showTwoTilesTopAndBottom(played, trayTile));
                     } else {
-                        Log.Info(this.getClass().getName(),"== Match Face Above ==");
-                        Log.Info(this.getClass().getName(),showTwoTilesTopAndBottom(trayTile, played));
+                        Log.Info("== Match Face Above ==");
+                        Log.Info(showTwoTilesTopAndBottom(trayTile, played));
                     }
                 }
                 choices.add(new Choice( trayTile, row, col, trayTile.getOrientation(), trayTile.getRotation()));
@@ -447,8 +466,8 @@ public class Player implements Serializable {
 
             if ( aMatchWasFound ) {
                 if ( getMode() == Mode.DEBUG ) {
-                    Log.Info(this.getClass().getName(),"== Match Right Face ==");
-                    Log.Info(this.getClass().getName(),showTwoTilesLeftAndRight(played, trayTile));
+                    Log.Info("== Match Right Face ==");
+                    Log.Info(showTwoTilesLeftAndRight(played, trayTile));
                 }
                 choices.add(new Choice( trayTile, row, col, trayTile.getOrientation(), trayTile.getRotation()));
             }
@@ -506,8 +525,8 @@ public class Player implements Serializable {
             // Assume we are going to play this one
             if ( aMatchWasFound ) {
                 if ( getMode() == Mode.DEBUG ) {
-                    Log.Info(this.getClass().getName(),"== Match Left Face ==");
-                    Log.Info(this.getClass().getName(),showTwoTilesLeftAndRight(trayTile, played));
+                    Log.Info("== Match Left Face ==");
+                    Log.Info(showTwoTilesLeftAndRight(trayTile, played));
                 }
                 choices.add(new Choice( trayTile, row, col, trayTile.getOrientation(), trayTile.getRotation()));
             }

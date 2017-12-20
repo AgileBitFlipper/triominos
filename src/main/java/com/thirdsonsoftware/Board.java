@@ -71,6 +71,8 @@ public class Board implements Serializable {
     protected static final int DEFAULT_ROWS = 112 ;
     protected static final int DEFAULT_COLS = 112 ;
 
+    private int round ;
+
     private int num_rows ;
     private int num_cols ;
 
@@ -355,9 +357,12 @@ public class Board implements Serializable {
      * @param col - the column of the location to place the tile
      * @return true if it fits, and false otherwise
      */
-    public boolean pieceFits(Tile t, int row, int col, Choice choice) {
+    public boolean pieceFits( Choice choice ) {
 
         boolean bItFits = false ;
+        Tile t = choice.getTile();
+        int row = choice.getRow();
+        int col = choice.getCol();
 
         // We need to adjust the tile to the choice setting first...for now
         // Later, let's remove the use of the tile all together...
@@ -374,8 +379,8 @@ public class Board implements Serializable {
                     rightCornerFits(t, row, col);
 
             if (bItFits) {
-                int score = calculateScore(t, row, col);
-//                Log.Info(this.getClass().getName(),String.format("  Score for playing tile %s @ (%d,%d) is %s.", t, row, col, score));
+                int score = calculateScore(choice);
+                Log.Debug(String.format("  Score for playing tile %s @ (%d,%d) is %s.", t, row, col, score));
                 choice.setScore(score);
             }
         }
@@ -435,7 +440,7 @@ public class Board implements Serializable {
             Tile tileToTheLeft = pieceAtLocation(row,col-1);
             if ( ( tileToTheLeft != null) &&
                  ( tileToTheLeft.getMiddleCorner() != cornerToMatch ) ) {
-                Log.Info(this.getClass().getName(),Player.showTwoTilesLeftAndRight(tileToTheLeft, t));
+                Log.Info(Player.showTwoTilesLeftAndRight(tileToTheLeft, t));
                 bItFits = false;
                 whyItFails = "left";
             }
@@ -486,8 +491,12 @@ public class Board implements Serializable {
                 whyItFails = "up & far-left";
             }
         }
-        if (!bItFits)
-            Log.Info(this.getClass().getName(), String.format("  Tile '%s' placement @ (%d,%d) fails left corner test - %s", t, row, col, whyItFails) ) ;
+        if (!bItFits) {
+
+            Event.logEvent(EventType.FAIL_CORNER_TEST, getRound());
+
+            Log.Info(String.format("  Tile '%s' placement @ (%d,%d) fails left corner test - %s", t, row, col, whyItFails));
+        }
         return bItFits ;
     }
 
@@ -519,7 +528,7 @@ public class Board implements Serializable {
                     Tile tileDownAndRight = pieceAtLocation(row, col + 1);
                     if ((tileDownAndRight != null) &&
                             (tileDownAndRight.getLeftCorner() != t.getMiddleCorner())) {
-                        Log.Info(this.getClass().getName(),Player.showTwoTilesLeftAndRight(t, pieceAtLocation(row, col + 1)));
+                        Log.Info(Player.showTwoTilesLeftAndRight(t, pieceAtLocation(row, col + 1)));
                         bItFits = false;
                         whyItFails = "down & right";
                     }
@@ -568,7 +577,7 @@ public class Board implements Serializable {
         }
 
         if (!bItFits)
-            Log.Info(this.getClass().getName(), String.format("  Tile '%s' placement @ (%d,%d) fails middle corner test - %s", t, row, col, whyItFails) ) ;
+            Log.Info( String.format("  Tile '%s' placement @ (%d,%d) fails middle corner test - %s", t, row, col, whyItFails) ) ;
         return bItFits;
     }
 
@@ -598,7 +607,7 @@ public class Board implements Serializable {
             Tile tileToTheRight = pieceAtLocation(row, col + 1) ;
             if ( ( tileToTheRight != null ) &&
                  ( tileToTheRight.getMiddleCorner() != cornerToMatch ) ) {
-                Log.Info(this.getClass().getName(),Player.showTwoTilesLeftAndRight(t, pieceAtLocation(row, col + 1)));
+                Log.Info(Player.showTwoTilesLeftAndRight(t, pieceAtLocation(row, col + 1)));
                 bItFits = false;
                 whyItFails = "right";
             }
@@ -660,7 +669,7 @@ public class Board implements Serializable {
             }
         }
         if (!bItFits)
-            Log.Info(this.getClass().getName(), String.format("  Tile '%s' placement @ (%d,%d) rails right corner test - %s", t, row, col, whyItFails) ) ;
+            Log.Info( String.format("  Tile '%s' placement @ (%d,%d) fails right corner test - %s", t, row, col, whyItFails) ) ;
         return bItFits;
     }
 
@@ -810,7 +819,11 @@ public class Board implements Serializable {
      * @param col - position to place the tile
      * @return  score - score if tile is placed
      */
-    protected int calculateScore(Tile t, int row, int col) {
+    protected int calculateScore(Choice choice) {
+
+        Tile t = choice.getTile();
+        int row = choice.getRow();
+        int col = choice.getCol();
 
         //***************************************************************
         // Note:  This is a real board, and should be considered
@@ -934,7 +947,7 @@ public class Board implements Serializable {
                         bULHexagon &= ( pieceAtLocation(row + hexLRD[i],col + hexLCD[i]) != null ) ;
                     }
                     if ( bULHexagon )
-                        Log.Info(this.getClass().getName(),"  Completed hexagon with Up-Left orientation!");
+                        Log.Debug("  Completed hexagon with Up-Left orientation!");
                 }
                 if ( col < num_cols-2 ) {
                     bURHexagon = true ;
@@ -943,7 +956,7 @@ public class Board implements Serializable {
                         bURHexagon &= ( pieceAtLocation(row + hexRRD[i],col + hexRCD[i]) != null ) ;
                     }
                     if ( bURHexagon )
-                        Log.Info(this.getClass().getName(),"  Completed hexagon with Up-Right orientation!");
+                        Log.Debug("  Completed hexagon with Up-Right orientation!");
                 }
             }
 
@@ -956,7 +969,7 @@ public class Board implements Serializable {
                     }
                 }
                 if ( bUMHexagon )
-                    Log.Info(this.getClass().getName(),"  Completed hexagon with Up-Middle orientation!");
+                    Log.Debug("  Completed hexagon with Up-Middle orientation!");
             }
 
         } else {
@@ -1004,7 +1017,7 @@ public class Board implements Serializable {
                         bDLHexagon &= ( pieceAtLocation(row + hexLRD[i],col + hexLCD[i]) != null ) ;
                     }
                     if ( bDLHexagon )
-                        Log.Info(this.getClass().getName(),"  Completed hexagon with Down-Left orientation!");
+                        Log.Debug("  Completed hexagon with Down-Left orientation!");
                 }
                 if ( col < num_cols-2 ) {
                     bDRHexagon = true ;
@@ -1013,7 +1026,7 @@ public class Board implements Serializable {
                         bDRHexagon &= ( pieceAtLocation(row + hexRRD[i],col + hexRCD[i]) != null ) ;
                     }
                     if ( bDRHexagon )
-                        Log.Info(this.getClass().getName(),"  Completed hexagon with Down-Right orientation!");
+                        Log.Debug("  Completed hexagon with Down-Right orientation!");
                 }
             }
 
@@ -1025,7 +1038,7 @@ public class Board implements Serializable {
                         bDMHexagon &= ( pieceAtLocation(row + hexARD[i],col + hexACD[i]) != null ) ;
                     }
                     if ( bDMHexagon )
-                        Log.Info(this.getClass().getName(),"  Completed hexagon with Down-Middle orientation!");
+                        Log.Debug("  Completed hexagon with Down-Middle orientation!");
                 }
             }
 
@@ -1037,13 +1050,19 @@ public class Board implements Serializable {
 
         // Hexagon bonus
         if ( bCreatesAHexagon ) {
-            Log.Info(this.getClass().getName(),String.format("  Tile %s creates a hexagon @ (%d,%d)!  Bonus of %d points!", t, row, col, HEXAGON_BONUS));
+            if ( !choice.isTestForFitOnly() ) {
+                Event.logEvent(EventType.CREATE_A_HEXAGON, getRound());
+                Log.Info(String.format("  Tile %s creates a hexagon @ (%d,%d)!  Bonus of %d points!", t, row, col, HEXAGON_BONUS));
+            }
             score = HEXAGON_BONUS ;
         }
 
         // Bridge bonus
         if ( bCreatesABridge ) {
-            Log.Info(this.getClass().getName(),String.format("  Tile %s creates a bridge @ (%d,%d)!  Bonus of %d points!", t, row, col, BRIDGE_BONUS));
+            if ( !choice.isTestForFitOnly() ) {
+                Event.logEvent(EventType.CREATE_A_BRIDGE, getRound());
+                Log.Info(String.format("  Tile %s creates a bridge @ (%d,%d)!  Bonus of %d points!", t, row, col, BRIDGE_BONUS));
+            }
             score = BRIDGE_BONUS ;
         }
 
@@ -1090,7 +1109,7 @@ public class Board implements Serializable {
         t.setOrientation( getOrientationForPositionOnBoard(row,col) ) ;
 
         // Does the piece fit into that location on the board?
-        if ( pieceFits( t, row, col, choice ) ) {
+        if ( pieceFits( choice ) ) {
 
             // Play the tile and setup the piece information.
             playedTiles[row][col] = t;
@@ -1107,6 +1126,14 @@ public class Board implements Serializable {
             return true;
         }
         return false;
+    }
+
+    public int getRound() {
+        return round;
+    }
+
+    public void setRound(int round) {
+        this.round = round;
     }
 
     /**

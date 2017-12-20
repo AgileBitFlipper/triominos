@@ -27,12 +27,18 @@ class Main {
 
     public static void main(String[] args) {
 
+        Event.logEvent(EventType.START_A_GAME);
+
         game = new Game(2);
-        game.getBoard().setUseColor(true);
 
         game.play();
 
-        Log.Info("Main", game.toString());
+        Log.Info(game.toString());
+
+        Event.logEvent(EventType.END_A_GAME);
+
+        String eventlog = EventManager.logEvents();
+        EventManager.getInstance().dumpEventData(eventlog) ;
     }
 
     // Todo: We should be able to save and retrieve game state...finish this later.
@@ -42,7 +48,7 @@ class Main {
      */
     static protected void saveGame() {
         try {
-            Log.Info("Main","Saving the current game state...") ;
+            Log.Info("Saving the current game state...") ;
             FileOutputStream fos = new FileOutputStream("triominos.ser");
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(game);
@@ -61,7 +67,7 @@ class Main {
     static protected Game loadGame() {
         Game loadedGame = null;
         try {
-            Log.Info("Main","Loading game from saved state...");
+            Log.Info("Loading game from saved state...");
             FileInputStream fis = new FileInputStream("triominos.ser");
             ObjectInputStream ois = new ObjectInputStream(fis);
             loadedGame = (Game) ois.readObject();

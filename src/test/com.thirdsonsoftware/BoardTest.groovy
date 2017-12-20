@@ -268,11 +268,11 @@ class BoardTest extends GroovyTestCase {
 
     void testPieceFits() {
         choiceE.setOrientation(Orientation.UP)
-        assertTrue(board.pieceFits(tileE,56,57, choiceE))
+        assertTrue(board.pieceFits(choiceE))
         choiceE.setRotation(120)
-        assertFalse(board.pieceFits(tileE, 56, 57, choiceE))
+        assertFalse(board.pieceFits(choiceE))
         choiceE.setRotation(240)
-        assertTrue(board.pieceFits(tileE, 56,57, choiceE))
+        assertTrue(board.pieceFits(choiceE))
     }
 
     void testFindBoardMinMax() {

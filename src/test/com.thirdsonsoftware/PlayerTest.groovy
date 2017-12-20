@@ -82,7 +82,7 @@ class PlayerTest extends GroovyTestCase {
     void testDrawTile() {
         ArrayList<Tile> pool = new ArrayList<>()
         pool.add(new Tile(1,2,3))
-        player.drawTile(pool)
+        player.drawTile(pool,1)
 
     }
 
