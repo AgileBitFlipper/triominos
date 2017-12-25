@@ -120,7 +120,7 @@ public class Round implements Serializable {
      * The main gameplay loop, looping through players and making plays based
      *   on the rules of the game.
      */
-    public void playRound() {
+    public Player playRound() {
 
         int indexPlayer ;
         int turn = 1 ;
@@ -208,20 +208,20 @@ public class Round implements Serializable {
         //   Otherwise it is a draw.
         Player pRoundWinner = hasAnEmptyTray() ;
         if ( pRoundWinner != null ) {
-            Event.logEvent(EventType.WIN_A_ROUND_BY_EMPTY_TRAY,this);
 
             pRoundWinner.setScore(pRoundWinner.getScore()+BONUS_EMPTY_TRAY);
             pRoundWinner.setScore(pRoundWinner.getScore()+pointsTotalFromOtherPlayersTrays(pRoundWinner));
             pRoundWinner.setWonAGameCount(pRoundWinner.getWonAGameCount()+1);
+            Event.logEvent(EventType.WIN_A_ROUND_BY_EMPTY_TRAY,this, pRoundWinner);
             Log.Info(String.format("  Player '%s' won this round by playing all of their tiles.", pRoundWinner.getName()));
 
         // Else, the player with the fewest tiles at the end of the Round wins and
         // gets the value of all the tiles in the other player's trays.
         } else {
-            Event.logEvent(EventType.WIN_A_ROUND_BY_FEWEST_TILES,this);
 
             pRoundWinner = getPlayerWithFewestTiles() ;
             pRoundWinner.setScore(pRoundWinner.getScore()+pointsTotalFromOtherPlayersTrays(pRoundWinner));
+            Event.logEvent(EventType.WIN_A_ROUND_BY_FEWEST_TILES,this, pRoundWinner);
             Log.Info( String.format("  Player '%s' won this round with the fewest tiles remaining in their tray.", pRoundWinner.getName()));
         }
 
@@ -253,7 +253,7 @@ public class Round implements Serializable {
             } else if ( pOver400.size() == 1 ){
                 Log.Info( "  Only one player is above 400 points.");
                 pWinner = pOver400.get(0);
-                Event.logEvent(EventType.WIN_A_GAME,this);
+                Event.logEvent(EventType.WIN_A_GAME,this, pWinner);
             } else {
                 pWinner = null;
             }
@@ -266,6 +266,7 @@ public class Round implements Serializable {
         if ( pWinner != null )
             Log.Info(String.format("Player '%s' has won the game by scoring %d points!  Congratulations!",pWinner.getName(),pWinner.getScore() ) ) ;
 
+        return pWinner ;
     }
 
     /**

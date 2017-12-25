@@ -19,14 +19,9 @@
 
 package com.thirdsonsoftware;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-/** Represents the orientation of a tile.
- */
-enum Orientation {
-    UP,
-    DOWN
-}
+import java.io.Serializable;
 
 /** Represents a tile in the game.
  * Tiles are constructed in a
@@ -70,9 +65,9 @@ public class Tile implements Comparable, Serializable {
 
     static String colors[] = new String[5];
 
-    static String c ; // Color
-    static String b ; // Color Blue
-    static String r ; // Color Reset
+    static String c = "" ; // Color
+    static String b = "" ; // Color Blue
+    static String r = "" ; // Color Reset
 
     /**
      * Constructs a tile with the provided corner values.
@@ -422,6 +417,25 @@ public class Tile implements Comparable, Serializable {
             return 1;
 
         return 0;
+    }
+
+    /**
+     * We need this for HashMap to work correctly for a Tile.
+     * @return hash of the Tile's string
+     */
+    public int hashCode() {
+        return toString().hashCode();
+    }
+
+    /**
+     * We need this for HashMap to work when using a Tile as a key
+     * @param o - Object to compare this against
+     * @return true if names are the same, false otherwise
+     */
+    public boolean equals(Object o) {
+        if ((o instanceof Tile) && ((Tile) o).toString().equals(toString()))
+            return true;
+        return false;
     }
 
 }

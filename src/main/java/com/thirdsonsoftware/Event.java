@@ -1,5 +1,9 @@
 package com.thirdsonsoftware;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+
 import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -71,6 +75,10 @@ public class Event implements Serializable {
     //Round round ;
     int round ;
 
+    // Making the game static allows us to set it and forget it
+    // Todo: Might want to consider this for other options?  Round?
+    public static int game = 1;
+
     // Generic Event
     public Event(EventType evtType) {
         type = evtType ;
@@ -91,6 +99,7 @@ public class Event implements Serializable {
         StringBuilder strEvent = new StringBuilder(100);
         strEvent.append(eventDateTime).append(",");
         strEvent.append("Type:").append(type).append(",");
+        strEvent.append("Game:").append(game).append(",");
         strEvent.append("Round:").append(round).append(",");
         strEvent.append("Name:").append((player!=null) ? player.getName():"").append(",");
         strEvent.append("Tile:").append((tile!=null) ? tile : "").append(",");
@@ -101,7 +110,7 @@ public class Event implements Serializable {
         strEvent.append("Completed Bridge:").append(completedABridge).append(",");
         strEvent.append("Completed Hexagon:").append(completedAHexagon).append(",");
         strEvent.append("End of Round:").append(endOfRound ? "true":"false").append(",");
-        strEvent.append("End of Game:").append(endOfGame ? "true":"false").append(",");
+        strEvent.append("End of Game:").append(endOfGame ? "true":"false");
         return strEvent.toString();
     }
 
@@ -114,15 +123,33 @@ public class Event implements Serializable {
         EventManager.getInstance().logEvent(event);
     }
 
-    static void logEvent( EventType type, int round ) {
+    static void logEvent( EventType type, int value ) {
         Event event = new Event( type ) ;
-        event.round = round ;
+        if ( type == EventType.START_A_GAME || type == EventType.END_A_GAME ) {
+            event.game = value;
+        } else if ( type == EventType.START_A_ROUND || type == EventType.END_A_ROUND ) {
+            event.round = value;
+        }
         EventManager.getInstance().logEvent(event);
     }
 
     static void logEvent( EventType type, Round r ) {
         Event event = new Event( type ) ;
         event.round = r.getRoundNumber() ;
+        EventManager.getInstance().logEvent(event);
+    }
+
+    static void logEvent( EventType type, int r, Tile t ) {
+        Event event = new Event( type ) ;
+        event.round = r ;
+        event.tile = t ;
+        EventManager.getInstance().logEvent(event);
+    }
+
+    static void logEvent( EventType type, Round r, Player p ) {
+        Event event = new Event( type ) ;
+        event.round = r.getRoundNumber() ;
+        event.player = p ;
         EventManager.getInstance().logEvent(event);
     }
 
