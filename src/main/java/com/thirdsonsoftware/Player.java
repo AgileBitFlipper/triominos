@@ -322,8 +322,8 @@ public class Player implements Serializable {
 
             } else {
                 // We can't place it, so let's not pretend we can!
-                tileToPlay = null ;
                 Log.Info(String.format("--- Unable to place tile '%s' on board @ (%d,%d) with o:%s r:%d ---", tileToPlay, row, col, tileToPlay.getOrientation(), tileToPlay.getRow() ) );
+                tileToPlay = null ;
             }
 
         }

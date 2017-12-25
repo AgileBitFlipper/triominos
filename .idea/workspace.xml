@@ -7,33 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="40656ce1-131b-4f97-93f5-416d19880c54" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/triominos_jar.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_5_0.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_5_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_5_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/com_fasterxml_jackson_core_jackson_core_2_8_4.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/commons_cli_1_4.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/docker-compose.yml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/elk.sh" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/AnalyzeResults.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/CustomEventSerializer.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/CustomPlayerSerializer.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/CustomTileSerializer.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Orientation.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" />
-      <change beforePath="$PROJECT_DIR$/.classpath" afterPath="$PROJECT_DIR$/.classpath" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/.settings/org.eclipse.core.resources.prefs" afterPath="$PROJECT_DIR$/.settings/org.eclipse.core.resources.prefs" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Event.java" afterPath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Event.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/EventManager.java" afterPath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/EventManager.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Game.java" afterPath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Game.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Main.java" afterPath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Main.java" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Player.java" afterPath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Player.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Round.java" afterPath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Round.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Tile.java" afterPath="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Tile.java" />
-      <change beforePath="$PROJECT_DIR$/src/test/com.thirdsonsoftware/EventTest.groovy" afterPath="$PROJECT_DIR$/src/test/com.thirdsonsoftware/EventTest.groovy" />
       <change beforePath="$PROJECT_DIR$/src/test/test.iml" afterPath="" />
       <change beforePath="$PROJECT_DIR$/triominos.iml" afterPath="$PROJECT_DIR$/triominos.iml" />
     </list>
@@ -73,7 +47,7 @@
       <file leaf-file-name="Tile.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Tile.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2171">
+            <state relative-caret-position="0">
               <caret line="435" column="0" lean-forward="false" selection-start-line="435" selection-start-column="0" selection-end-line="435" selection-end-column="0" />
               <folding>
                 <element signature="e#3248#3249#0" expanded="true" />
@@ -88,7 +62,7 @@
       <file leaf-file-name="Event.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Event.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="274">
+            <state relative-caret-position="2717">
               <caret line="143" column="23" lean-forward="false" selection-start-line="143" selection-start-column="23" selection-end-line="143" selection-end-column="23" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -99,11 +73,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Player.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Player.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Player.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1257">
-              <caret line="191" column="87" lean-forward="false" selection-start-line="191" selection-start-column="87" selection-end-line="191" selection-end-column="87" />
+            <state relative-caret-position="162">
+              <caret line="326" column="0" lean-forward="false" selection-start-line="326" selection-start-column="0" selection-end-line="326" selection-end-column="0" />
               <folding>
                 <element signature="e#31660#31661#0" expanded="true" />
                 <element signature="e#31698#31699#0" expanded="true" />
@@ -115,7 +89,7 @@
       <file leaf-file-name="Board.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Board.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="76">
+            <state relative-caret-position="760">
               <caret line="59" column="13" lean-forward="false" selection-start-line="59" selection-start-column="13" selection-end-line="59" selection-end-column="13" />
               <folding />
             </state>
@@ -125,7 +99,7 @@
       <file leaf-file-name="Game.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Game.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="564">
+            <state relative-caret-position="1273">
               <caret line="86" column="0" lean-forward="false" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
               <folding />
             </state>
@@ -155,65 +129,6 @@
                 <element signature="e#1729#1730#0" expanded="true" />
                 <element signature="e#1790#1791#0" expanded="true" />
                 <element signature="e#1840#1841#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EventManager.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/EventManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="265">
-              <caret line="247" column="48" lean-forward="false" selection-start-line="247" selection-start-column="48" selection-end-line="247" selection-end-column="48" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="docker-compose.yml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/docker-compose.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
-              <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="elk.sh" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/elk.sh">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="76">
-              <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AnalyzeResults.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/AnalyzeResults.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="490">
-              <caret line="54" column="0" lean-forward="false" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#665#682#0" expanded="true" />
-                <element signature="e#749#766#0" expanded="true" />
-                <element signature="e#822#837#0" expanded="true" />
-                <element signature="e#901#916#0" expanded="true" />
-                <element signature="e#977#986#0" expanded="true" />
-                <element signature="e#1045#1054#0" expanded="true" />
-                <element signature="e#1620#1621#0" expanded="true" />
-                <element signature="e#1709#1710#0" expanded="true" />
-                <element signature="e#1748#1749#0" expanded="true" />
-                <element signature="e#1839#1840#0" expanded="true" />
-                <element signature="e#6436#6442#0" expanded="true" />
-                <element signature="e#6496#6497#0" expanded="true" />
-                <element signature="e#6540#6541#0" expanded="true" />
-                <element signature="e#7317#7334#0" expanded="true" />
-                <element signature="e#8120#8137#0" expanded="true" />
-                <element signature="e#8900#8915#0" expanded="true" />
-                <element signature="e#9665#9680#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -339,12 +254,12 @@
         <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Event.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Tile.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/TileComparator.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Player.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/EventManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Main.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/AnalyzeResults.java" />
         <option value="$PROJECT_DIR$/docker-compose.yml" />
         <option value="$PROJECT_DIR$/elk.sh" />
+        <option value="$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Player.java" />
       </list>
     </option>
   </component>
@@ -356,8 +271,7 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="x" value="1026" />
-    <option name="width" value="1022" />
+    <option name="width" value="2048" />
     <option name="height" value="1152" />
   </component>
   <component name="ProjectView">
@@ -375,10 +289,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
-      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -390,6 +300,19 @@
               <item name="triominos" type="b2602c69:ProjectViewProjectNode" />
               <item name="triominos" type="462c0819:PsiDirectoryNode" />
               <item name="out" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="triominos" type="b2602c69:ProjectViewProjectNode" />
+              <item name="triominos" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="artifacts" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="triominos" type="b2602c69:ProjectViewProjectNode" />
+              <item name="triominos" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="artifacts" type="462c0819:PsiDirectoryNode" />
+              <item name="triominos_jar" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="triominos" type="b2602c69:ProjectViewProjectNode" />
@@ -434,6 +357,10 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
+      <pane id="AndroidView" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -769,18 +696,17 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23502722" sideWeight="0.421875" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33984375" sideWeight="0.78130674" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33984375" sideWeight="0.78130674" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.328777" sideWeight="0.49492186" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14501953" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23502722" sideWeight="0.578125" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23502722" sideWeight="0.578125" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -789,6 +715,7 @@
       <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30127043" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35888672" sideWeight="0.22721268" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.328777" sideWeight="0.49492186" order="6" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -895,7 +822,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="589">
           <caret line="48" column="25" lean-forward="false" selection-start-line="48" selection-start-column="25" selection-end-line="48" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -917,7 +843,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="969">
           <caret line="61" column="42" lean-forward="false" selection-start-line="61" selection-start-column="42" selection-end-line="61" selection-end-column="42" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -925,7 +850,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="56">
           <caret line="177" column="23" lean-forward="true" selection-start-line="177" selection-start-column="23" selection-end-line="177" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -942,7 +866,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1330">
           <caret line="87" column="0" lean-forward="false" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -950,7 +873,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="361">
           <caret line="19" column="20" lean-forward="false" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1028,7 +950,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1040,19 +961,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF" />
     <entry file="file://$PROJECT_DIR$/out/production/triominos/com/thirdsonsoftware/Main.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1060,7 +973,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1078,14 +990,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/logs/events-2062889081.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="0" column="958" lean-forward="false" selection-start-line="0" selection-start-column="958" selection-end-line="0" selection-end-column="958" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/logs/events-2062889081.json" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/CustomTileSerializer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="627">
@@ -1134,7 +1039,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Board.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
+        <state relative-caret-position="760">
           <caret line="59" column="13" lean-forward="false" selection-start-line="59" selection-start-column="13" selection-end-line="59" selection-end-column="13" />
           <folding />
         </state>
@@ -1142,7 +1047,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Game.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="564">
+        <state relative-caret-position="1273">
           <caret line="86" column="0" lean-forward="false" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
           <folding />
         </state>
@@ -1150,7 +1055,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Event.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
+        <state relative-caret-position="2717">
           <caret line="143" column="23" lean-forward="false" selection-start-line="143" selection-start-column="23" selection-end-line="143" selection-end-column="23" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1170,7 +1075,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Tile.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2171">
+        <state relative-caret-position="0">
           <caret line="435" column="0" lean-forward="false" selection-start-line="435" selection-start-column="0" selection-end-line="435" selection-end-column="0" />
           <folding>
             <element signature="e#3248#3249#0" expanded="true" />
@@ -1181,14 +1086,53 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Player.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/TileComparator.java" />
+    <entry file="file://$PROJECT_DIR$/elk.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1257">
-          <caret line="191" column="87" lean-forward="false" selection-start-line="191" selection-start-column="87" selection-end-line="191" selection-end-column="87" />
+        <state relative-caret-position="76">
+          <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docker-compose.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/AnalyzeResults.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="490">
+          <caret line="54" column="0" lean-forward="false" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
           <folding>
-            <element signature="e#31660#31661#0" expanded="true" />
-            <element signature="e#31698#31699#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#665#682#0" expanded="true" />
+            <element signature="e#749#766#0" expanded="true" />
+            <element signature="e#822#837#0" expanded="true" />
+            <element signature="e#901#916#0" expanded="true" />
+            <element signature="e#977#986#0" expanded="true" />
+            <element signature="e#1045#1054#0" expanded="true" />
+            <element signature="e#1620#1621#0" expanded="true" />
+            <element signature="e#1709#1710#0" expanded="true" />
+            <element signature="e#1748#1749#0" expanded="true" />
+            <element signature="e#1839#1840#0" expanded="true" />
+            <element signature="e#6436#6442#0" expanded="true" />
+            <element signature="e#6496#6497#0" expanded="true" />
+            <element signature="e#6540#6541#0" expanded="true" />
+            <element signature="e#7317#7334#0" expanded="true" />
+            <element signature="e#8120#8137#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/EventManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="265">
+          <caret line="247" column="48" lean-forward="false" selection-start-line="247" selection-start-column="48" selection-end-line="247" selection-end-column="48" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1218,62 +1162,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/EventManager.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/Player.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="265">
-          <caret line="247" column="48" lean-forward="false" selection-start-line="247" selection-start-column="48" selection-end-line="247" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/TileComparator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="27" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/thirdsonsoftware/AnalyzeResults.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="490">
-          <caret line="54" column="0" lean-forward="false" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
+        <state relative-caret-position="162">
+          <caret line="326" column="0" lean-forward="false" selection-start-line="326" selection-start-column="0" selection-end-line="326" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#665#682#0" expanded="true" />
-            <element signature="e#749#766#0" expanded="true" />
-            <element signature="e#822#837#0" expanded="true" />
-            <element signature="e#901#916#0" expanded="true" />
-            <element signature="e#977#986#0" expanded="true" />
-            <element signature="e#1045#1054#0" expanded="true" />
-            <element signature="e#1620#1621#0" expanded="true" />
-            <element signature="e#1709#1710#0" expanded="true" />
-            <element signature="e#1748#1749#0" expanded="true" />
-            <element signature="e#1839#1840#0" expanded="true" />
-            <element signature="e#6436#6442#0" expanded="true" />
-            <element signature="e#6496#6497#0" expanded="true" />
-            <element signature="e#6540#6541#0" expanded="true" />
-            <element signature="e#7317#7334#0" expanded="true" />
-            <element signature="e#8120#8137#0" expanded="true" />
-            <element signature="e#8900#8915#0" expanded="true" />
-            <element signature="e#9665#9680#0" expanded="true" />
+            <element signature="e#31660#31661#0" expanded="true" />
+            <element signature="e#31698#31699#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docker-compose.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/elk.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
