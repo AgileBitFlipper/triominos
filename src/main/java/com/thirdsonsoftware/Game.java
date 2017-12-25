@@ -66,26 +66,12 @@ class Game implements Serializable {
     }
 
     /**
-     * Determines if any of the players have won by reaching a score of 400 or more
-     * @return True if a player has won, otherwise False
-     */
-    protected boolean hasWon() {
-        boolean playerIsOver400 = false ;
-        for( Player p : players ) {
-            if ( p.getScore() > 400 ) {
-                playerIsOver400 = true ;
-                break;
-            }
-        }
-        return playerIsOver400;
-    }
-
-    /**
      * Do you want to play a game?  Let's play triominos!!
      */
     public void play() {
 
         int index = 0 ;
+        Player playerWonGame ;
 
         // We need to kick off the rounds.
         do {
@@ -93,11 +79,11 @@ class Game implements Serializable {
             round.getBoard().setUseColor(true);
             rounds.add(round);
             Event.logEvent(EventType.START_A_ROUND,round);
-            round.playRound();
+            playerWonGame = round.playRound();
             Event.logEvent(EventType.END_A_ROUND,round);
-        } while ( !hasWon() ) ;
+        } while ( playerWonGame == null ) ;
 
-        Log.Info(String.format("  Game completed in %d rounds.", index));
+        Log.Info(String.format("  Game completed in %d rounds.  Player '%s' won the game.", index, playerWonGame.getName()));
     }
 
     /**

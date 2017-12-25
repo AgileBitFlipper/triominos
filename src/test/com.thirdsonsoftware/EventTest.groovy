@@ -2,10 +2,10 @@ package com.thirdsonsoftware
 
 class EventTest extends GroovyTestCase {
 
-    static final String EXPECTED_EVENT         = "Type:START_A_GAME,Round:0,Name:,Tile:,Position:(0,0),,Score:0,Starts:false,Start Bonus:0,Completed Bridge:false,Completed Hexagon:false,End of Round:false,End of Game:false,"
-    static final String EXPECTED_EVT_W_TILE    = "Type:PLACE_A_TILE,Round:2,Name:Andy,Tile:0-0-0,Position:(0,0),,Score:0,Starts:false,Start Bonus:0,Completed Bridge:false,Completed Hexagon:false,End of Round:false,End of Game:false,"
-    static final String EXPECTED_RND_NUM_EVENT = "Type:END_A_ROUND,Round:1,Name:,Tile:,Position:(0,0),,Score:0,Starts:false,Start Bonus:0,Completed Bridge:false,Completed Hexagon:false,End of Round:false,End of Game:false,"
-    static final String EXPECTED_EVT_W_ROUND   = "Type:GENERATE_TILES,Round:2,Name:,Tile:,Position:(0,0),,Score:0,Starts:false,Start Bonus:0,Completed Bridge:false,Completed Hexagon:false,End of Round:false,End of Game:false,"
+    static final String EXPECTED_EVENT         = "Type:START_A_GAME,Game:1,Round:0,Name:,Tile:,Position:(0,0),,Score:0,Starts:false,Start Bonus:0,Completed Bridge:false,Completed Hexagon:false,End of Round:false,End of Game:false"
+    static final String EXPECTED_EVT_W_TILE    = "Type:PLACE_A_TILE,Game:1,Round:2,Name:Andy,Tile:0-0-0,Position:(0,0),,Score:0,Starts:false,Start Bonus:0,Completed Bridge:false,Completed Hexagon:false,End of Round:false,End of Game:false"
+    static final String EXPECTED_RND_NUM_EVENT = "Type:END_A_ROUND,Game:1,Round:1,Name:,Tile:,Position:(0,0),,Score:0,Starts:false,Start Bonus:0,Completed Bridge:false,Completed Hexagon:false,End of Round:false,End of Game:false"
+    static final String EXPECTED_EVT_W_ROUND   = "Type:GENERATE_TILES,Game:1,Round:2,Name:,Tile:,Position:(0,0),,Score:0,Starts:false,Start Bonus:0,Completed Bridge:false,Completed Hexagon:false,End of Round:false,End of Game:false"
 
     Tile tileA = new Tile(0,0,0)
 

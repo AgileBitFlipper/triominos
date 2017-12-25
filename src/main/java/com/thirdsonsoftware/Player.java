@@ -183,13 +183,13 @@ public class Player implements Serializable {
 
         // Let's let everyone know the type of tile this choice is...
         if ( myTileToPlay.getValue() == 0 ) {
-            Event.logEvent(EventType.TRIPLE_ZERO_BONUS, board.getRound());
+            Event.logEvent(EventType.TRIPLE_ZERO_BONUS, board.getRound(), myTileToPlay);
             Log.Info("   Playing zero-triplet tile for 30 point bonus!");
         } else if ( myTileToPlay.isTriplet() ) {
-            Event.logEvent(EventType.TRIPLE_PLAY_BONUS, board.getRound());
+            Event.logEvent(EventType.TRIPLE_PLAY_BONUS, board.getRound(), myTileToPlay);
             Log.Info("   Playing highest value triplet tile for 10 point bonus!");
         } else {
-            Event.logEvent(EventType.HIGHEST_TILE_START, board.getRound());
+            Event.logEvent(EventType.HIGHEST_TILE_START, board.getRound(), myTileToPlay);
             Log.Info("   Playing highest value tile for no bonus!");
         }
 
@@ -299,11 +299,11 @@ public class Player implements Serializable {
 
             topChoice.setTestForFitOnly(false);
 
-            Log.Debug(String.format("  Top choice: %s",topChoice.getTile()));
+            Log.Debug("  Top choice: " + topChoice.getTile());
 
             if ( board.placeTile(topChoice)) {
 
-                Event.logEvent(EventType.PLACE_A_TILE, board.getRound());
+                Event.logEvent(EventType.PLACE_A_TILE, board.getRound(), topChoice.getTile());
 
                 this.setScore(this.getScore()+topChoice.getScore());
 
@@ -849,6 +849,26 @@ public class Player implements Serializable {
                 score,
                 displayTiles(true, "    Hand", getTray()));
         return description;
+    }
+
+    /**
+     * We need this for HashMap to work correctly for a Player.
+     * The name is the only really relevant field for a player of a game.
+     * @return hash of the Player's name
+     */
+    public int hashCode() {
+        return name.hashCode();
+    }
+
+    /**
+     * We need this for HashMap to work when using a Player as a key
+     * @param o - Object to compare this against
+     * @return true if names are the same, false otherwise
+     */
+    public boolean equals(Object o) {
+        if ((o instanceof Player) && ((Player) o).getName().equals(name))
+            return true;
+        return false;
     }
 
 }
