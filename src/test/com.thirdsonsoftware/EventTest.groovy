@@ -28,17 +28,17 @@ class EventTest extends GroovyTestCase {
 
     void tearDown() {
         cleanLogs()
-        EventManager.clearEvents();
+        EventManager.getInstance().clearEvents();
     }
 
     void cleanLogs() {
         // Clean up the logs from any other runs
         //   so we can use them for testing.
-        File index = new File("logs")
+        File index = new File(EventManager.EVENT_OBJECT_PATH)
         String[]entries = index.list()
         for(String s: entries){
             File currentFile = new File(index.getPath(),s)
-            if ( currentFile.getName().startsWith("events_") )
+            if ( currentFile.getName().startsWith(EventManager.EVENT_OBJECT_FILE_PREFIX) )
                 currentFile.delete()
         }
     }
@@ -63,7 +63,7 @@ class EventTest extends GroovyTestCase {
         ArrayList<Event> eventList = new ArrayList<Event>();
 
         // Find the logs we just created.
-        File index = new File("logs")
+        File index = new File(EventManager.EVENT_OBJECT_PATH)
 
         // Load up the full list of event files
         // We are going to assume there is only one since
@@ -73,7 +73,7 @@ class EventTest extends GroovyTestCase {
 
             // Let's make a reference to the file
             File currentFile = new File(index.getPath(), s)
-            if (currentFile.getName().startsWith("events_")) {
+            if (currentFile.getName().startsWith(EventManager.EVENT_OBJECT_FILE_PREFIX)) {
 
                 // Process the objects in the file now.
                 FileInputStream fis = new FileInputStream(currentFile.getAbsolutePath())
@@ -112,7 +112,7 @@ class EventTest extends GroovyTestCase {
     // static void logEvent( Event evt )
     void testLogEvent() {
         Event.logEvent(eventA)
-        EventManager.logEvents()
+        EventManager.getInstance().logEvents()
         String strEvent = getEventFromLog(0)
         assertEquals(EXPECTED_EVENT, stripDateTime(strEvent))
     }
@@ -120,7 +120,7 @@ class EventTest extends GroovyTestCase {
     // static void logEvent( EventType type )
     void testLogEventByEvent() {
         Event.logEvent(EventType.START_A_GAME)
-        EventManager.logEvents()
+        EventManager.getInstance().logEvents()
         String strEvent = getEventFromLog(0)
         assertEquals(EXPECTED_EVENT, stripDateTime(strEvent))
     }
@@ -128,7 +128,7 @@ class EventTest extends GroovyTestCase {
     // static void logEvent( EventType type, int round )
     void testLogEventWithRoundNumber() {
         Event.logEvent(EventType.END_A_ROUND,1)
-        EventManager.logEvents()
+        EventManager.getInstance().logEvents()
         String strEvent = getEventFromLog(0)
         assertEquals(EXPECTED_RND_NUM_EVENT, stripDateTime(strEvent))
     }
@@ -137,7 +137,7 @@ class EventTest extends GroovyTestCase {
     void testLogEventWithRound() {
         Round round = new Round(2,players)
         Event.logEvent(EventType.END_A_ROUND,round)
-        EventManager.logEvents()
+        EventManager.getInstance().logEvents()
         String strEvent = getEventFromLog(0)
         assertEquals(EXPECTED_EVT_W_ROUND, stripDateTime(strEvent))
     }
@@ -145,7 +145,7 @@ class EventTest extends GroovyTestCase {
     // static void logEvent( EventType type, Tile t, Player p, int round)
     void testLogEventWithTilePlayerAndRound() {
         Event.logEvent(EventType.PLACE_A_TILE, tileA, playerAndy, 2)
-        EventManager.logEvents()
+        EventManager.getInstance().logEvents()
         String strEvent = getEventFromLog(0)
         assertEquals(EXPECTED_EVT_W_TILE, stripDateTime(strEvent))
     }

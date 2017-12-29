@@ -27,8 +27,8 @@ class PlayerTest extends GroovyTestCase {
     static String TEST_NAME = "PlayerX"
     static Tile fiveFivesTile = new Tile(5,5,5)
     static Board board = new Board()
-    ArrayList<Tile> availableFaces = new ArrayList<>()
-    ArrayList<Tile> playedTiles = new ArrayList<>()
+    ArrayList<Tile> availableFaces = new ArrayList<Tile>()
+    ArrayList<Tile> playedTiles = new ArrayList<Tile>()
 
     Player player = null
 
@@ -80,7 +80,7 @@ class PlayerTest extends GroovyTestCase {
     }
 
     void testDrawTile() {
-        ArrayList<Tile> pool = new ArrayList<>()
+        ArrayList<Tile> pool = new ArrayList<Tile>()
         pool.add(new Tile(1,2,3))
         player.drawTile(pool,1)
 
