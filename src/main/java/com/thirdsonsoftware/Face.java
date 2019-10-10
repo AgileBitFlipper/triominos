@@ -60,6 +60,14 @@ public class Face implements Comparable, Serializable {
         return ( ( left == f.right ) && ( right == f.left ) );
     }
 
+    @Override
+    public boolean equals(Object o) {
+        Face f = (Face)o;
+        if ( ( left == f.left ) && ( right == f.right ) )
+            return true;
+        return false;
+    }
+
     /** Compare two faces to determine if they are the same
      * @param o - Face to compare this Face with.
      * @return - -1 if a corner of a face is less than the matching corner of the other face

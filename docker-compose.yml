@@ -1,6 +1,12 @@
+# You can startup the ELK image using the following command:
+#   sudo docker-compose up elk
 elk:
   image: sebp/elk
   ports:
     - "5601:5601"
     - "9200:9200"
     - "5044:5044"
+  volumes:
+    - /Users/andrewmontcrieff/workspace/elk:/root/triominos
+    - /Users/andrewmontcrieff/workspace/elk/logstash-triominos.conf:/opt/logstash/conf.d/logstash-triominos.conf
+  container_name: elk
