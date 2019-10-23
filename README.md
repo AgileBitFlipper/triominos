@@ -30,6 +30,8 @@ The displayed board now appears in color (not able to show it here).  From the e
 
 The board itself is blue, with the scales purple.  Player 'A' is red, while Player 'B' is green.  All player's pieces retain their color when played on the board, showing a clear indication of which player played each piece.
 
+Start the game using the command line: ```java -jar target/triominos-1.0-SNAPSHOT.jar```
+
 ```text
 Round 2:
 Players (2):
