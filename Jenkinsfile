@@ -1,9 +1,9 @@
 pipeline {
     // Make sure that the tools we need are installed and on the path.
-    tools {
+    //tools {
         //maven "Maven 3.6.1"
         //jdk "Oracle JDK 8u40"
-    }
+    //}
 
     // Run on any executor.
     agent {
