@@ -21,7 +21,7 @@ pipeline {
         always {
             archiveArtifacts artifacts: 'target/**/*', allowEmptyArchive: true
             // When you add testing, uncomment this line to collect the surefire-reports
-            //junit 'target/surefire-reports/*.xml'
+            junit 'target/surefire-reports/*.xml'
         }
     }
 
