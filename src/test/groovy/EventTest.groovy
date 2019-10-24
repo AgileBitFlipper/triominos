@@ -6,6 +6,7 @@ class EventTest extends GroovyTestCase {
     static final String EXPECTED_EVT_W_TILE    = "Type:PLACE_A_TILE,Game:1,Round:2,Name:Andy,Tile:0-0-0,Position:(0,0),,Score:0,Starts:false,Start Bonus:0,Completed Bridge:false,Completed Hexagon:false,End of Round:false,End of Game:false"
     static final String EXPECTED_RND_NUM_EVENT = "Type:END_A_ROUND,Game:1,Round:1,Name:,Tile:,Position:(0,0),,Score:0,Starts:false,Start Bonus:0,Completed Bridge:false,Completed Hexagon:false,End of Round:false,End of Game:false"
     static final String EXPECTED_EVT_W_ROUND   = "Type:GENERATE_TILES,Game:1,Round:2,Name:,Tile:,Position:(0,0),,Score:0,Starts:false,Start Bonus:0,Completed Bridge:false,Completed Hexagon:false,End of Round:false,End of Game:false"
+    static final String EXPECTED_START_EVENT   = "Type:SETUP_PLAYERS,Game:1,Round:0,Name:,Tile:,Position:(0,0),,Score:0,Starts:false,Start Bonus:0,Completed Bridge:false,Completed Hexagon:false,End of Round:false,End of Game:false"
 
     Tile tileA = new Tile(0,0,0)
 
@@ -114,7 +115,7 @@ class EventTest extends GroovyTestCase {
         Event.logEvent(eventA)
         EventManager.getInstance().logEvents()
         String strEvent = getEventFromLog(0)
-        assertEquals(EXPECTED_EVENT, stripDateTime(strEvent))
+        assertEquals(EXPECTED_START_EVENT, stripDateTime(strEvent))
     }
 
     // static void logEvent( EventType type )
