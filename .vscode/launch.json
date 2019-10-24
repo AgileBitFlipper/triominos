@@ -1,0 +1,15 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Debug (Launch)",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/triominos/",
+            "console": "internalConsole",
+            "stopOnEntry": false,
+            "mainClass": "com.thirdsonsoftware.Main",
+            "args": ""
+        }
+    ]
+}
