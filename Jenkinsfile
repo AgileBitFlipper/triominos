@@ -20,7 +20,8 @@ pipeline {
         // available as well, such as "success", "failed", "unstable", and "changed".
         always {
             archiveArtifacts artifacts: 'target/**/*', allowEmptyArchive: true
-            junit 'target/surefire-reports/*.xml'
+            // When you add testing, uncomment this line to collect the surefire-reports
+            //junit 'target/surefire-reports/*.xml'
         }
     }
 
