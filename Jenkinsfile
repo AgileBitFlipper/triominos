@@ -19,7 +19,7 @@ pipeline {
         // No matter what the build status is, run these steps. There are other conditions
         // available as well, such as "success", "failed", "unstable", and "changed".
         always {
-            archive "target/**/*"
+            archiveArtifacts artifacts: 'target/**/*', allowEmptyArchive: true
             junit 'target/surefire-reports/*.xml'
         }
     }
@@ -28,7 +28,8 @@ pipeline {
         // While there's only one stage here, you can specify as many stages as you like!
         stage('Build') { 
             steps {
-                sh 'mvn -B -DskipTests clean package' 
+                sh 'mvn -B clean package'
+                //sh 'mvn -B -DskipTests clean package' 
             }
         }
     }
