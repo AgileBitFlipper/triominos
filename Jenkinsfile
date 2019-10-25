@@ -52,8 +52,10 @@ pipeline {
     }
 
     stages {
-        // While there's only one stage here, you can specify as many stages as you like!
+
         stage('Build') {
+
+            echo 'Building...'
 
             junit testResults: '**/target/*-reports/TEST-*.xml'
 
@@ -66,7 +68,11 @@ pipeline {
                 sh 'mvn -B clean compile verify package'
             }
         }
+
         stage('Analysis') {
+
+            echo 'Analyzing...'
+
             def mvnHome = tool 'mvn-default'
  
             sh "${mvnHome}/bin/mvn -batch-mode -V -U -e checkstyle:checkstyle pmd:pmd pmd:cpd findbugs:findbugs spotbugs:spotbugs"
@@ -91,5 +97,4 @@ pipeline {
                 filters: [includePackage('io.jenkins.plugins.analysis.*')]
         }
     }
-
 }
