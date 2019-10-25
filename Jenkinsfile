@@ -17,16 +17,16 @@ pipeline {
             archiveArtifacts artifacts: 'target/**/*', allowEmptyArchive: true
             // When you add testing, uncomment this line to collect the surefire-reports
             junit 'target/surefire-reports/*.xml'
-            step([
-              $class         : 'FindBugsPublisher',
-              pattern        : 'build/reports/findbugs/*.xml',
-              canRunOnFailed : true
-            ])
-            step([
-              $class         : 'PmdPublisher',
-              pattern        : 'build/reports/pmd/*.xml',
-              canRunOnFailed : true
-            ])
+            // step([
+            //   $class         : 'FindBugsPublisher',
+            //   pattern        : 'build/reports/findbugs/*.xml',
+            //   canRunOnFailed : true
+            // ])
+            // step([
+            //   $class         : 'PmdPublisher',
+            //   pattern        : 'build/reports/pmd/*.xml',
+            //   canRunOnFailed : true
+            // ])
             step([
               $class           : 'JacocoPublisher',
               execPattern      : 'build/jacoco/jacoco.exec',
