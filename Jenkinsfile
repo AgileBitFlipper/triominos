@@ -52,9 +52,6 @@ pipeline {
     }
 
     stages {
-        stage ('Checkout') {
-            git branch:'5.0', url: 'git@github.com:jenkinsci/warnings-plugin.git'
-        }
         // While there's only one stage here, you can specify as many stages as you like!
         stage('Build') {
 
