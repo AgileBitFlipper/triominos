@@ -83,14 +83,14 @@ pipeline {
                     def cpd = scanForIssues tool: cpd(pattern: '**/target/cpd.xml')
                     publishIssues issues: [cpd]
                     
-                    def spotbugs = scanForIssues tool: spotBugs(pattern: '**/target/findbugsXml.xml')
-                    publishIssues issues: [spotbugs]
+                    // def spotbugs = scanForIssues tool: spotBugs(pattern: '**/target/findbugsXml.xml')
+                    // publishIssues issues: [spotbugs]
 
                     def maven = scanForIssues tool: mavenConsole()
                     publishIssues issues: [maven]
                     
                     publishIssues id: 'analysis', name: 'All Issues', 
-                        issues: [checkstyle, pmd, spotbugs], 
+                        issues: [checkstyle, pmd, cpd], 
                         filters: [includePackage('io.jenkins.plugins.analysis.*')]
                 }
             }
