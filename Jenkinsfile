@@ -88,8 +88,7 @@ pipeline {
                     publishIssues issues: [maven]
                     
                     publishIssues id: 'analysis', name: 'All Issues', 
-                        issues: [checkstyle], 
-                        filters: [includePackage('io.jenkins.plugins.analysis.*')]
+                        issues: [checkstyle]
                 }
             }
         }
