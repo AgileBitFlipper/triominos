@@ -49,24 +49,22 @@ pipeline {
     stages {
 
         stage('Build') {
+
             steps {
                 echo 'Building...'
-
+                sh 'mvn -B clean compile verify package'
                 junit testResults: '**/target/*-reports/TEST-*.xml'
 
                 def java = scanForIssues tool: [$class: 'Java']
-                def javadoc = scanForIssues tool: [$class: 'JavaDoc']
-            
+                def javadoc = scanForIssues tool: [$class: 'JavaDoc']            
                 publishIssues issues: [java, javadoc], filters: [includePackage('io.jenkins.plugins.analysis.*')]
-
-                sh 'mvn -B clean compile verify package'
             }
         }
 
         stage('Analysis') {
 
             steps {
-                
+
                 echo 'Analyzing...'
 
                 def mvnHome = tool 'mvn-default'
