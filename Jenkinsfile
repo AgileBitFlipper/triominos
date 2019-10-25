@@ -1,9 +1,4 @@
 pipeline {
-    // Make sure that the tools we need are installed and on the path.
-    //tools {
-        //maven "Maven 3.6.1"
-        //jdk "Oracle JDK 8u40"
-    //}
 
     // Run on any executor.
     agent {
@@ -54,47 +49,49 @@ pipeline {
     stages {
 
         stage('Build') {
-
-            echo 'Building...'
-
-            junit testResults: '**/target/*-reports/TEST-*.xml'
-
-            def java = scanForIssues tool: [$class: 'Java']
-            def javadoc = scanForIssues tool: [$class: 'JavaDoc']
-         
-            publishIssues issues: [java, javadoc], filters: [includePackage('io.jenkins.plugins.analysis.*')]
-
             steps {
+                echo 'Building...'
+
+                junit testResults: '**/target/*-reports/TEST-*.xml'
+
+                def java = scanForIssues tool: [$class: 'Java']
+                def javadoc = scanForIssues tool: [$class: 'JavaDoc']
+            
+                publishIssues issues: [java, javadoc], filters: [includePackage('io.jenkins.plugins.analysis.*')]
+
                 sh 'mvn -B clean compile verify package'
             }
         }
 
         stage('Analysis') {
 
-            echo 'Analyzing...'
+            steps {
+                
+                echo 'Analyzing...'
 
-            def mvnHome = tool 'mvn-default'
- 
-            sh "${mvnHome}/bin/mvn -batch-mode -V -U -e checkstyle:checkstyle pmd:pmd pmd:cpd findbugs:findbugs spotbugs:spotbugs"
- 
-            def checkstyle = scanForIssues tool: checkStyle(pattern: '**/target/checkstyle-result.xml')
-            publishIssues issues: [checkstyle]
+                def mvnHome = tool 'mvn-default'
     
-            def pmd = scanForIssues tool: pmdParser(pattern: '**/target/pmd.xml')
-            publishIssues issues: [pmd]
-            
-            def cpd = scanForIssues tool: cpd(pattern: '**/target/cpd.xml')
-            publishIssues issues: [cpd]
-            
-            def spotbugs = scanForIssues tool: spotBugs(pattern: '**/target/findbugsXml.xml')
-            publishIssues issues: [spotbugs]
+                sh "${mvnHome}/bin/mvn -batch-mode -V -U -e checkstyle:checkstyle pmd:pmd pmd:cpd findbugs:findbugs spotbugs:spotbugs"
+    
+                def checkstyle = scanForIssues tool: checkStyle(pattern: '**/target/checkstyle-result.xml')
+                publishIssues issues: [checkstyle]
+        
+                def pmd = scanForIssues tool: pmdParser(pattern: '**/target/pmd.xml')
+                publishIssues issues: [pmd]
+                
+                def cpd = scanForIssues tool: cpd(pattern: '**/target/cpd.xml')
+                publishIssues issues: [cpd]
+                
+                def spotbugs = scanForIssues tool: spotBugs(pattern: '**/target/findbugsXml.xml')
+                publishIssues issues: [spotbugs]
 
-            def maven = scanForIssues tool: mavenConsole()
-            publishIssues issues: [maven]
-            
-            publishIssues id: 'analysis', name: 'All Issues', 
-                issues: [checkstyle, pmd, spotbugs], 
-                filters: [includePackage('io.jenkins.plugins.analysis.*')]
+                def maven = scanForIssues tool: mavenConsole()
+                publishIssues issues: [maven]
+                
+                publishIssues id: 'analysis', name: 'All Issues', 
+                    issues: [checkstyle, pmd, spotbugs], 
+                    filters: [includePackage('io.jenkins.plugins.analysis.*')]
+            }
         }
     }
 }
