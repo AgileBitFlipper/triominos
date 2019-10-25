@@ -52,17 +52,21 @@ pipeline {
     }
 
     stages {
+        stage ('Checkout') {
+            git branch:'5.0', url: 'git@github.com:jenkinsci/warnings-plugin.git'
+        }
         // While there's only one stage here, you can specify as many stages as you like!
-        stage('Build') { 
+        stage('Build') {
+
+            junit testResults: '**/target/*-reports/TEST-*.xml'
+
             def java = scanForIssues tool: [$class: 'Java']
             def javadoc = scanForIssues tool: [$class: 'JavaDoc']
          
-            publishIssues issues:[java]
-            publishIssues issues:[javadoc]
+            publishIssues issues: [java, javadoc], filters: [includePackage('io.jenkins.plugins.analysis.*')]
 
             steps {
                 sh 'mvn -B clean compile verify package'
-                //sh 'mvn -B -DskipTests clean package' 
             }
         }
         stage('Analysis') {
@@ -70,11 +74,24 @@ pipeline {
  
             sh "${mvnHome}/bin/mvn -batch-mode -V -U -e checkstyle:checkstyle pmd:pmd pmd:cpd findbugs:findbugs spotbugs:spotbugs"
  
-             def checkstyle = scanForIssues tool: [$class: 'CheckStyle'], pattern: '**/target/checkstyle-result.xml'
-            publishIssues issues:[checkstyle]
+            def checkstyle = scanForIssues tool: checkStyle(pattern: '**/target/checkstyle-result.xml')
+            publishIssues issues: [checkstyle]
     
-            def spotbugs = scanForIssues tool: [$class: 'SpotBugs'], pattern: '**/target/spotbugsXml.xml'
-            publishIssues issues:[spotbugs]
+            def pmd = scanForIssues tool: pmdParser(pattern: '**/target/pmd.xml')
+            publishIssues issues: [pmd]
+            
+            def cpd = scanForIssues tool: cpd(pattern: '**/target/cpd.xml')
+            publishIssues issues: [cpd]
+            
+            def spotbugs = scanForIssues tool: spotBugs(pattern: '**/target/findbugsXml.xml')
+            publishIssues issues: [spotbugs]
+
+            def maven = scanForIssues tool: mavenConsole()
+            publishIssues issues: [maven]
+            
+            publishIssues id: 'analysis', name: 'All Issues', 
+                issues: [checkstyle, pmd, spotbugs], 
+                filters: [includePackage('io.jenkins.plugins.analysis.*')]
         }
     }
 

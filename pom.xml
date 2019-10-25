@@ -9,20 +9,30 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
     <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
     <build.timestamp>${maven.build.timestamp}</build.timestamp>
     <build.number />
-    <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
+
+    <!-- compiler versions -->
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
+
+    <!-- library versions -->
     <surefire.version>2.22.2</surefire.version>
+    <checkstyle.version>3.1.0</checkstyle.version>
+
     <!-- Used to locate the profile specific configuration file. -->
     <build.profile.id>dev</build.profile.id>
     <jacoco.it.execution.data.file>${project.build.directory}/coverage-reports/jacoco-it.exec</jacoco.it.execution.data.file>
     <jacoco.ut.execution.data.file>${project.build.directory}/coverage-reports/jacoco-ut.exec</jacoco.ut.execution.data.file>
+
     <!-- Only unit tests are run by default. -->
     <skip.integration.tests>true</skip.integration.tests>
     <skip.unit.tests>false</skip.unit.tests>
+
+    <!-- Output test results to a file -->
+    <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
   </properties>
   <profiles>
     <profile>
@@ -49,6 +59,12 @@
     </profile>
   </profiles>
   <dependencies>
+    <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-checkstyle-plugin -->
+    <dependency>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-checkstyle-plugin</artifactId>
+      <version>3.1.0</version>
+    </dependency>
     <!-- https://mvnrepository.com/artifact/org.codehaus.plexus/plexus-utils -->
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
@@ -129,26 +145,12 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>${checkstyle.version}</version>
         <configuration>
-          <reportPlugins>
-            <plugin>
-              <groupId>org.codehaus.mojo</groupId>
-              <artifactId>findbugs-maven-plugin</artifactId>
-              <configuration>
-                <!--
-                                  Enables analysis which takes more memory but finds more bugs.
-                                  If you run out of memory, changes the value of the effort element
-                                  to 'low'.
-                              -->
-                <effort>Max</effort>
-                <!-- Reports all bugs (other values are medium and max) -->
-                <threshold>Low</threshold>
-                <!-- Produces XML report -->
-                <xmlOutput>true</xmlOutput>
-              </configuration>
-            </plugin>
-          </reportPlugins>
+          <configLocation>src/test/resources/checkstyle.xml</configLocation>
+          <consoleOutput>true</consoleOutput>
+          <failsOnError>true</failsOnError>
         </configuration>
       </plugin>
     </plugins>
@@ -165,6 +167,25 @@
       </resource>
     </resources>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>${checkstyle.version}</version>
+        <configuration>
+          <configLocation>src/test/resources/checkstyle.xml</configLocation>
+          <encoding>UTF-8</encoding>
+          <linkXRef>false</linkXRef>
+        </configuration>
+        <executions>
+          <execution>
+            <id>validate</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.sonarsource.scanner.maven</groupId>
         <artifactId>sonar-maven-plugin</artifactId>
@@ -340,95 +361,6 @@
             </configuration>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <groupId>com.github.spotbugs</groupId>
-        <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>3.1.12.2</version>
-        <dependencies>
-          <!-- overwrite dependency on spotbugs if you want to specify the version of spotbugs -->
-          <dependency>
-            <groupId>com.github.spotbugs</groupId>
-            <artifactId>spotbugs</artifactId>
-            <version>4.0.0-beta4</version>
-          </dependency>
-        </dependencies>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-        <version>3.0.5</version>
-        <configuration>
-          <!--
-                  Enables analysis which takes more memory but finds more bugs.
-                  If you run out of memory, changes the value of the effort element
-                  to 'Low'.
-              -->
-          <effort>Max</effort>
-          <!-- Build doesn't fail if problems are found -->
-          <failOnError>false</failOnError>
-          <!-- Reports all bugs (other values are medium and max) -->
-          <threshold>Low</threshold>
-          <!-- Produces XML report -->
-          <xmlOutput>true</xmlOutput>
-          <!-- Configures the directory in which the XML report is created -->
-          <findbugsXmlOutputDirectory>${project.build.directory}/findbugs</findbugsXmlOutputDirectory>
-        </configuration>
-        <executions>
-          <!--
-                  Ensures that FindBugs inspects source code when project is compiled.
-              -->
-          <execution>
-            <id>analyze-compile</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>xml-maven-plugin</artifactId>
-        <version>1.0.2</version>
-        <configuration>
-          <transformationSets>
-            <transformationSet>
-              <excludes>*.jar</excludes>
-              <!-- Configures the source directory of XML files. -->
-              <dir>${project.build.directory}/findbugs</dir>
-              <!-- Configures the directory in which the FindBugs report is written.-->
-              <outputDir>${project.build.directory}/findbugs</outputDir>
-              <!-- Selects the used stylesheet. -->
-              <stylesheet>fancy-hist.xsl</stylesheet>
-              <!-- <stylesheet>default.xsl</stylesheet> -->
-              <!-- <stylesheet>plain.xsl</stylesheet> -->
-              <!--<stylesheet>fancy.xsl</stylesheet>-->
-              <!-- <stylesheet>summary.xsl</stylesheet> -->
-              <fileMappers>
-                <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
-                  <targetExtension>.html</targetExtension>
-                </fileMapper>
-              </fileMappers>
-            </transformationSet>
-          </transformationSets>
-        </configuration>
-        <executions>
-          <!-- Ensures that the XSLT transformation is run when the project is compiled. -->
-          <execution>
-            <phase>compile</phase>
-            <goals>
-              <goal>transform</goal>
-            </goals>
-          </execution>
-        </executions>
-        <dependencies>
-          <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>findbugs</artifactId>
-            <version>3.0.1</version>
-          </dependency>
-        </dependencies>
       </plugin>
     </plugins>
   </build>
