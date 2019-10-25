@@ -70,16 +70,16 @@ pipeline {
                 echo 'Analyzing...'
 
                 script {
-                    sh "mvn -batch-mode -V -U -e checkstyle:checkstyle pmd:pmd pmd:cpd findbugs:findbugs spotbugs:spotbugs"
+                    sh "mvn -batch-mode -V -U -e checkstyle:checkstyle findbugs:findbugs"
         
                     def checkstyle = scanForIssues tool: checkStyle(pattern: '**/target/checkstyle-result.xml')
                     publishIssues issues: [checkstyle]
             
-                    def pmd = scanForIssues tool: pmdParser(pattern: '**/target/pmd.xml')
-                    publishIssues issues: [pmd]
+                    // def pmd = scanForIssues tool: pmdParser(pattern: '**/target/pmd.xml')
+                    // publishIssues issues: [pmd]
                     
-                    def cpd = scanForIssues tool: cpd(pattern: '**/target/cpd.xml')
-                    publishIssues issues: [cpd]
+                    // def cpd = scanForIssues tool: cpd(pattern: '**/target/cpd.xml')
+                    // publishIssues issues: [cpd]
                     
                     // def spotbugs = scanForIssues tool: spotBugs(pattern: '**/target/findbugsXml.xml')
                     // publishIssues issues: [spotbugs]
@@ -88,7 +88,7 @@ pipeline {
                     publishIssues issues: [maven]
                     
                     publishIssues id: 'analysis', name: 'All Issues', 
-                        issues: [checkstyle, pmd, cpd], 
+                        issues: [checkstyle], 
                         filters: [includePackage('io.jenkins.plugins.analysis.*')]
                 }
             }
