@@ -38,10 +38,10 @@ pipeline {
               allowMissing          : false,
               alwaysLinkToLastBuild : false,
               keepAll               : true,
-              reportDir             : 'build/asciidoc/html5',
-              reportFiles           : 'index.html',
-              reportTitles          : "API Documentation",
-              reportName            : "API Documentation"
+              reportDir             : 'target/site',
+              reportFiles           : 'checkstyle.html',
+              reportTitles          : "CheckStyle",
+              reportName            : "CheckStyle"
             ])
         }
     }
