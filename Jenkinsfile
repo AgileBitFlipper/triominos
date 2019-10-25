@@ -87,7 +87,7 @@ pipeline {
                     def maven = scanForIssues tool: mavenConsole()
                     publishIssues issues: [maven]
                     
-                    publishIssues id: 'analysis', name: 'All Issues', 
+                    publishIssues id: 'gatherAnalysis', name: 'All Issues', 
                         issues: [checkstyle, maven]
                 }
             }
