@@ -55,9 +55,11 @@ pipeline {
                 sh 'mvn -B clean compile verify package'
                 junit testResults: '**/target/*-reports/TEST-*.xml'
 
-                def java = scanForIssues tool: [$class: 'Java']
-                def javadoc = scanForIssues tool: [$class: 'JavaDoc']            
-                publishIssues issues: [java, javadoc], filters: [includePackage('io.jenkins.plugins.analysis.*')]
+                script {
+                    def java = scanForIssues tool: [$class: 'Java']
+                    def javadoc = scanForIssues tool: [$class: 'JavaDoc']            
+                    publishIssues issues: [java, javadoc], filters: [includePackage('io.jenkins.plugins.analysis.*')]
+                }
             }
         }
 
