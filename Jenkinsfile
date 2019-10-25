@@ -88,7 +88,7 @@ pipeline {
                     publishIssues issues: [maven]
                     
                     publishIssues id: 'analysis', name: 'All Issues', 
-                        issues: [checkstyle]
+                        issues: [checkstyle, maven]
                 }
             }
         }
