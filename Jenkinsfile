@@ -59,7 +59,7 @@ pipeline {
         stage('Package') {
             steps {
                 echo 'Packaging'
-                sh 'mvn -B -V -DskipTests package'
+                sh 'mvn -B -V -P package-only package'
             }
         }
 
