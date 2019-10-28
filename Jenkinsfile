@@ -10,24 +10,11 @@ pipeline {
 
     stages {
 
-        // SCM Checkout is by default
-        // stage('Checkout') {
-        //     steps {
-        //         echo 'Checkout'
-        //     }
-        // }
-
         stage('Build') {
 
             steps {
                 echo 'Building...'
                 sh 'mvn -B -V clean compile'
-
-                script {
-                    def java = scanForIssues tool: [$class: 'Java']
-                    def javadoc = scanForIssues tool: [$class: 'JavaDoc']            
-                    publishIssues issues: [java, javadoc], filters: [includePackage('io.jenkins.plugins.analysis.*')]
-                }
             }
         }
 
@@ -70,7 +57,7 @@ pipeline {
                 echo 'Analyzing...'
 
                 script {
-                    sh "mvn -B -V -U -e checkstyle:checkstyle pmd:pmd findbugs:findbugs"
+                    sh "mvn -B -V -U -e checkstyle:checkstyle pmd:pmd cpd:cpd spotbugs:spotbugs findbugs:findbugs"
         
                     def checkstyle = scanForIssues tool: checkStyle(pattern: '**/target/checkstyle-result.xml')
                     publishIssues issues: [checkstyle]
@@ -78,17 +65,27 @@ pipeline {
                     def pmd = scanForIssues tool: pmdParser(pattern: '**/target/pmd.xml')
                     publishIssues issues: [pmd]
                     
-                    // def cpd = scanForIssues tool: cpd(pattern: '**/target/cpd.xml')
-                    // publishIssues issues: [cpd]
+                    def cpd = scanForIssues tool: cpd(pattern: '**/target/cpd.xml')
+                    publishIssues issues: [cpd]
                     
-                    // def spotbugs = scanForIssues tool: spotBugs(pattern: '**/target/findbugsXml.xml')
-                    // publishIssues issues: [spotbugs]
+                    def spotbugs = scanForIssues tool: spotBugs(pattern: '**/target/findbugsXml.xml')
+                    publishIssues issues: [spotbugs]
 
                     def maven = scanForIssues tool: mavenConsole()
                     publishIssues issues: [maven]
                     
+                    def java = scanForIssues tool: [$class: 'Java']
+                    publishIssues issues: [java]
+
+                    def javadoc = scanForIssues tool: [$class: 'JavaDoc']
+                    publishIssues issues: [javadoc]
+
+                    publishIssues id: 'gatherJava', name: 'Java and JavaDoc',
+                        issues: [java, javadoc], 
+                        filters: [includePackage('io.jenkins.plugins.analysis.*')]
+
                     publishIssues id: 'gatherAnalysis', name: 'All Issues', 
-                        issues: [checkstyle, pmd, maven]
+                        issues: [checkstyle, pmd, cpd, spotbugs, maven]
                 }
             }
         }
