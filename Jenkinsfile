@@ -50,9 +50,7 @@ pipeline {
         }
 
         failure {
-            step ([
-                echo 'mail to: andrew.montcrieff@cesicorp.com, subject: "The Pipeline failed :("'
-            ])
+            echo 'mail to: andrew.montcrieff@cesicorp.com, subject: "The Pipeline failed :("'
         }
     }
 
