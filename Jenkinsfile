@@ -10,17 +10,18 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                echo 'Checkout'
-            }
-        }
+        // SCM Checkout is by default
+        // stage('Checkout') {
+        //     steps {
+        //         echo 'Checkout'
+        //     }
+        // }
 
         stage('Build') {
 
             steps {
                 echo 'Building...'
-                sh 'mvn -B clean compile'
+                sh 'mvn -B -V clean compile'
 
                 script {
                     def java = scanForIssues tool: [$class: 'Java']
@@ -33,7 +34,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing'
-                sh 'mvn -B verify'
+                sh 'mvn -B -V verify'
                 junit testResults: '**/target/*-reports/TEST-*.xml'
             }
         }
@@ -58,7 +59,7 @@ pipeline {
         stage('Package') {
             steps {
                 echo 'Packaging'
-                sh 'mvn package -DskipTests'
+                sh 'mvn -B -V -DskipTests package'
             }
         }
 
@@ -69,7 +70,7 @@ pipeline {
                 echo 'Analyzing...'
 
                 script {
-                    sh "mvn -batch-mode -V -U -e checkstyle:checkstyle findbugs:findbugs"
+                    sh "mvn -B -V -U -e checkstyle:checkstyle findbugs:findbugs"
         
                     def checkstyle = scanForIssues tool: checkStyle(pattern: '**/target/checkstyle-result.xml')
                     publishIssues issues: [checkstyle]
