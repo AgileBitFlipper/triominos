@@ -146,6 +146,18 @@
       <artifactId>findbugs</artifactId>
       <version>3.0.1</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-javadoc-plugin -->
+    <dependency>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.1.1</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs -->
+    <dependency>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs</artifactId>
+        <version>4.0.0-beta4</version>
+    </dependency>
   </dependencies>
   <reporting>
     <plugins>
@@ -240,6 +252,25 @@
               <goal>compile</goal>
               <goal>testCompile</goal>
             </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.1.1</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration> 
+                <!-- add this to disable checking -->
+                <additionalparam>-Xdoclint:none</additionalparam>
+                <!-- add this line to not fail the build on errors found -->
+                <failOnError>false</failOnError>
+            </configuration>
           </execution>
         </executions>
       </plugin>
