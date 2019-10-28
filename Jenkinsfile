@@ -70,13 +70,13 @@ pipeline {
                 echo 'Analyzing...'
 
                 script {
-                    sh "mvn -B -V -U -e checkstyle:checkstyle findbugs:findbugs"
+                    sh "mvn -B -V -U -e checkstyle:checkstyle pmd:pmd findbugs:findbugs"
         
                     def checkstyle = scanForIssues tool: checkStyle(pattern: '**/target/checkstyle-result.xml')
                     publishIssues issues: [checkstyle]
             
-                    // def pmd = scanForIssues tool: pmdParser(pattern: '**/target/pmd.xml')
-                    // publishIssues issues: [pmd]
+                    def pmd = scanForIssues tool: pmdParser(pattern: '**/target/pmd.xml')
+                    publishIssues issues: [pmd]
                     
                     // def cpd = scanForIssues tool: cpd(pattern: '**/target/cpd.xml')
                     // publishIssues issues: [cpd]
@@ -88,7 +88,7 @@ pipeline {
                     publishIssues issues: [maven]
                     
                     publishIssues id: 'gatherAnalysis', name: 'All Issues', 
-                        issues: [checkstyle, maven]
+                        issues: [checkstyle, pmd, maven]
                 }
             }
         }
