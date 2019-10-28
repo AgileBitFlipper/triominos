@@ -8,66 +8,57 @@ pipeline {
         }
     }
 
-    // The order that sections are specified doesn't matter - this will still be run
-    // after the stages, even though it's specified before the stages.
-    post {
-        // No matter what the build status is, run these steps. There are other conditions
-        // available as well, such as "success", "failed", "unstable", and "changed".
-        always {
-            archiveArtifacts artifacts: 'target/**/*', allowEmptyArchive: true
-            
-            // When you add testing, uncomment this line to collect the surefire-reports
-            junit 'target/surefire-reports/*.xml'
-
-            // step([
-            //   $class         : 'FindBugsPublisher',
-            //   pattern        : 'build/reports/findbugs/*.xml',
-            //   canRunOnFailed : true
-            // ])
-
-            // step([
-            //   $class         : 'PmdPublisher',
-            //   pattern        : 'build/reports/pmd/*.xml',
-            //   canRunOnFailed : true
-            // ])
-            step([
-              $class           : 'JacocoPublisher',
-              execPattern      : 'build/jacoco/jacoco.exec',
-              classPattern     : 'build/classes/main',
-              sourcePattern    : 'src/main/java',
-              exclusionPattern : '**/*Test.class'
-            ])
-
-            publishHTML([
-              allowMissing          : false,
-              alwaysLinkToLastBuild : false,
-              keepAll               : true,
-              reportDir             : 'target/site',
-              reportFiles           : 'checkstyle.html',
-              reportTitles          : "CheckStyle",
-              reportName            : "CheckStyle"
-            ])
-        }
-
-        failure {
-            echo 'mail to: andrew.montcrieff@cesicorp.com, subject: "The Pipeline failed :("'
-        }
-    }
-
     stages {
+
+        stage('Checkout') {
+            steps {
+                echo 'Checkout'
+            }
+        }
 
         stage('Build') {
 
             steps {
                 echo 'Building...'
-                sh 'mvn -B clean compile verify package'
-                junit testResults: '**/target/*-reports/TEST-*.xml'
+                sh 'mvn -B clean compile'
 
                 script {
                     def java = scanForIssues tool: [$class: 'Java']
                     def javadoc = scanForIssues tool: [$class: 'JavaDoc']            
                     publishIssues issues: [java, javadoc], filters: [includePackage('io.jenkins.plugins.analysis.*')]
                 }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Testing'
+                sh 'mvn -B verify'
+                junit testResults: '**/target/*-reports/TEST-*.xml'
+            }
+        }
+
+        stage('JaCoCo') {
+            steps {
+                echo 'Code Coverage'
+                jacoco()
+            }
+        }
+
+        stage('Sonar') {
+            steps {
+                echo 'Sonar Scanner'
+               	//def scannerHome = tool 'SonarQube Scanner 3.0'
+			    // withSonarQubeEnv('SonarQube Server') {
+			    // 	sh 'C:/Dock/ci/sonar/sonar-scanner-3.0.3.778-windows/bin/sonar-scanner'
+			    // }
+            }
+        }
+
+        stage('Package') {
+            steps {
+                echo 'Packaging'
+                sh 'mvn package -DskipTests'
             }
         }
 
@@ -99,6 +90,61 @@ pipeline {
                         issues: [checkstyle, maven]
                 }
             }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo '## TODO DEPLOYMENT ##'
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'JENKINS PIPELINE'
+            archiveArtifacts artifacts: 'target/**/*', allowEmptyArchive: true
+            junit 'target/surefire-reports/*.xml'
+            // step([
+            //   $class         : 'FindBugsPublisher',
+            //   pattern        : 'build/reports/findbugs/*.xml',
+            //   canRunOnFailed : true
+            // ])
+
+            // step([
+            //   $class         : 'PmdPublisher',
+            //   pattern        : 'build/reports/pmd/*.xml',
+            //   canRunOnFailed : true
+            // ])
+            // step([
+            //   $class           : 'JacocoPublisher',
+            //   execPattern      : 'build/jacoco/jacoco.exec',
+            //   classPattern     : 'target/classes',
+            //   sourcePattern    : 'src/main/java',
+            //   exclusionPattern : '**/*Test.class'
+            // ])
+
+            // publishHTML([
+            //   allowMissing          : false,
+            //   alwaysLinkToLastBuild : false,
+            //   keepAll               : true,
+            //   reportDir             : 'target/site',
+            //   reportFiles           : 'checkstyle.html',
+            //   reportTitles          : "CheckStyle",
+            //   reportName            : "CheckStyle"
+            // ])
+        }
+        success {
+            echo 'JENKINS PIPELINE SUCCESSFUL'
+        }
+        failure {
+            echo 'JENKINS PIPELINE FAILED'
+            echo 'mail to: andrew.montcrieff@cesicorp.com, subject: "The Pipeline failed :("'
+        }
+        unstable {
+            echo 'JENKINS PIPELINE WAS MARKED AS UNSTABLE'
+        }
+        changed {
+            echo 'JENKINS PIPELINE STATUS HAS CHANGED SINCE LAST EXECUTION'
         }
     }
 }
