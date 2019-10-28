@@ -57,7 +57,7 @@ pipeline {
                 echo 'Analyzing...'
 
                 script {
-                    sh "mvn -B -V -U -e checkstyle:checkstyle pmd:pmd cpd:cpd spotbugs:spotbugs findbugs:findbugs"
+                    sh "mvn -B -V -U -e checkstyle:checkstyle pmd:pmd pmd:cpd spotbugs:spotbugs findbugs:findbugs"
         
                     def checkstyle = scanForIssues tool: checkStyle(pattern: '**/target/checkstyle-result.xml')
                     publishIssues issues: [checkstyle]
@@ -68,8 +68,11 @@ pipeline {
                     def cpd = scanForIssues tool: cpd(pattern: '**/target/cpd.xml')
                     publishIssues issues: [cpd]
                     
-                    def spotbugs = scanForIssues tool: spotBugs(pattern: '**/target/findbugsXml.xml')
+                    def spotbugs = scanForIssues tool: [$class: 'SpotBugs'], pattern: '**/target/spotbugsXml.xml')
                     publishIssues issues: [spotbugs]
+
+                    def findbugs = scanForIssues tool: [$class: 'FindBugs'], pattern: '**/target/findbugsXml.xml'
+                    publishIssues issues:[findbugs]
 
                     def maven = scanForIssues tool: mavenConsole()
                     publishIssues issues: [maven]
