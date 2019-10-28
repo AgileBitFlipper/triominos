@@ -37,7 +37,7 @@ pipeline {
               sourcePattern    : 'src/main/java',
               exclusionPattern : '**/*Test.class'
             ])
-            
+
             publishHTML([
               allowMissing          : false,
               alwaysLinkToLastBuild : false,
@@ -50,7 +50,9 @@ pipeline {
         }
 
         failure {
-            // mail to: team@example.com, subject: 'The Pipeline failed :('
+            step ([
+                echo "mail to: andrew.montcrieff@cesicorp.com, subject: 'The Pipeline failed :('"
+            ])
         }
     }
 
