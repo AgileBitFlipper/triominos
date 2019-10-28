@@ -88,7 +88,7 @@ pipeline {
                         filters: [includePackage('io.jenkins.plugins.analysis.*')]
 
                     publishIssues id: 'gatherAnalysis', name: 'All Issues', 
-                        issues: [checkstyle, pmd, cpd, spotbugs, maven]
+                        issues: [checkstyle, pmd, cpd, spotbugs, findbugs, maven]
                 }
             }
         }
