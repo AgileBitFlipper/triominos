@@ -68,7 +68,7 @@ pipeline {
                     def cpd = scanForIssues tool: cpd(pattern: '**/target/cpd.xml')
                     publishIssues issues: [cpd]
                     
-                    def spotbugs = scanForIssues tool: [$class: 'SpotBugs'], pattern: '**/target/spotbugsXml.xml')
+                    def spotbugs = scanForIssues tool: [$class: 'SpotBugs'], pattern: '**/target/spotbugsXml.xml'
                     publishIssues issues: [spotbugs]
 
                     def findbugs = scanForIssues tool: [$class: 'FindBugs'], pattern: '**/target/findbugsXml.xml'
