@@ -18,13 +18,13 @@ pipeline {
             
             // When you add testing, uncomment this line to collect the surefire-reports
             junit 'target/surefire-reports/*.xml'
-            step( [ $class: 'JacocoPublisher' ] )
 
             // step([
             //   $class         : 'FindBugsPublisher',
             //   pattern        : 'build/reports/findbugs/*.xml',
             //   canRunOnFailed : true
             // ])
+
             // step([
             //   $class         : 'PmdPublisher',
             //   pattern        : 'build/reports/pmd/*.xml',
@@ -37,6 +37,7 @@ pipeline {
               sourcePattern    : 'src/main/java',
               exclusionPattern : '**/*Test.class'
             ])
+            
             publishHTML([
               allowMissing          : false,
               alwaysLinkToLastBuild : false,
@@ -46,6 +47,10 @@ pipeline {
               reportTitles          : "CheckStyle",
               reportName            : "CheckStyle"
             ])
+        }
+
+        failure {
+            // mail to: team@example.com, subject: 'The Pipeline failed :('
         }
     }
 
