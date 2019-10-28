@@ -15,8 +15,11 @@ pipeline {
         // available as well, such as "success", "failed", "unstable", and "changed".
         always {
             archiveArtifacts artifacts: 'target/**/*', allowEmptyArchive: true
+            
             // When you add testing, uncomment this line to collect the surefire-reports
             junit 'target/surefire-reports/*.xml'
+            step( [ $class: 'JacocoPublisher' ] )
+
             // step([
             //   $class         : 'FindBugsPublisher',
             //   pattern        : 'build/reports/findbugs/*.xml',
