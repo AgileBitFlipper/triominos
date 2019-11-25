@@ -22,107 +22,109 @@ package com.thirdsonsoftware;
 import java.io.Serializable;
 
 /**
- * This is a smaller example of a game board. The game board, by default, is 112
- * by 112 allowing for free flow in all directions from the center starting
- * point of 56,56. All references to coordinates are Y-axis first, followed by
- * X-axis (row,col) format. This is due to the nature of our choice of frame of
- * reference.
- * ===================== Game Board ======================...========= | 1 1 1 1
- * | | 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 ...0 0 1 1 | | 0 1 2 3 4 5 6 7 8 9 0 1 2 3
- * 4 5 6 7 8 9 0 1 2 3 ...8 9 0 1 |
- * =======================================================...========= | | /\ /\
- * /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /... /\ /\ | | 0 |/ \/ \/ \/ \/ \/ \/ \/ \/ \/
- * \/ \/ \/ .../ \/ \| |
- * |--------------------------------------------------...--------| | |\ /\ /\ /\
- * /\ /\ /\ /\ /\ /\ /\ /\ /\ ...\ /\ /| | 1 | \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
- * \/ \... \/ \/ | |
- * |--------------------------------------------------...--------| | | /\ /\ /\
- * /\ /\ /\ /\ /\ /\ /\ /\ /\ /... /\ /\ | | 2 |/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
- * \/ \/ .../ \/ \| |
- * |--------------------------------------------------...--------| | |\ /\ /\ /\
- * /\ /\ /\ /\ /\ /\ /\ /\ /\ ...\ /\ /|
- * ...................................................................
- * ...................................................................
- * ................................................................... |
- * |--------------------------------------------------...--------| | |\ /\ /\ /\
- * /\ /\ /\ /\ /\ /\ /\ /\ /\ ...\ /\ /| |111| \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
- * \/ \... \/ \/ |
+ *
+ * This is a smaller example of a game board.  The game board, by default, is 112 by 112
+ *  allowing for free flow in all directions from the center starting point of 56,56. All
+ *  references to coordinates are Y-axis first, followed by X-axis (row,col) format.  This
+ *  is due to the nature of our choice of frame of reference.
+ *  
+ * ===================== Game Board ======================...=========
+ * |                                                         1 1 1 1 |
+ * |                        1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 ...0 0 1 1 |
+ * |      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 ...8 9 0 1 |
  * =======================================================...=========
- * Row + Col == Even means tile points up Row + Col == Odd means tile points
- * down
+ * |   | /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /... /\  /\ |
+ * | 0 |/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/ .../  \/  \|
+ * |   |--------------------------------------------------...--------|
+ * |   |\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\ ...\  /\  /|
+ * | 1 | \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \... \/  \/ |
+ * |   |--------------------------------------------------...--------|
+ * |   | /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /... /\  /\ |
+ * | 2 |/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/ .../  \/  \|
+ * |   |--------------------------------------------------...--------|
+ * |   |\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\ ...\  /\  /|
+ * ...................................................................
+ * ...................................................................
+ * ...................................................................
+ * |   |--------------------------------------------------...--------|
+ * |   |\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\ ...\  /\  /|
+ * |111| \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \... \/  \/ |
+ * =======================================================...=========
+ * 
+ * Row + Col == Even means tile points up
+ * Row + Col == Odd  means tile points down
+ *
  */
 public class Board implements Serializable {
 
-    static final long serialVersionUID = 1;
+    protected boolean bUseColor = false ;
 
-    protected boolean useColor = false;
+    private String  c = Log.CYAN,
+                    p = Log.PURPLE,
+                    r = Log.RESET;
 
-    private String  cyan = Log.CYAN;
-    private String  purple = Log.PURPLE;
-    private String  reset = Log.RESET;
+    protected static final int BRIDGE_BONUS  = 40 ;
+    protected static final int HEXAGON_BONUS = 50 ;
 
-    protected static final int BRIDGE_BONUS  = 40;
-    protected static final int HEXAGON_BONUS = 50;
+    protected static final int DEFAULT_ROWS = 112 ;
+    protected static final int DEFAULT_COLS = 112 ;
 
-    protected static final int DEFAULT_ROWS = 112;
-    protected static final int DEFAULT_COLS = 112;
+    private int round ;
 
-    private int round;
+    private int num_rows ;
+    private int num_cols ;
 
-    private int numberOfRows;
-    private int numberOfColumns;
-
-    private int topBorder    = DEFAULT_ROWS;
-    private int bottomBorder;
+    private int topBorder    = DEFAULT_ROWS ;
+    private int bottomBorder ;
     private int leftBorder   = DEFAULT_COLS;
-    private int rightBorder;
+    private int rightBorder  ;
 
-    final Tile[][] playedTiles;
+    final Tile[][] playedTiles ;
 
     /**
-     * Build the game board with the default size.
+     * Build the game board with the default size
      */
     public Board() {
         playedTiles = new Tile[DEFAULT_ROWS][DEFAULT_COLS];
-        numberOfColumns = DEFAULT_COLS;
-        numberOfRows = DEFAULT_ROWS;
+        num_cols=DEFAULT_COLS;
+        num_rows=DEFAULT_ROWS;
         setUseColor(false);
         clearBoard();
     }
 
     /**
-     * Build the game board with the specified rows and columns.
-     * @param rows - the number of rows to make the board
-     * @param cols - the number of columns to make the board
+     * Build the game board with the specified rows and columns
+     * @param rows
+     * @param cols
      */
-    public Board(int rows, int cols) {
-        playedTiles = new Tile[rows][cols];
-        numberOfRows = rows;
-        numberOfColumns = cols;
+    public Board( int rows, int cols ) {
+        playedTiles = new Tile[rows][cols] ;
+        num_rows=rows;
+        num_cols=cols;
         setUseColor(false);
         clearBoard();
     }
 
     /**
-     * Tell the board to use color or not.  
-     *   Some terminals don't support ANSI colors, so this is a 
-     *   way to turn it off if needed.  In the case of testing,
-     *   color is turned off.
-     * @param useColor - 
+     * Tell the board to use color or not.  Some terminals don't
+     *   support ANSI colors, so this is a way to turn it off if
+     *   needed.  In the case of testing, color is turned off.
+     * @param useColor
      */
     protected void setUseColor(boolean useColor) {
+        bUseColor = useColor;
         Tile.setUseColor(useColor);
-        if (useColor) {
-            cyan = Log.CYAN;
-            purple = Log.PURPLE;
-            reset = Log.RESET;
+        if ( bUseColor ) {
+            c = Log.CYAN ;
+            p = Log.PURPLE ;
+            r = Log.RESET ;
         } else {
-            cyan = purple = reset = "";
+            c = p = r = "";
         }
     }
 
     /**
-     * Overload for findBoardMinMax(boolean).
+     * Overload for findBoardMinMax(boolean)
      */
     protected void findBoardMinMax() {
         findBoardMinMax(false);
@@ -137,46 +139,42 @@ public class Board implements Serializable {
      * @param full - (boolean) If true, set border values to the current rows and cols values.
      *             If false, set borders based on the placement of the tiles.
      */
-    protected void findBoardMinMax(boolean full) {
+    protected void findBoardMinMax(boolean full ) {
 
         // If we weren't asked to display the full board, let's find ou
         //   where the left, top, right, and bottom borders are.
-        if (!full) {
+        if ( !full ) {
 
             // Max out the minimum values, and minimize out the maximum values.
-            topBorder = numberOfRows;
-            leftBorder = numberOfColumns;
-            bottomBorder = rightBorder = 0;
+            topBorder = num_rows ;
+            leftBorder = num_cols ;
+            bottomBorder = rightBorder = 0 ;
 
             // Now, spin through the board and find the rows and cols
             //   closest to the edges
-            for (int row = 0; row < numberOfRows; row++) {
+            for (int row = 0; row < num_rows; row++) {
 
-                for (int col = 0; col < numberOfColumns; col++) {
+                for (int col = 0; col < num_cols; col++) {
 
                     // if the spot on the board has a tile, set the
                     //   values as appropriate.
-                    if (playedTiles[row][col] != null) {
+                    if ( playedTiles[row][col] != null ) {
 
                         // Set the top
-                        if (row < topBorder) {
-                            topBorder = row;
-                        }
+                        if ( row < topBorder)
+                            topBorder = row ;
 
                         // Set the bottom
-                        if (row > bottomBorder) {
-                            bottomBorder = row;
-                        }
+                        if ( row > bottomBorder)
+                            bottomBorder = row ;
 
                         // Set the left
-                        if (col < leftBorder) {
-                            leftBorder = col;
-                        }
+                        if ( col < leftBorder)
+                            leftBorder = col ;
 
                         // set the right
-                        if (col > rightBorder) {
-                            rightBorder = col;
-                        }
+                        if ( col > rightBorder)
+                            rightBorder = col ;
                     }
                 }
             }
@@ -184,61 +182,53 @@ public class Board implements Serializable {
         } else {
 
             // The user asked for a full board display
-            topBorder = leftBorder = 0;
-            bottomBorder = numberOfRows;
-            rightBorder = numberOfColumns;
+            topBorder = leftBorder = 0 ;
+            bottomBorder = num_rows ;
+            rightBorder = num_cols ;
         }
     }
 
     /**
-     * Get the number of rows in the board.
      * @return (int) number of rows in the board
      */
     public int getNumberOfRows() {
-        return numberOfRows;
+        return num_rows;
     }
 
     /**
-     * Set the number of rows in a board.
-     * @param numberOfRows (int) Sets the number of rows in the board
+     * @param num_rows (int) Sets the number of rows in the board
      */
-    public void setNumberOfRows(int numberOfRows) {
-        this.numberOfRows = numberOfRows;
+    public void setNumberOfRows(int num_rows) {
+        this.num_rows = num_rows;
     }
 
     /**
-     * Get the number of columsn in the board.
      * @return (int) number of columns in the board
      */
     public int getNumberOfCols() {
-        return numberOfColumns;
+        return num_cols;
     }
 
     /**
-     * Set the number of colums in the board.
-     * @param numberOfColumns (int) set the number of columns in the board
+     * @param num_cols (int) set the number of columns in the board
      */
-    public void setNumberOfCols(int numberOfColumns) {
-        this.numberOfColumns = numberOfColumns;
+    public void setNumberOfCols(int num_cols) {
+        this.num_cols = num_cols;
     }
 
     /**
-     * Retrieve the location of the top border.
      * @return (int) current value of the topBorder (the top edge of the
-     *      piece places closest to the top border for display purposes).
+     *   piece places closest to the top border for display purposes)
      */
-    public int getTopBorder() { 
-        return topBorder; 
-    }
+    public int getTopBorder() { return topBorder; }
 
     /**
-     * Sets the top boarder.
-     * @param topBorder (int) Sets the topBorder value
+     * @param topBorder (int) Sets the topBoarder value
      */
     public void setTopBorder(int topBorder) {
-        if (topBorder < 0) {
+        if ( topBorder < 0 ) {
             setTopBorder(0);
-        } else if (topBorder >= getNumberOfRows()) {
+        } else if ( topBorder >= getNumberOfRows() ) {
             setTopBorder(getNumberOfRows() - 1);
         } else {
             this.topBorder = topBorder;
@@ -246,22 +236,20 @@ public class Board implements Serializable {
     }
 
     /**
-     * Retrieves the location of the bottom border.
      * @return (int) current value of the bottomBorder (the bottom edge of the
-     *      piece places closest to the bottom border for display purposes)
+     *   piece places closest to the bottom border for display purposes)
      */
     public int getBottomBorder() {
         return bottomBorder;
     }
 
     /**
-     * Sets the location of the bottom border.
      * @param bottomBorder (int) sets the value of the bottom border
      */
     public void setBottomBorder(int bottomBorder) {
-        if (bottomBorder < 0) {
+        if ( bottomBorder < 0 ) {
             setBottomBorder(0);
-        } else if (bottomBorder >= getNumberOfRows()) {
+        } else if ( bottomBorder >= getNumberOfRows() ) {
             setBottomBorder(getNumberOfRows() - 1);
         } else {
             this.bottomBorder = bottomBorder;
@@ -269,7 +257,6 @@ public class Board implements Serializable {
     }
 
     /**
-     * Retrieves the location of the left border.
      * @return (int) the left edge of all pieces played on the board
      */
     public int getLeftBorder() {
@@ -277,22 +264,20 @@ public class Board implements Serializable {
     }
 
     /**
-     * Sets the location of the left border.
      * @param leftBorder (int) the left edge of all pieces that have been played
      *                   on the board.
      */
     public void setLeftBorder(int leftBorder) {
-        if (leftBorder < 0) {
+        if ( leftBorder < 0 ) {
             setBottomBorder(0);
-        } else if (leftBorder >= getNumberOfCols()) {
-            setLeftBorder(getNumberOfCols() - 1);
+        } else if ( leftBorder >= getNumberOfCols() ) {
+            setLeftBorder(getNumberOfCols()-1);
         } else {
             this.leftBorder = leftBorder;
         }
     }
 
     /**
-     * Returns the location of the right border.
      * @return (int) the right edge of all pieces played on the board
      */
     public int getRightBorder() {
@@ -300,14 +285,13 @@ public class Board implements Serializable {
     }
 
     /**
-     * Sets the location of the right border.
      * @param rightBorder (int) sets the right edge of all pieces played on the board
      */
     public void setRightBorder(int rightBorder) {
-        if (rightBorder < 0) {
+        if ( rightBorder < 0 ) {
             setRightBorder(0);
-        } else if (rightBorder >= getNumberOfCols()) {
-            setRightBorder(getNumberOfCols() - 1);
+        } else if ( rightBorder >= getNumberOfCols() ) {
+            setRightBorder(getNumberOfCols()-1);
         } else {
             this.rightBorder = rightBorder;
         }
@@ -323,7 +307,7 @@ public class Board implements Serializable {
      * @return Orientation.UP or Orientation.DOWN
      */
     public Orientation getOrientationForPositionOnBoard(int row, int col) {
-        return ((((row + col) % 2) == 0) ? Orientation.DOWN : Orientation.UP);
+        return ( ( ( ( row + col ) % 2 ) == 0 ) ? Orientation.DOWN : Orientation.UP ) ;
     }
 
     /**
@@ -332,11 +316,9 @@ public class Board implements Serializable {
      *   or pile.
      */
     protected void clearBoard() {
-        for (int x = 0; x < getNumberOfRows(); x++) {
-            for (int y = 0; y < getNumberOfCols(); y++) {
-                playedTiles[x][y] = null;
-            }
-        }
+        for ( int x=0; x<getNumberOfRows(); x++)
+            for ( int y=0; y<getNumberOfCols(); y++)
+                playedTiles[x][y] = null ;
     }
 
     /**
@@ -345,19 +327,17 @@ public class Board implements Serializable {
      * @return count of tiles on the board (int)
      */
     public int count() {
-        int count = 0;
-        for (Tile[] row : playedTiles) {
-            for (Tile tile:row) {
-                if (tile != null) {
+        int count=0;
+        for ( Tile row[]:playedTiles ) {
+            for ( Tile tile:row ) {
+                if ( tile != null )
                     count++;
-                }
             }
         }
         return count;
     }
 
     /**
-     * Determines the piece at the given row and column.
      * @param row - The row of the played tile we are requesting
      * @param col - The column of the played tile we are requesting
      * @return - A Tile if one has been played there, null otherwise
@@ -370,12 +350,14 @@ public class Board implements Serializable {
      * Verifies that the specified space on the board is unoccupied, and
      *   that all of the adjacent faces and corners will allow it to be
      *   played there.
-     * @param choice - the choice we are checking to see if it fits.
+     * @param t - the tile to determine if it fits
+     * @param row - the row of the location to place the tile
+     * @param col - the column of the location to place the tile
      * @return true if it fits, and false otherwise
      */
-    public boolean pieceFits(Choice choice) {
+    public boolean pieceFits( Choice choice ) {
 
-        boolean itFits = false;
+        boolean bItFits = false ;
         Tile t = choice.getTile();
         int row = choice.getRow();
         int col = choice.getCol();
@@ -386,22 +368,21 @@ public class Board implements Serializable {
         t.setRotation(choice.getRotation());
 
         // Is the slot empty?
-        if (playedTiles[row][col] == null) {
-            itFits = leftFaceFits(t, row, col) 
-                && rightFaceFits(t, row, col) 
-                && middleFaceFits(t, row, col) 
-                && leftCornerFits(t, row, col) 
-                && middleCornerFits(t, row, col) 
-                && rightCornerFits(t, row, col);
+        if ( playedTiles[row][col] == null ) {
+            bItFits = leftFaceFits(t, row, col) &&
+                    rightFaceFits(t, row, col) &&
+                    middleFaceFits(t, row, col) &&
+                    leftCornerFits(t, row, col) &&
+                    middleCornerFits(t, row, col) &&
+                    rightCornerFits(t, row, col);
 
-            if (itFits) {
+            if (bItFits) {
                 int score = calculateScore(choice);
-                Log.Debug(String.format("  Score for playing tile %s @ (%d,%d) is %s.", 
-                    t, row, col, score));
+                Log.Debug(String.format("  Score for playing tile %s @ (%d,%d) is %s.", t, row, col, score));
                 choice.setScore(score);
             }
         }
-        return itFits;
+        return bItFits ;
     }
 
     /**
@@ -441,80 +422,80 @@ public class Board implements Serializable {
         // |    |=====+=========+ -- 48-- v=========+=========+=========
 
         // Assume it fits...
-        boolean itFits = true;
+        boolean bItFits = true ;
 
-        String whyItFails = "";
+        String whyItFails = "" ;
 
-        boolean weCanLookLeft = (col > 0);
-        boolean weCanLookFarLeft = (col > 1);
-        boolean weCanLookDown = (row < numberOfRows - 1);
-        boolean weCanLookUp = (row > 0);
+        boolean bWeCanLookLeft = ( col > 0 ) ;
+        boolean bWeCanLookFarLeft = ( col > 1 ) ;
+        boolean bWeCanLookDown = ( row < num_rows - 1 ) ;
+        boolean bWeCanLookUp = ( row > 0 ) ;
 
         int cornerToMatch = t.getLeftCorner();
 
         // left
-        if (weCanLookLeft) {
-            Tile tileToTheLeft = pieceAtLocation(row, col - 1);
-            if ((tileToTheLeft != null) 
-                && (tileToTheLeft.getMiddleCorner() != cornerToMatch)) {
+        if (bWeCanLookLeft) {
+            Tile tileToTheLeft = pieceAtLocation(row,col-1);
+            if ( ( tileToTheLeft != null) &&
+                 ( tileToTheLeft.getMiddleCorner() != cornerToMatch ) ) {
                 Log.Info(Player.showTwoTilesLeftAndRight(tileToTheLeft, t));
-                itFits = false;
+                bItFits = false;
                 whyItFails = "left";
             }
         }
         // far-left
-        if (weCanLookFarLeft) {
-            Tile tileFarLeft = pieceAtLocation(row,col - 2);
-            if ((tileFarLeft != null) 
-                && (tileFarLeft.getRightCorner() != cornerToMatch)) {
-                itFits = false;
+        if (bWeCanLookFarLeft) {
+            Tile tileFarLeft = pieceAtLocation(row,col-2);
+            if ( ( tileFarLeft != null) &&
+                ( tileFarLeft.getRightCorner() != cornerToMatch ) ) {
+                bItFits = false;
                 whyItFails = "far-left";
             }
         }
-        if (t.getOrientation() == Orientation.UP) {
-            if (weCanLookDown) {
+        if ( t.getOrientation() == Orientation.UP ) {
+            if (bWeCanLookDown) {
                 // down && left
-                if (weCanLookLeft) {
-                    Tile tileDownLeft = pieceAtLocation(row + 1, col - 1);
-                    if ((tileDownLeft != null) 
-                        && (tileDownLeft.getMiddleCorner() != cornerToMatch)) {
-                        itFits = false;
+                if (bWeCanLookLeft) {
+                    Tile tileDownLeft = pieceAtLocation(row+1,col-1);
+                    if ( (tileDownLeft != null) &&
+                            (tileDownLeft.getMiddleCorner() != cornerToMatch ) ) {
+                        bItFits = false;
                         whyItFails = "down & left";
                     }
                 }
                 // down && far-left
-                if (weCanLookFarLeft) {
-                    Tile tileDownFarLeft = pieceAtLocation(row + 1, col - 2);
-                    if ((tileDownFarLeft != null) 
-                        && (tileDownFarLeft.getRightCorner() != cornerToMatch)) {
-                        itFits = false;
-                        whyItFails = "down & far-left";
-                    }
+                if (bWeCanLookFarLeft) {
+                        Tile tileDownFarLeft = pieceAtLocation(row+1,col-2);
+                        if ( (tileDownFarLeft != null) &&
+                                (tileDownFarLeft.getRightCorner() != cornerToMatch ) ) {
+                            bItFits = false;
+                            whyItFails = "down & far-left";
+                        }
                 }
             }
         } else {
             // up && left
-            if ((weCanLookUp) && (weCanLookLeft) 
-                && (pieceAtLocation(row - 1, col - 1) != null) 
-                && (pieceAtLocation(row - 1, col - 1).getMiddleCorner() != cornerToMatch)) {
-                itFits = false;
+            if ((bWeCanLookUp) && (bWeCanLookLeft) &&
+                    (pieceAtLocation(row - 1, col - 1) != null) &&
+                    (pieceAtLocation(row - 1, col - 1).getMiddleCorner() != cornerToMatch)) {
+                bItFits = false;
                 whyItFails = "up & left";
             }
             // up && far-left
-            if ((weCanLookUp) && (weCanLookFarLeft) 
-                && (pieceAtLocation(row - 1, col - 2) != null) 
-                && (pieceAtLocation(row - 1, col - 2).getRightCorner() != cornerToMatch)) {
-                itFits = false;
+            if ((bWeCanLookUp) && (bWeCanLookFarLeft) &&
+                    (pieceAtLocation(row - 1, col - 2) != null) &&
+                    (pieceAtLocation(row - 1, col - 2).getRightCorner() != cornerToMatch)) {
+                bItFits = false;
                 whyItFails = "up & far-left";
             }
         }
-        if (!itFits) {
+        if (!bItFits) {
+
             Event.logEvent(EventType.FAIL_CORNER_TEST, getRound());
 
-            Log.Info(String.format("  Tile '%s' placement @ (%d,%d) fails left corner test - %s",
-                t, row, col, whyItFails));
+            Log.Info(String.format("  Tile '%s' placement @ (%d,%d) fails left corner test - %s", t, row, col, whyItFails));
         }
-        return itFits;
+        return bItFits ;
     }
 
     /**
@@ -527,42 +508,42 @@ public class Board implements Serializable {
      * @return true if the tile's middle corner fits the location
      */
     protected boolean middleCornerFits(Tile t, int row, int col) {
-        boolean itFits = true;
+        boolean bItFits = true ;
 
-        String whyItFails = "";
+        String whyItFails = "" ;
 
-        boolean weCanLookLeft = (col > 0);
-        boolean weCanLookRight = (col < numberOfColumns - 1);
-        boolean weCanLookDown = (row < numberOfRows - 1);
-        boolean weCanLookUp = (row > 0);
+        boolean bWeCanLookLeft = ( col > 0 ) ;
+        boolean bWeCanLookRight = ( col < num_cols - 1 ) ;
+        boolean bWeCanLookDown = ( row < num_rows - 1 ) ;
+        boolean bWeCanLookUp = ( row > 0 ) ;
 
-        if (t.getOrientation() == Orientation.DOWN) {
+        if ( t.getOrientation() == Orientation.DOWN ) {
 
-            if (weCanLookDown) {
+            if ( bWeCanLookDown ) {
 
-                if (weCanLookRight) {
+                if ( bWeCanLookRight ) {
 
                     Tile tileDownAndRight = pieceAtLocation(row, col + 1);
-                    if ((tileDownAndRight != null) 
-                        && (tileDownAndRight.getLeftCorner() != t.getMiddleCorner())) {
+                    if ((tileDownAndRight != null) &&
+                            (tileDownAndRight.getLeftCorner() != t.getMiddleCorner())) {
                         Log.Info(Player.showTwoTilesLeftAndRight(t, pieceAtLocation(row, col + 1)));
-                        itFits = false;
+                        bItFits = false;
                         whyItFails = "down & right";
                     }
                 }
 
-                Tile tileDown = pieceAtLocation(row + 1, col);
-                if ((tileDown != null) 
-                    && (tileDown.getMiddleCorner() != t.getMiddleCorner())) {
-                    itFits = false;
+                Tile tileDown = pieceAtLocation(row + 1, col) ;
+                if ( ( tileDown != null ) &&
+                        ( tileDown.getMiddleCorner() != t.getMiddleCorner() ) ) {
+                    bItFits = false;
                     whyItFails = "down";
                 }
 
-                if (weCanLookLeft) {
-                    Tile tileDownAndLeft = pieceAtLocation(row + 1, col - 1);
-                    if ((tileDownAndLeft != null) 
-                        && (tileDownAndLeft.getRightCorner() != t.getMiddleCorner())) {
-                        itFits = false;
+                if ( bWeCanLookLeft ) {
+                    Tile tileDownAndLeft = pieceAtLocation(row + 1, col - 1) ;
+                    if ( ( tileDownAndLeft != null ) &&
+                        ( tileDownAndLeft.getRightCorner() != t.getMiddleCorner() ) ) {
+                        bItFits = false;
                         whyItFails = "down & left";
                     }
                 }
@@ -570,34 +551,32 @@ public class Board implements Serializable {
 
         } else {
 
-            if ((weCanLookUp) && (weCanLookLeft) 
-                && (pieceAtLocation(row - 1, col - 1) != null) 
-                && (pieceAtLocation(row - 1, col - 1).getRightCorner() != t.getMiddleCorner())) {
-                itFits = false;
+            if ( (bWeCanLookUp) && (bWeCanLookLeft) &&
+                    (pieceAtLocation(row-1,col - 1) != null ) &&
+                    (pieceAtLocation(row-1,col - 1).getRightCorner() != t.getMiddleCorner())) {
+                bItFits = false;
                 whyItFails = "up & left";
             }
 
-            if ((weCanLookUp) 
-                && (pieceAtLocation(row - 1, col) != null) 
-                && (pieceAtLocation(row - 1, col).getMiddleCorner() != t.getMiddleCorner())) {
-                itFits = false;
+            if ( (bWeCanLookUp) &&
+                    (pieceAtLocation(row-1,col) != null ) &&
+                    (pieceAtLocation(row-1,col).getMiddleCorner() != t.getMiddleCorner())) {
+                bItFits = false ;
                 whyItFails = "up";
             }
 
-            if ((weCanLookUp) && (weCanLookRight) 
-                && (pieceAtLocation(row - 1, col + 1) != null) 
-                && (pieceAtLocation(row - 1, col + 1).getLeftCorner() != t.getMiddleCorner())) {
-                itFits = false;
+            if ( (bWeCanLookUp) && (bWeCanLookRight) &&
+                    (pieceAtLocation(row-1,col + 1) != null) &&
+                    (pieceAtLocation(row-1,col + 1).getLeftCorner() != t.getMiddleCorner())) {
+                bItFits = false ;
                 whyItFails = "up & right";
             }
 
         }
 
-        if (!itFits) {
-            Log.Info(String.format("  Tile '%s' placement @ (%d,%d) fails middle corner test - %s", 
-                t, row, col, whyItFails));
-        }
-        return itFits;
+        if (!bItFits)
+            Log.Info( String.format("  Tile '%s' placement @ (%d,%d) fails middle corner test - %s", t, row, col, whyItFails) ) ;
+        return bItFits;
     }
 
     /**
@@ -610,57 +589,57 @@ public class Board implements Serializable {
      * @return true if the tile's right corner fits the location
      */
     protected boolean rightCornerFits(Tile t, int row, int col) {
-        boolean itFits = true;
+        boolean bItFits = true;
 
-        String whyItFails = "";
+        String whyItFails = "" ;
 
-        boolean weCanLookRight = (col < numberOfColumns - 1);
-        boolean weCanLookFarRight = (col < numberOfColumns - 2);
-        boolean weCanLookDown = (row < numberOfRows - 1);
-        boolean weCanLookUp = (row > 0);
+        boolean bWeCanLookRight = ( col < num_cols - 1 ) ;
+        boolean bWeCanLookFarRight = ( col < num_cols - 2 ) ;
+        boolean bWeCanLookDown = ( row < num_rows - 1 ) ;
+        boolean bWeCanLookUp = ( row > 0 ) ;
 
-        int cornerToMatch = t.getRightCorner();
+        int cornerToMatch = t.getRightCorner() ;
 
         // right
-        if (weCanLookRight) {
-            Tile tileToTheRight = pieceAtLocation(row, col + 1);
-            if ((tileToTheRight != null) 
-                && (tileToTheRight.getMiddleCorner() != cornerToMatch)) {
+        if (bWeCanLookRight) {
+            Tile tileToTheRight = pieceAtLocation(row, col + 1) ;
+            if ( ( tileToTheRight != null ) &&
+                 ( tileToTheRight.getMiddleCorner() != cornerToMatch ) ) {
                 Log.Info(Player.showTwoTilesLeftAndRight(t, pieceAtLocation(row, col + 1)));
-                itFits = false;
+                bItFits = false;
                 whyItFails = "right";
             }
         }
 
         // far-right
-        if (weCanLookFarRight) {
-            Tile tileToTheFarRight = pieceAtLocation(row, col + 2);
-            if ((tileToTheFarRight != null) 
-                && (tileToTheFarRight.getLeftCorner() != cornerToMatch)) {
-                itFits = false;
+        if (bWeCanLookFarRight) {
+            Tile tileToTheFarRight = pieceAtLocation(row, col + 2) ;
+            if ( ( tileToTheFarRight != null ) &&
+                ( tileToTheFarRight.getLeftCorner() != cornerToMatch ) ) {
+                bItFits = false;
                 whyItFails = "far-right";
             }
         }
 
         // If we are oriented UP, we need to look down...
-        if (t.getOrientation() == Orientation.UP) {
+        if ( t.getOrientation() == Orientation.UP ) {
 
             // down && far-right
-            if ((weCanLookDown) && (weCanLookFarRight)) {
+            if ( (bWeCanLookDown) && (bWeCanLookFarRight) ) {
                 Tile tileDownAndFarRight = pieceAtLocation(row + 1, col + 2);
-                if ((tileDownAndFarRight != null) 
-                    && (tileDownAndFarRight.getLeftCorner() != cornerToMatch)) {
-                    itFits = false;
+                if ( ( tileDownAndFarRight != null) &&
+                        ( tileDownAndFarRight.getLeftCorner() != cornerToMatch ) ) {
+                    bItFits = false;
                     whyItFails = "down & far-right";
                 }
             }
 
             // down && right
-            if ((weCanLookDown) && (weCanLookRight)) {
-                Tile tileDownAndRight = pieceAtLocation(row + 1, col + 1);
-                if ((tileDownAndRight != null) 
-                    && (tileDownAndRight.getMiddleCorner() != cornerToMatch)) {
-                    itFits = false;
+            if ( (bWeCanLookDown) && (bWeCanLookRight) ) {
+                Tile tileDownAndRight = pieceAtLocation(row + 1, col + 1) ;
+                if ( ( tileDownAndRight != null) &&
+                        ( tileDownAndRight.getMiddleCorner() != cornerToMatch ) ) {
+                    bItFits = false;
                     whyItFails = "down & right";
                 }
             }
@@ -668,30 +647,28 @@ public class Board implements Serializable {
         } else {
 
             // up && right
-            if ((weCanLookUp) && (weCanLookRight)) {
-                Tile tileUpAndRight = pieceAtLocation(row - 1, col + 1);
-                if ((tileUpAndRight != null) 
-                    && (tileUpAndRight.getMiddleCorner() != cornerToMatch)) {
-                    itFits = false;
-                    whyItFails = "up & right";
-                }
+            if ( (bWeCanLookUp) && (bWeCanLookRight) ) {
+                Tile tileUpAndRight = pieceAtLocation(row - 1, col + 1) ;
+                    if ( ( tileUpAndRight != null) &&
+                            ( tileUpAndRight.getMiddleCorner() != cornerToMatch ) ) {
+                        bItFits = false;
+                        whyItFails = "up & right";
+                    }
             }
 
             // up && far right
-            if ((weCanLookUp) && (weCanLookFarRight)) {
-                Tile tileUpAndFarRight = pieceAtLocation(row - 1, col + 2);
-                if ((tileUpAndFarRight != null) 
-                    && (tileUpAndFarRight.getLeftCorner() != cornerToMatch)) {
-                    itFits = false;
+            if ( (bWeCanLookUp) && (bWeCanLookFarRight) ) {
+                Tile tileUpAndFarRight = pieceAtLocation(row - 1, col + 2) ;
+                if ( ( tileUpAndFarRight != null ) &&
+                        ( tileUpAndFarRight.getLeftCorner() != cornerToMatch ) ) {
+                    bItFits = false;
                     whyItFails = "up & far-right";
                 }
             }
         }
-        if (!itFits) {
-            Log.Info(String.format("  Tile '%s' placement @ (%d,%d) fails right corner test - %s",
-                t, row, col, whyItFails));
-        }
-        return itFits;
+        if (!bItFits)
+            Log.Info( String.format("  Tile '%s' placement @ (%d,%d) fails right corner test - %s", t, row, col, whyItFails) ) ;
+        return bItFits;
     }
 
     /**
@@ -720,29 +697,28 @@ public class Board implements Serializable {
         // |    |====\0//0 T 0\
         // |    |=====v --  2--
         // Assume it fits...
-        boolean itFits = true;
+        boolean bItFits = true ;
 
         // Are we inward of the edge?
-        if (col > 0) {
+        if ( col > 0 ) {
 
             // Look left...
-            Tile tileToOurLeft = pieceAtLocation(row,col - 1);
+            Tile tileToOurLeft = pieceAtLocation(row,col-1);
 
             // Is the left space empty?
-            Boolean isOccupied = (tileToOurLeft != null);
-            if (isOccupied) {
+            Boolean bOccupied = (tileToOurLeft != null);
+            if ( bOccupied ) {
 
                 // Left tile's orientation should be opposite of this one
                 // Left tile's right face should match our tile's left face
-                Boolean orientationIsTheSame = 
-                    (tileToOurLeft.getOrientation() == t.getOrientation());
-                Boolean facesDoNotMatch = (!tileToOurLeft.getRightFace().match(t.getLeftFace()));
+                Boolean bOrientationSame = (tileToOurLeft.getOrientation() == t.getOrientation());
+                Boolean bFacesDoNotMatch = (!tileToOurLeft.getRightFace().match(t.getLeftFace()));
 
-                itFits = !(orientationIsTheSame || facesDoNotMatch);
+                bItFits = !(bOrientationSame || bFacesDoNotMatch);
             }
         }
 
-        return itFits;
+        return bItFits;
     }
 
     /**
@@ -757,25 +733,25 @@ public class Board implements Serializable {
     protected Boolean rightFaceFits(Tile t, int row, int col) {
 
         // Assume it fits...
-        boolean itFits = true;
+        boolean bItFits = true ;
 
         // Are we inward of the edge?
-        if (col < numberOfColumns - 1) {
+        if ( col < num_cols-1 ) {
 
             // Look right...
-            Tile tileToOurRight = pieceAtLocation(row, col + 1);
+            Tile tileToOurRight = pieceAtLocation(row,col+1);
 
             // Is the right space empty?
             // Right tile's orientation should be opposite of this one
             // Right tile's left face should match our tile's right face
-            if ((tileToOurRight != null) 
-                && ((tileToOurRight.getOrientation() == t.getOrientation()) 
-                    || (!tileToOurRight.getLeftFace().match(t.getRightFace())))) {
-                itFits = false;
+            if ( ( tileToOurRight != null ) &&
+                    ( ( tileToOurRight.getOrientation() == t.getOrientation() ) ||
+                            ( !tileToOurRight.getLeftFace().match( t.getRightFace() ) ) ) ) {
+                bItFits = false;
             }
         }
 
-        return itFits;
+        return bItFits;
     }
 
     /**
@@ -790,47 +766,47 @@ public class Board implements Serializable {
     protected Boolean middleFaceFits(Tile t, int row, int col) {
 
         // Assume it fits...
-        boolean itFits = true;
+        boolean bItFits = true ;
 
         // look up?
-        if (t.getOrientation() == Orientation.DOWN) {
+        if ( t.getOrientation() == Orientation.DOWN ) {
 
             // If we are inward of the top border...
-            if (row > 0) {
+            if ( row > 0 ) {
 
                 // Look up...
-                Tile tileAbove = pieceAtLocation(row - 1, col);
+                Tile tileAbove = pieceAtLocation(row-1,col);
 
                 // Is the right space empty?
                 // Right tile's orientation should be opposite of this one
                 // Right tile's left face should match our tile's right face
-                if ((tileAbove != null) 
-                    && ((tileAbove.getOrientation() == t.getOrientation()) 
-                        || (!tileAbove.getMiddleFace().match(t.getMiddleFace())))) {
-                    itFits = false;
+                if ( ( tileAbove != null ) &&
+                        ( ( tileAbove.getOrientation() == t.getOrientation() ) ||
+                                ( !tileAbove.getMiddleFace().match( t.getMiddleFace() ) ) ) ) {
+                    bItFits = false;
                 }
             }
 
         } else {
 
             // If we are inward of the bottom border...
-            if (row < numberOfRows - 1) {
+            if ( row < num_rows-1 ) {
 
                 // Look down...
-                Tile tileBelow = pieceAtLocation(row + 1, col);
+                Tile tileBelow = pieceAtLocation(row+1,col);
 
                 // Is the right space empty?
                 // Right tile's orientation should be opposite of this one
                 // Right tile's left face should match our tile's right face
-                if ((tileBelow != null) 
-                    && ((tileBelow.getOrientation() == t.getOrientation())
-                        || (!tileBelow.getMiddleFace().match(t.getMiddleFace())))) {
-                    itFits = false;
+                if ( ( tileBelow != null ) &&
+                        ( ( tileBelow.getOrientation() == t.getOrientation() ) ||
+                                ( !tileBelow.getMiddleFace().match( t.getMiddleFace() ) ) ) ) {
+                    bItFits = false;
                 }
             }
         }
 
-        return itFits;
+        return bItFits;
     }
 
     /**
@@ -889,217 +865,203 @@ public class Board implements Serializable {
         //   row = 56
         //   col = 54
         //   Orientation.DOWN
-        //     ((row > 0) && (col > 0) && (col < num_cols) &&
-        //          (([row-1,col-1] != null) || ([row-1,col+1] != null) || ([row)) ||
-        //     ((row < num_rows-1) && (col < num_cols-2) &&
-        //          (([row,  col+2] != null) || ([row+1,col+1] != null))) ||
-        //     ((row < num_rows-1) && (col < num_cols-2) &&
-        //          (([row,  col-2] != null) || ([row+1,col-1] != null)))
+        //     ( ( row > 0 ) && ( col > 0 ) && ( col < num_cols ) &&
+        //          ( ( [row-1,col-1] != null ) || ( [row-1,col+1] != null ) || ( [row ) ) ||
+        //     ( ( row < num_rows-1 ) && ( col < num_cols-2 ) &&
+        //          ( ( [row,  col+2] != null ) || ( [row+1,col+1] != null ) ) ) ||
+        //     ( ( row < num_rows-1 ) && ( col < num_cols-2 ) &&
+        //          ( ( [row,  col-2] != null ) || ( [row+1,col-1] != null ) ) )
         //
         //   row = 57
         //   col = 58
         //   Orientation.UP
-        //     ((row < num_rows-1) && (col > 0) && (col < num_cols) &&
-        //          (([row+1,col-1] != null) || ([row+1,col+1] != null))) ||
-        //     ((row > 0) && (col > 1) &&
-        //          (([row,  col-2] != null) || ([row-1,col-1] != null))) ||
-        //     ((row > 0) && (col < num_cols - 2) &&
-        //          (([row,  col+2] != null
+        //     ( ( row < num_rows-1 ) && ( col > 0 ) && ( col < num_cols ) &&
+        //          ( ( [row+1,col-1] != null ) || ( [row+1,col+1] != null ) ) ) ||
+        //     ( ( row > 0 ) && ( col > 1 ) &&
+        //          ( ( [row,  col-2] != null ) || ( [row-1,col-1] != null ) ) ) ||
+        //     ( ( row > 0 ) && ( col < num_cols - 2 ) &&
+        //          ( ( [row,  col+2] != null
         //
-        int score = 0;
+        int score = 0 ;
 
-        boolean createsABridge = false;
+        boolean bCreatesABridge = false ;
 
-        boolean isUpperLeftHexagon = false;
-        boolean isUpperRightHexagon = false;
-        boolean isUpperMiddleHexagon = false;
-        boolean isDownwardLeftHexagon = false;
-        boolean isDownwardRightHexagon = false;
-        boolean isDownMiddleHexagon = false;
+        boolean bULHexagon = false ;
+        boolean bURHexagon = false ;
+        boolean bUMHexagon = false ;
+        boolean bDLHexagon = false ;
+        boolean bDRHexagon = false ;
+        boolean bDMHexagon = false ;
 
-        boolean leftFaceIsEmpty;
-        boolean rightFaceIsEmpty;
-        boolean middleFaceIsEmpty;
+        boolean bCreatesAHexagon = false ;
 
-        leftFaceIsEmpty  = (col > 0)          && (pieceAtLocation(row, col - 1) == null);
-        rightFaceIsEmpty = (col < numberOfColumns - 1) && (pieceAtLocation(row, col + 1) == null);
+        boolean bLeftFaceEmpty ;
+        boolean bRightFaceEmpty ;
+        boolean bMiddleFaceEmpty ;
 
-        if (t.getOrientation() == Orientation.UP) {
+        bLeftFaceEmpty  = (col > 0)          && (pieceAtLocation(row, col - 1) == null);
+        bRightFaceEmpty = (col < num_cols-1) && (pieceAtLocation(row, col + 1) == null);
 
-            middleFaceIsEmpty = (row < numberOfRows - 1) 
-                && (pieceAtLocation(row + 1, col) == null);
+        if ( t.getOrientation() == Orientation.UP ) {
 
-            boolean anchorIsAbove = (
-                ((col > 0) && (row > 0) 
-                    && (pieceAtLocation(row - 1, col - 1) != null))
-                || ((row > 0) && (pieceAtLocation(row - 1, col) != null)) 
-                || ((col < numberOfColumns - 1) && (row > 0) 
-                    && (pieceAtLocation(row - 1,col + 1) != null)));
-            boolean anchorIsLeft = (
-                ((col > 1) && (pieceAtLocation(row, col - 2) != null)) 
-                || ((col > 1) && (row < numberOfRows - 1) 
-                    && (pieceAtLocation(row + 1, col - 2) != null)) 
-                || ((col > 0) && (row < numberOfRows - 1) 
-                    && (pieceAtLocation(row + 1, col - 1) != null)));
-            boolean anchorIsRight = (
-                ((col < numberOfColumns - 2) && (pieceAtLocation(row, col + 2) != null))
-                || ((row < numberOfRows - 1) && (col < numberOfColumns - 2) 
-                    && (pieceAtLocation(row + 1, col + 2) != null)) 
-                || ((row < numberOfRows - 1) && (col < numberOfColumns - 1) 
-                    && (pieceAtLocation(row + 1, col + 1) != null))
-            );
+            bMiddleFaceEmpty = (row < num_rows-1) && (pieceAtLocation(row + 1, col) == null);
 
-            if ((leftFaceIsEmpty   && anchorIsAbove && anchorIsLeft)
-                || (rightFaceIsEmpty  && anchorIsAbove && anchorIsRight) 
-                || (middleFaceIsEmpty && anchorIsLeft  && anchorIsRight)) {
-                createsABridge = true;
+            boolean bAnchorAbove =
+                    (
+                      ( ( col > 0 )          && ( row > 0 )          && ( pieceAtLocation(row-1, col-1) != null ) ) ||
+                      (                         ( row > 0 )          && ( pieceAtLocation(row-1,col) != null ) ) ||
+                      ( ( col < num_cols-1 ) && ( row > 0 )          && ( pieceAtLocation(row-1,col+1) != null ) ) ) ;
+            boolean bAnchorLeft =
+                    (
+                      ( ( col > 1 )                                  && ( pieceAtLocation(row, col-2) != null ) ) ||
+                      ( ( col > 1 )          && ( row < num_rows-1 ) && ( pieceAtLocation(row+1,col-2 ) != null ) ) ||
+                      ( ( col > 0 )          && ( row < num_rows-1 ) && ( pieceAtLocation(row+1,col-1 ) != null ) )
+                    ) ;
+            boolean bAnchorRight =
+                    (
+                      ( ( col < num_cols-2 )                         && ( pieceAtLocation(row,col+2) != null ) ) ||
+                      ( ( row < num_rows-1 ) && ( col < num_cols-2 ) && ( pieceAtLocation(row+1,col+2) != null ) ) ||
+                      ( ( row < num_rows-1 ) && ( col < num_cols-1 ) && ( pieceAtLocation(row+1,col+1) != null ) )
+                    ) ;
+
+            if ( ( bLeftFaceEmpty   && bAnchorAbove && bAnchorLeft  ) ||
+                 ( bRightFaceEmpty  && bAnchorAbove && bAnchorRight ) ||
+                 ( bMiddleFaceEmpty && bAnchorLeft  && bAnchorRight ) ) {
+                bCreatesABridge = true ;
             }
 
-            int[] hexLeftRightDown = { 0, 0, 1, 1, 1 };
-            int[] hexLeftCenterDown = { -1, -2, -2, -1, 0 };
-            int[] hexRightRightDown = { 1, 1, 1, 0, 0 };
-            int[] hexRightCenterDown = { 0, 1, 2, 2, 1 };
+            int hexLRD[] = {  0,  0,  1,  1, 1 } ;
+            int hexLCD[] = { -1, -2, -2, -1, 0 } ;
+            int hexRRD[] = {  1,  1,  1,  0, 0 } ;
+            int hexRCD[] = {  0,  1,  2,  2, 1 } ;
+            int hexARD[] = {  0, -1, -1, -1, 0 } ;
+            int hexACD[] = { -1, -1,  0,  1, 1 } ;
 
-            if (row < numberOfRows - 1) {
-                if (col > 1) {
-                    isUpperLeftHexagon = true;
+            if ( row < num_rows-1 ) {
+                if ( col > 1 ) {
+                    bULHexagon = true ;
                     // hexagon left
-                    for (int i = 0; i < 5; i++) {
-                        isUpperLeftHexagon &= 
-                            (pieceAtLocation(row + hexLeftRightDown[i],
-                                col + hexLeftCenterDown[i]) != null);
+                    for ( int i=0; i<5; i++ ) {
+                        bULHexagon &= ( pieceAtLocation(row + hexLRD[i],col + hexLCD[i]) != null ) ;
                     }
-                    if (isUpperLeftHexagon) {
+                    if ( bULHexagon )
                         Log.Debug("  Completed hexagon with Up-Left orientation!");
-                    }
                 }
-                if (col < numberOfColumns - 2) {
-                    isUpperRightHexagon = true;
+                if ( col < num_cols-2 ) {
+                    bURHexagon = true ;
                     // hexagon right
-                    for (int i = 0; i < 5; i++) {
-                        isUpperRightHexagon &= 
-                            (pieceAtLocation(row + hexRightRightDown[i],
-                                col + hexRightCenterDown[i]) != null);
+                    for ( int i=0; i<5; i++ ) {
+                        bURHexagon &= ( pieceAtLocation(row + hexRRD[i],col + hexRCD[i]) != null ) ;
                     }
-                    if (isUpperRightHexagon) {
+                    if ( bURHexagon )
                         Log.Debug("  Completed hexagon with Up-Right orientation!");
-                    }
                 }
             }
 
-            int[] hexAboveRightD = {  0, -1, -1, -1, 0 };
-            int[] hexAboveCenterD = { -1, -1,  0,  1, 1 };
-
-            if (row > 1) {
-                if (col > 1 && col < numberOfColumns - 1) {
-                    isUpperMiddleHexagon = true;
+            if ( row > 1 ) {
+                if ( col > 1 && col < num_cols - 1 ) {
+                    bUMHexagon = true ;
                     // hexagon above
-                    for (int i = 0; i < 5; i++) {
-                        isUpperMiddleHexagon &= (pieceAtLocation(row + hexAboveRightD[i],
-                            col + hexAboveCenterD[i]) != null);
+                    for ( int i=0; i<5; i++ ) {
+                        bUMHexagon &= ( pieceAtLocation(row + hexARD[i],col + hexACD[i]) != null ) ;
                     }
                 }
-                if (isUpperMiddleHexagon) {
+                if ( bUMHexagon )
                     Log.Debug("  Completed hexagon with Up-Middle orientation!");
-                }
             }
+
         } else {
 
-            middleFaceIsEmpty = (row > 0) && (pieceAtLocation(row - 1, col) == null);
+            bMiddleFaceEmpty = (row > 0 ) && (pieceAtLocation(row - 1, col) == null);
 
-            boolean anchorIsBelow = (((col > 0) && (row < numberOfRows - 1) 
-                && (pieceAtLocation(row + 1, col - 1) != null))
-                || ((row < numberOfRows - 1) && (pieceAtLocation(row + 1, col) != null))
-                || ((col < numberOfColumns - 1) && (row < numberOfRows - 1) 
-                    && (pieceAtLocation(row + 1, col + 1) != null)));
-            boolean anchorIsLeft = (((col > 1) && (pieceAtLocation(row, col - 2) != null)) 
-                || ((col > 1) && (row > 0) && (pieceAtLocation(row - 1, col - 2) != null))
-                || ((col > 0) && (row > 0) && (pieceAtLocation(row - 1, col - 1) != null)));
-            boolean anchorIsRight = (((col < numberOfColumns - 2)
-                && (pieceAtLocation(row, col + 2) != null))
-                    || ((col < numberOfColumns - 2) && (row > 0)
-                    && (pieceAtLocation(row - 1, col + 2) != null))
-                    || ((col < numberOfColumns - 1) && (row > 0) 
-                    && (pieceAtLocation(row - 1, col + 1) != null)));
+            boolean bAnchorBelow =
+                    (
+                       ( ( col > 0 )          && ( row < num_rows-1 ) && ( pieceAtLocation(row+1, col-1) != null ) ) ||
+                       (                         ( row < num_rows-1 ) && ( pieceAtLocation(row+1,col) != null ) ) ||
+                       ( ( col < num_cols-1 ) && ( row < num_rows-1 ) && ( pieceAtLocation(row+1,col+1) != null ) )
+                    ) ;
+            boolean bAnchorLeft =
+                    (
+                       ( ( col > 1 )                                  && ( pieceAtLocation(row, col-2) != null ) ) ||
+                       ( ( col > 1 )          && ( row > 0 )          && ( pieceAtLocation(row-1,col-2 ) != null ) ) ||
+                       ( ( col > 0 )          && ( row > 0 )          && ( pieceAtLocation(row-1,col-1 ) != null ) )
+                    ) ;
+            boolean bAnchorRight =
+                    (
+                       ( ( col < num_cols-2 )                         && ( pieceAtLocation(row,col+2) != null ) ) ||
+                       ( ( col < num_cols-2 ) && ( row > 0 )          && ( pieceAtLocation(row-1,col+2) != null ) ) ||
+                       ( ( col < num_cols-1 ) && ( row > 0 )          && ( pieceAtLocation(row-1,col+1) != null ) )
+                    ) ;
 
-            if ((leftFaceIsEmpty && anchorIsBelow && anchorIsLeft)
-                || (rightFaceIsEmpty  && anchorIsBelow && anchorIsRight)
-                || (middleFaceIsEmpty && anchorIsLeft  && anchorIsRight)) {
-                createsABridge = true;
+            if ( ( bLeftFaceEmpty   && bAnchorBelow && bAnchorLeft  ) ||
+                 ( bRightFaceEmpty  && bAnchorBelow && bAnchorRight ) ||
+                 ( bMiddleFaceEmpty && bAnchorLeft  && bAnchorRight ) ) {
+                bCreatesABridge = true ;
             }
 
-            int[] hexLeftRightDown = {  0,  0, -1, -1, -1 };
-            int[] hexLeftCenterDown = { -1, -2, -2, -1,  0 };
-            int[] hexRightRightDown = { -1, -1, -1,  0,  0 };
-            int[] hexRightCenterDown = {  0,  1,  2,  2,  1 };
-            int[] hexAboveRightDown = {  0, +1, +1, +1,  0 };
-            int[] hexAboveCenterDown = { -1, -1,  0,  1,  1 };
 
-            if (row > 0) {
-                if (col > 1) {
-                    isDownwardLeftHexagon = true;
+            int hexLRD[] = {  0,  0, -1, -1, -1 } ;
+            int hexLCD[] = { -1, -2, -2, -1,  0 } ;
+            int hexRRD[] = { -1, -1, -1,  0,  0 } ;
+            int hexRCD[] = {  0,  1,  2,  2,  1 } ;
+            int hexARD[] = {  0, +1, +1, +1,  0 } ;
+            int hexACD[] = { -1, -1,  0,  1,  1 } ;
+
+            if ( row > 0 ) {
+                if ( col > 1 ) {
+                    bDLHexagon = true ;
                     // hexagon left
-                    for (int i = 0; i < 5; i++) {
-                        isDownwardLeftHexagon &= (pieceAtLocation(row + hexLeftRightDown[i],
-                            col + hexLeftCenterDown[i]) != null);
+                    for ( int i=0; i<5; i++ ) {
+                        bDLHexagon &= ( pieceAtLocation(row + hexLRD[i],col + hexLCD[i]) != null ) ;
                     }
-                    if (isDownwardLeftHexagon) {
+                    if ( bDLHexagon )
                         Log.Debug("  Completed hexagon with Down-Left orientation!");
-                    }
                 }
-                if (col < numberOfColumns - 2) {
-                    isDownwardRightHexagon = true;
+                if ( col < num_cols-2 ) {
+                    bDRHexagon = true ;
                     // hexagon right
-                    for (int i = 0; i < 5; i++) {
-                        isDownwardRightHexagon &= (pieceAtLocation(row + hexRightRightDown[i],
-                            col + hexRightCenterDown[i]) != null);
+                    for ( int i=0; i<5; i++ ) {
+                        bDRHexagon &= ( pieceAtLocation(row + hexRRD[i],col + hexRCD[i]) != null ) ;
                     }
-                    if (isDownwardRightHexagon) {
+                    if ( bDRHexagon )
                         Log.Debug("  Completed hexagon with Down-Right orientation!");
-                    }
                 }
             }
 
-            if (row < numberOfRows - 1) {
-                if (col > 1 && col < numberOfColumns - 1) {
-                    isDownMiddleHexagon = true;
+            if ( row < num_rows-1 ) {
+                if ( col > 1 && col < num_cols - 1 ) {
+                    bDMHexagon = true ;
                     // hexagon below
-                    for (int i = 0; i < 5; i++) {
-                        isDownMiddleHexagon &= (pieceAtLocation(row + hexAboveRightDown[i],
-                            col + hexAboveCenterDown[i]) != null);
+                    for ( int i=0; i<5; i++ ) {
+                        bDMHexagon &= ( pieceAtLocation(row + hexARD[i],col + hexACD[i]) != null ) ;
                     }
-                    if (isDownMiddleHexagon) {
+                    if ( bDMHexagon )
                         Log.Debug("  Completed hexagon with Down-Middle orientation!");
-                    }
                 }
             }
 
         }
-        
+
         // If any one of six hexagons was created with tile placement, add the bonus!
-        boolean createsAHexagon = isUpperLeftHexagon || isUpperMiddleHexagon || isUpperRightHexagon 
-            || isDownwardLeftHexagon || isDownMiddleHexagon || isDownwardRightHexagon;
+        bCreatesAHexagon = bULHexagon || bUMHexagon || bURHexagon ||
+                           bDLHexagon || bDMHexagon || bDRHexagon ;
 
         // Hexagon bonus
-        if (createsAHexagon) {
-            if (!choice.isTestForFitOnly()) {
+        if ( bCreatesAHexagon ) {
+            if ( !choice.isTestForFitOnly() ) {
                 Event.logEvent(EventType.CREATE_A_HEXAGON, getRound());
-                Log.Info(
-                    String.format("  Tile %s creates a hexagon @ (%d,%d)!  Bonus of %d points!",
-                        t, row, col, HEXAGON_BONUS));
+                Log.Info(String.format("  Tile %s creates a hexagon @ (%d,%d)!  Bonus of %d points!", t, row, col, HEXAGON_BONUS));
             }
-            score = HEXAGON_BONUS;
+            score = HEXAGON_BONUS ;
         }
 
         // Bridge bonus
-        if (createsABridge) {
-            if (!choice.isTestForFitOnly()) {
+        if ( bCreatesABridge ) {
+            if ( !choice.isTestForFitOnly() ) {
                 Event.logEvent(EventType.CREATE_A_BRIDGE, getRound());
-                Log.Info(
-                    String.format("  Tile %s creates a bridge @ (%d,%d)!  Bonus of %d points!",
-                        t, row, col, BRIDGE_BONUS));
+                Log.Info(String.format("  Tile %s creates a bridge @ (%d,%d)!  Bonus of %d points!", t, row, col, BRIDGE_BONUS));
             }
-            score = BRIDGE_BONUS;
+            score = BRIDGE_BONUS ;
         }
 
 
@@ -1109,17 +1071,16 @@ public class Board implements Serializable {
             // Starting player can earn 10 points if tile is a triplet
             if (t.isTriplet()) {
 
-                score += 10;
+                score += 10 ;
 
                 // If three 0's start, there is a 30 point bonus
-                if (t.getValue() == 0) {
-                    score += 30;
-                }
+                if (t.getValue() == 0)
+                    score += 30 ;
             }
         }
 
         // Value of tile face
-        score += t.getValue();
+        score += t.getValue() ;
 
         return score;
     }
@@ -1131,23 +1092,22 @@ public class Board implements Serializable {
      * @param choice - the choice we've made to place a tile
      * @return true if placed, false otherwise.
      */
-    public boolean placeTile(Choice choice) {
+    public boolean placeTile( Choice choice ) {
 
         int row = choice.getRow();
         int col = choice.getCol();
 
-        if (row < 0 || col < 0 || row > numberOfRows - 1 || col > numberOfColumns - 1) {
-            return false;
-        }
+        if ( row < 0 || col < 0 || row > num_rows-1 || col > num_cols-1)
+            return false ;
 
         Tile t = choice.getTile();
 
         // Orientation needs to be set based on the tile position.
         // Do it now so the checks and balances can work.
-        t.setOrientation(getOrientationForPositionOnBoard(row,col));
+        t.setOrientation( getOrientationForPositionOnBoard(row,col) ) ;
 
         // Does the piece fit into that location on the board?
-        if (pieceFits(choice)) {
+        if ( pieceFits( choice ) ) {
 
             // Play the tile and setup the piece information.
             playedTiles[row][col] = t;
@@ -1157,10 +1117,10 @@ public class Board implements Serializable {
             t.setCol(col);
 
             // Placed on the board
-            t.setPlaced(true);
+            t.setPlaced(true) ;
 
             // Removed from the player's tray
-            t.setInTray(false);
+            t.setInTray(false) ;
             return true;
         }
         return false;
@@ -1175,37 +1135,34 @@ public class Board implements Serializable {
     }
 
     /**
-     * Draws the horizontal scale for the board (across the top).
+     * Draws the horizontal scale for the board (across the top)
      * @return (String) a String representation of the column scale
      */
     private String drawColumnScale() {
 
         StringBuilder strScale = new StringBuilder(120);
-        strScale.append(purple + "------");
+        strScale.append(p+"------");
         // Let's paint the rows and column numbers for reference
-        for (int col = leftBorder; col <= rightBorder; col++) {
-            strScale.append(purple + "---------");
-        }
+        for (int col = leftBorder; col <= rightBorder; col++)
+            strScale.append(p+"---------");
         strScale.append("\n        ");
-        for (int col = leftBorder; col <= rightBorder; col++) {
-            strScale.append(purple + String.format(" %3d ", col));
-        }
-        strScale.append(purple + "\n------");
-        for (int col = leftBorder; col <= rightBorder; col++) {
-            strScale.append(purple + "---------");
-        }
-        strScale.append("\n" + reset);
+        for (int col = leftBorder; col <= rightBorder; col++)
+            strScale.append(p+String.format(" %3d ", col));
+        strScale.append(p+"\n------");
+        for (int col = leftBorder; col <= rightBorder; col++)
+            strScale.append(p+"---------");
+        strScale.append("\n"+r);
 
-        return strScale.toString();
+        return strScale.toString() ;
     }
 
     /**
-     * Determines if the value provided is an even number or not.
+     * Determines if the value provided is an even number or not
      * @param val (int) the value to determine oddness
      * @return true if even; false otherwise
      */
     private Boolean even(int val) {
-        return ((val % 2) == 0);
+        return ((val%2)==0);
     }
 
     /**
@@ -1218,23 +1175,24 @@ public class Board implements Serializable {
      */
     private void drawRowScale(String[] strScale, int row, int col) {
         if (even(row + col)) {
-            strScale[0] += purple + "|    |" + cyan + "=";
-            strScale[1] += purple + "|    |" + cyan + "==";
+            strScale[0] += p+"|    |"+c+"="    ;
+            strScale[1] += p+"|    |"+c+"=="   ;
             strScale[2] += String.format(
-                           purple + "|%3d |" + cyan + "===", row);
-            strScale[3] += purple + "|    |" + cyan + "=====";
+                           p+"|%3d |"+c+"==="  ,row);
+            strScale[3] += p+"|    |"+c+"====" ;
+            strScale[4] += p+"|    |"+c+"=====";
         } else {
-            strScale[0] += purple + "|    |" + cyan + "+++++";
-            strScale[1] += purple + "|    |" + cyan + "++++";
+            strScale[0] += p+"|    |"+c+"+++++";
+            strScale[1] += p+"|    |"+c+"++++" ;
             strScale[2] += String.format(
-                           purple + "|%3d |" + cyan + "+++", row);
-            strScale[3] += purple + "|    |" + cyan + "++";
-            strScale[4] += purple + "|    |" + cyan + "+";
+                           p+"|%3d |"+c+"+++"  ,row);
+            strScale[3] += p+"|    |"+c+"++"   ;
+            strScale[4] += p+"|    |"+c+"+"    ;
         }
     }
 
     /**
-     * Constructs the String representation of just the board.
+     * Constructs the String representation of just the board
      * @param full - true to show the whole board, false to show only the smallest
      *             size necessary.
      * @return (String) a String representation of just the board and placed tiles.
@@ -1243,19 +1201,19 @@ public class Board implements Serializable {
 
         StringBuilder strBoard = new StringBuilder(700);
 
-        findBoardMinMax(full);
+        findBoardMinMax( full );
 
         // Display a row at a time, so
         for (int row = topBorder; row <= bottomBorder; row++) {
 
             // Let's paint the rows and column numbers for reference
-            if (row == topBorder) {
+            if ( row == topBorder ) {
                 strBoard.append(drawColumnScale());
             }
 
-            String[] strRow = new String[5];
+            String strRow[] = new String[5];
             for (int i = 0; i < 5; i++) {
-                strRow[i] = "";
+                strRow[i]="";
             }
 
             for (int col = leftBorder; col <= rightBorder; col++) {
@@ -1267,40 +1225,40 @@ public class Board implements Serializable {
 
                 // If there is no tile here, let's fill it with empty space
                 if (playedTiles[row][col] == null) {
-                    if (even(row + col)) {
-                        strRow[0] += cyan + "+++++++++";
-                        strRow[1] += cyan + "+++++++";
-                        strRow[2] += cyan + "+++++";
-                        strRow[3] += cyan + "+++";
-                        strRow[4] += cyan + "+";
+                    if ( even(row+col) ) {
+                        strRow[0] += c+"+++++++++" ;
+                        strRow[1] += c+"+++++++"   ;
+                        strRow[2] += c+"+++++"     ;
+                        strRow[3] += c+"+++"       ;
+                        strRow[4] += c+"+"         ;
                     } else {
-                        strRow[0] += cyan + "=";
-                        strRow[1] += cyan + "===";
-                        strRow[2] += cyan + "=====";
-                        strRow[3] += cyan + "=======";
-                        strRow[4] += cyan + "=========";
+                        strRow[0] += c+"="         ;
+                        strRow[1] += c+"==="       ;
+                        strRow[2] += c+"====="     ;
+                        strRow[3] += c+"======="   ;
+                        strRow[4] += c+"=========" ;
                     }
                 } else {
                     playedTiles[row][col].draw(false, strRow);
                 }
             }
 
-            if (even(row + rightBorder)) {
-                strRow[0] += cyan + "=";
-                strRow[1] += cyan + "==";
-                strRow[2] += cyan + "===";
-                strRow[3] += cyan + "====";
-                strRow[4] += cyan + "=====";
+            if (even(row+rightBorder)) {
+                strRow[0] += c+"="     ;
+                strRow[1] += c+"=="    ;
+                strRow[2] += c+"==="   ;
+                strRow[3] += c+"===="  ;
+                strRow[4] += c+"=====" ;
             } else {
-                strRow[0] += cyan + "+++++";
-                strRow[1] += cyan + "++++";
-                strRow[2] += cyan + "+++";
-                strRow[3] += cyan + "++";
-                strRow[4] += cyan + "+";
+                strRow[0] += c+"+++++" ;
+                strRow[1] += c+"++++"  ;
+                strRow[2] += c+"+++"   ;
+                strRow[3] += c+"++"    ;
+                strRow[4] += c+"+"     ;
             }
-            for (int k = 0; k < 5; k++) {
+            for ( int k=0; k<5; k++) {
                 strBoard.append(strRow[k]);
-                strBoard.append("\n" + reset);
+                strBoard.append("\n"+r);
             }
         }
         return strBoard.toString();
