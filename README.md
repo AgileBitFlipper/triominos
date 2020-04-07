@@ -8,7 +8,7 @@ Be the first player to score 400 points. Each game consists of several rounds. *
 
 ## Starting Player
 
-The starting player is chosen based on the tiles in their tray. The player with the highest value triplet tile starts. Playing a triplet gets you the value of the corners added together plus a **10 point bonus**. (For example, playing tile '4-4-4' is worth 16 + 10 or 26 points). The player with the '0-0-0' tile earns a **30 point bonus** instead of the 10 point bonus when it is played as the first tile. If the player with '0-0-0' also has the highest triplet, they can choose which of these tiles to play first, but will only receive the 30 point bonus for the 0-triplet. If no player has a triplet, the highest value tile starts. The value of a tile is the sum of the corners. (For example, the '3-4-5' tile is 12 points.)
+The starting player is chosen based on the tiles in their tray. The player with the highest value triplet tile starts. Playing a triplet gets you the value of the corners added together plus a **10 point bonus**. (For example, playing tile '4-4-4' is worth 12 + 10 or 22 points). The player with the '0-0-0' tile earns a **30 point bonus** instead of the 10 point bonus when it is played as the first tile. If the player with '0-0-0' also has the highest triplet, they can choose which of these tiles to play first, but will only receive the 30 point bonus for the 0-triplet. If no player has a triplet, the highest value tile starts. The value of a tile is the sum of the corners. (For example, the '3-4-5' tile is 12 points.)
 
 ## Gameplay
 
