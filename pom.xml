@@ -19,7 +19,7 @@
     <maven.compiler.target>1.7</maven.compiler.target>
 
     <!-- library versions -->
-    <surefire.version>2.22.2</surefire.version>
+    <surefire.version>3.0.0-M4</surefire.version>
     <checkstyle.version>3.1.0</checkstyle.version>
 
     <!-- Used to locate the profile specific configuration file. -->
@@ -48,11 +48,17 @@
       <id>dev</id>
     </profile>
     <profile>
+      <id>package-only</id>
+      <properties>
+        <build.profile.id>package-only</build.profile.id>
+        <skip.integration.tests>true</skip.integration.tests>
+        <skip.unit.tests>true</skip.unit.tests>
+      </properties>
+    </profile>
+    <profile>
       <id>integration-test</id>
       <properties>
-        <!-- Used to locate the profile specific configuration file. -->
         <build.profile.id>integration-test</build.profile.id>
-        <!-- Only integration tests are run. -->
         <skip.integration.tests>false</skip.integration.tests>
         <skip.unit.tests>true</skip.unit.tests>
       </properties>
@@ -100,7 +106,7 @@
     <dependency>
       <groupId>org.codehaus.groovy</groupId>
       <artifactId>groovy-all</artifactId>
-      <version>2.5.8</version>
+      <version>2.6.0-alpha-4</version>
       <type>pom</type>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.spockframework/spock-core -->
@@ -120,7 +126,7 @@
     <dependency>
       <groupId>org.jacoco</groupId>
       <artifactId>jacoco-maven-plugin</artifactId>
-      <version>0.8.5</version>
+      <version>0.8.4</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.codehaus.mojo/findbugs-maven-plugin -->
     <dependency>
@@ -139,6 +145,18 @@
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>findbugs</artifactId>
       <version>3.0.1</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-javadoc-plugin -->
+    <dependency>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.1.1</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs -->
+    <dependency>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs</artifactId>
+        <version>4.0.0-beta4</version>
     </dependency>
   </dependencies>
   <reporting>
@@ -238,6 +256,38 @@
         </executions>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.1.1</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration> 
+                <!-- add this to disable checking -->
+                <additionalparam>-Xdoclint:none</additionalparam>
+                <!-- add this line to not fail the build on errors found -->
+                <failOnError>false</failOnError>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <version>3.1.12.2</version>
+        <dependencies>
+          <!-- overwrite dependency on spotbugs if you want to specify the version of spotbugs -->
+          <dependency>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs</artifactId>
+            <version>4.0.0-beta4</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+      <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>${surefire.version}</version>
         <configuration>
@@ -245,6 +295,18 @@
           <argLine>${surefireArgLine}</argLine>
           <!-- Skips unit tests if the value of skip.unit.tests property is true -->
           <skipTests>${skip.unit.tests}</skipTests>
+          <dependencies>
+            <dependency>
+                <groupId>org.junit.platform</groupId>
+                <artifactId>junit-platform-surefire-provider</artifactId>
+                <version>1.3.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>5.5.2</version>
+            </dependency>
+        </dependencies>
           <!-- Excludes integration tests when unit tests are run. -->
           <excludes>
             <exclude>**/IT*.java</exclude>

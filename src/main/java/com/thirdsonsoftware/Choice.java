@@ -10,21 +10,21 @@ package com.thirdsonsoftware;
 public class Choice {
 
     // Which tile?
-    Tile tile ;
+    Tile tile;
 
-    boolean testForFitOnly ;
+    boolean testForFitOnly;
 
     // If this choice is taken, what would the score be?
-    private int score ;
+    private int score;
 
     // Where?
-    private int row ;
-    private int col ;
+    private int row;
+    private int col;
 
     // How?
-    private Orientation orientation ;
+    private Orientation orientation;
 
-    private int rotation ;
+    private int rotation;
 
     /**
      * Constructs a single choice based on a tile, position, orientation,
@@ -34,11 +34,11 @@ public class Choice {
      *   why a choice was created.  The choice holds the tile reference and
      *   how that tile should be placed on the board for this particular
      *   instance.
-     * @param tile
-     * @param row
-     * @param col
-     * @param orientation
-     * @param rotation
+     * @param tile - the tile to place
+     * @param row - the row to place it at
+     * @param col - the column to place it at
+     * @param orientation - the orientation to use
+     * @param rotation - the rotatino to use
      */
     public Choice(Tile tile, int row, int col, Orientation orientation, int rotation) {
         this.tile = tile;
@@ -46,7 +46,7 @@ public class Choice {
         this.col = col;
         this.orientation = orientation;
         this.rotation = rotation;
-        this.score = 0 ;
+        this.score = 0;
     }
 
     /**
@@ -58,15 +58,15 @@ public class Choice {
     }
 
     /**
-     * Set the tile reference
-     * @param tile
+     * Set the tile reference.
+     * @param tile - the Tile to set in the choice
      */
     public void setTile(Tile tile) {
         this.tile = tile;
     }
 
     /**
-     * Getter for the testForFitOnly flag
+     * Getter for the testForFitOnly flag.
      * @return
      */
     public boolean isTestForFitOnly() {
@@ -77,7 +77,7 @@ public class Choice {
      * Setter for the testForFitOnly flag.  If set, this means that
      *   this test is only to see if it fits, not that it is actually
      *   placing a Tile.
-     * @param testForFitOnly
+     * @param testForFitOnly - should we test for fit only
      */
     public void setTestForFitOnly(boolean testForFitOnly) {
         this.testForFitOnly = testForFitOnly;
@@ -93,14 +93,14 @@ public class Choice {
 
     /**
      * Set the row of the Choice.
-     * @param row
+     * @param row - the Row to set the Choice to
      */
     public void setRow(int row) {
         this.row = row;
     }
 
     /**
-     * Get the column of the Choice
+     * Get the column of the Choice.
      * @return
      */
     public int getCol() {
@@ -108,15 +108,15 @@ public class Choice {
     }
 
     /**
-     * Set the column of the Choice
-     * @param col
+     * Set the column of the Choice.
+     * @param col - the Column to set the Choice to
      */
     public void setCol(int col) {
         this.col = col;
     }
 
     /**
-     * Get the orientation of the Choice
+     * Get the orientation of the Choice.
      * @return
      */
     public Orientation getOrientation() {
@@ -124,15 +124,15 @@ public class Choice {
     }
 
     /**
-     * Set the orientation of the Choice
-     * @param orientation
+     * Set the orientation of the Choice.
+     * @param orientation - the orientation to set the Choice to
      */
     public void setOrientation(Orientation orientation) {
         this.orientation = orientation;
     }
 
     /**
-     * Get the rotation of the Choice
+     * Get the rotation of the Choice.
      * @return
      */
     public int getRotation() {
@@ -140,23 +140,27 @@ public class Choice {
     }
 
     /**
-     * Set the rotation of the Choice
-     * @param rotation
+     * Set the rotation of the Choice.
+     * @param rotation - the Rotation to set the Choice to
      */
     public void setRotation(int rotation) {
         this.rotation = rotation;
     }
 
     /**
-     * Get the score for this Choice
+     * Get the score for this Choice.
      * @return
      */
-    public int getScore() { return this.score ; }
+    public int getScore() { 
+        return this.score; 
+    }
 
     /**
-     * Set the score for this Choice
-     * @param s
+     * Set the score for this Choice.
+     * @param s - the score to set in this choice
      */
-    public void setScore(int s) { this.score = s ; }
+    public void setScore(int s) { 
+        this.score = s; 
+    }
 
 }
