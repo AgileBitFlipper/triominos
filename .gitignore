@@ -27,3 +27,7 @@ hs_err_pid*
 # Logs
 **/logs/*
 **/target/*
+
+# Configuration
+*.classpath/**
+*.settings/**
