@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 echo "Using shell script to build triominos: $BASH_VERSION"
 
+echo "--------------------------------------------------------------"
+echo "  JAVA_HOME is currently set to: $JAVA_HOME"
+echo "  JAVA_HOME should be set to JDK v1.8 or greater in your environment."
+echo "  For example:"
+echo "        export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_201.jdk/Contents/Home"
+echo "--------------------------------------------------------------"
+
 echo "Cleaning target area..."
 mvn clean
 rc=$?
