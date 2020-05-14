@@ -26,11 +26,17 @@ First player to pass 400 wins. If more than one player finishes past 400 points,
 
 ## Example Gameplay
 
-The displayed board now appears in color (not able to show it here).  From the example below, a single round, you can get a feel for how the gameplay progresses.  
+The displayed board now appears in color (not able to show it here). From the example below, a single round, you can get a feel for how the gameplay progresses. 
 
-The board itself is blue, with the scales purple.  Player 'A' is red, while Player 'B' is green.  All player's pieces retain their color when played on the board, showing a clear indication of which player played each piece.
+The board itself is blue, with the scales purple. Player 'A' is red, while Player 'B' is green. All player's pieces retain their color when played on the board, showing a clear indication of which player played each piece.
 
-Start the game using the command line: ```java -jar target/triominos-1.0-SNAPSHOT.jar```
+Start the game using the command line:
+
+```bash
+java -jar target/triominos.jar
+```
+
+Note that each run of the game is unique. The chances of you seeing the same results are not impossible, just improbable. The output for the gameplay should look something like the following:
 
 ```text
 Round 2:
@@ -109,3 +115,52 @@ Board:
   -- 47-- -- 47-- -- 28-- -- 23-- --  5-- --  2-- -- 22-- -- 24-- -- 11-- -- 52-- -- 21-- -- 50-- --  6-- --  4-- --  9-- -- 54-- -- 36-- -- 35-- -- 29-- -- 42-- -- 38--
   
 ```
+
+## Building Triominos
+
+Triominos is following the DevSecOps Software Factory model for development. As such, there are some basic expectations of the build environment. First, the _pom.xml_ defines a repository for it's cache of build artifacts. This is so all artifacts will be availble for release, deliver and deployment. Comment this entire section out to use your local M2 cache. Modify the URL to point to your Artifact Repository, port and common group.
+
+```xml
+  <repositories>
+    <repository>
+      <id>maven-group</id>
+      <url>http://localhost:8085/repository/maven-group/</url>
+    </repository>
+  </repositories>
+```
+
+The included _build.sh_ file can be used to run the full development lifecycle from clean to package. All artifacts needed for escrow are generated and displayed for review including, but not limited to
+
+* dependency-analyze.log - Dependency analysis report
+* dependency-resolve.log - Dependency resolution report
+* dependency-tree.log - Dependency tree view
+* dependency-updates-report.html - View a full report on any dependency updates that need to occur
+* checkstyle.html - Checkstyle warnings and errors report
+* API documents - Generated JavaDoc site
+* jacoco-ut/index.html - Code Coverage report
+
+Play the game using the command:
+
+```bash
+java -jar target/triominos.jar
+```
+
+Command line options include:
+
+* 'd' - to enable debug logging _default:disabled_
+* 'g #' - to set the number of games to play _default:1_
+* 'p #' - to set the number of players _default:2_
+* 'a' - to analyze all of the game event data so far _default:disabled_
+
+Where '#' is a numerica value. For example, to play a four (4) player, single (1) game the command line would be:
+
+```bash
+java -jar target/triominos.jar -p 4 -g 1
+```
+
+To subsequently analyze all game play collected to date, the command line would be:
+
+```bash
+java -jar target/triominos.jar -a
+```
+
