@@ -1,3 +1,6 @@
+# environment
+.factorypath
+
 # Compiled class file
 *.class
 
@@ -24,3 +27,7 @@ hs_err_pid*
 # Logs
 **/logs/*
 **/target/*
+
+# Configuration
+*.classpath/**
+*.settings/**
