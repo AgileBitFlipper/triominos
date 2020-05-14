@@ -163,4 +163,3 @@ To subsequently analyze all game play collected to date, the command line would 
 ```bash
 java -jar target/triominos.jar -a
 ```
-
