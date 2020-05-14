@@ -34,6 +34,13 @@
     <!-- Output test results to a file -->
     <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
   </properties>
+  <!-- Provide for a cached repository located in a docker container at port 8085 -->
+  <repositories>
+    <repository>
+      <id>maven-group</id>
+      <url>http://localhost:8085/repository/maven-group/</url>
+    </repository>
+  </repositories>
   <profiles>
     <profile>
       <id>all-tests</id>
