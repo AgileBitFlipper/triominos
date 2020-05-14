@@ -42,37 +42,42 @@ if [[ "$rc" -ne 0 ]] ; then
     echo " Could not produce dependency tree data: Return code:$rc"
 else
     echo " Review dependency tree data in dependency-tree.log."
-    open ./dependency-updates.log
+    open ./dependency-tree.log
 fi
 
 echo "Producing upgrade data..."
-mvn versions:dependency-updates-report | tee dependency-updates.log
+mvn versions:dependency-updates-report
 rc=$?
 if [[ "$rc" -ne 0 ]] ; then
     echo " Could not produce upgrade data: Return code:$rc"
 else
-    echo " Review upgrade data in dependency-updates.log."
+    echo " Review upgrade data in dependency-updates-report.html"
     open ./target/site/dependency-updates-report.html
 fi
 
-# echo "Checkstyle, pmd, cpd, spotbugs, and findbugs analysis..."
-# mvn -V -U -e checkstyle:checkstyle pmd:pmd pmd:cpd spotbugs:spotbugs findbugs:findbugs
-# rc=$?
-# if [[ "$rc" -ne 0 ]] ; then
-#     echo " Could not perform checkstyle: Return code:$rc"
-#     exit $rc
-# else
-#     echo " Review checkstyle results in ./target/site/checkstyle-result.html."
-#     open ./target/site/checkstyle.html
-# fi
-
 echo "Building triominos..."
-mvn -batch-mode -V -U -e checkstyle:checkstyle findbugs:findbugs | tee build.log
+echo "Checkstyle, pmd, cpd, spotbugs, and findbugs analysis..."
+mvn -V -U -e checkstyle:checkstyle pmd:pmd pmd:cpd spotbugs:spotbugs findbugs:findbugs | tee build.log
 rc=$?
 if [[ "$rc" -ne 0 ]] ; then
-    echo " Error building triominos: Return code:$rc"
+    echo " Could not perform checkstyle: Return code:$rc"
+    exit $rc
 else
-    echo " Success building triominos...moving on to testing."
+    echo " Review checkstyle results in ./target/site/checkstyle-result.html."
+    open ./target/site/checkstyle.html
+fi
+
+echo "Building triominos documentation"
+mvn -batch-mode -V -U -e javadoc:jar | tee -a build.log
+rc=$?
+if [[ "$rc" -ne 0 ]] ; then
+    echo " Error building triominos documentation: Return code:$rc"
+    echo "   Review JavaDoc Document APIs genereated in ./target/apidocs/index.html."
+    open ./target/apidocs/index.html
+else
+    echo " Success building triominos documentation...moving on to testing."
+    echo "   JavaDoc Document APIs available in ./target/apidocs/index.html."
+    open ./target/apidocs/index.html
 fi
 
 echo "Testing..."
