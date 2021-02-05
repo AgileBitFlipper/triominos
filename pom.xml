@@ -1,465 +1,739 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.thirdsonsoftware</groupId>
-  <artifactId>triominos</artifactId>
-  <packaging>jar</packaging>
-  <version>1.0-SNAPSHOT</version>
-  <name>triominos</name>
-  <url>http://maven.apache.org</url>
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.thirdsonsoftware</groupId>
+    <artifactId>triominos</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <name>triominos</name>
+    <url>http://maven.apache.org</url>
+    <!-- 
+        If you are ever trying to reference output directories in Maven, you should never 
+        use a literal value like 'target/classes'. Instead you should use property references
+        to refer to these directories.
+            project.build.sourceDirectory
+            project.build.scriptSourceDirectory
+            project.build.testSourceDirectory
+            project.build.outputDirectory
+            project.build.testOutputDirectory
+            project.build.directory
+        sourceDirectory, scriptSourceDirectory, and testSourceDirectory provide access to 
+        the source directories for the project. outputDirectory and testOutputDirectory 
+        provide access to the directories where Maven is going to put bytecode or other 
+        build output. directory refers to the directory which contains all of these output 
+        directories.
+    -->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
-    <build.timestamp>${maven.build.timestamp}</build.timestamp>
-    <build.number />
+        <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
+        <build.timestamp>${maven.build.timestamp}</build.timestamp>
+        <build.number />
 
-    <!-- compiler versions -->
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+        <!-- compiler versions -->
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
 
-    <!-- library versions -->
-    <surefire.version>3.0.0-M4</surefire.version>
-    <checkstyle.version>3.1.0</checkstyle.version>
+        <!-- library versions -->
+        <surefire.version>3.0.0-M4</surefire.version>
+        <!-- Updating to 3.1.1 will break due to structure change of checkstyle.xml file -->
+        <checkstyle.version>3.1.0</checkstyle.version>
+        <xml.maven.version>1.0.2</xml.maven.version>
+        <mojo.findbugs.version>3.0.5</mojo.findbugs.version>
+        <google.findbugs.version>3.0.1</google.findbugs.version>
+        <maven.site.version>3.8.2</maven.site.version>
+        <maven.reports.version>3.0.0</maven.reports.version>
+        <maven.resources.version>3.1.0</maven.resources.version>
 
-    <!-- Used to locate the profile specific configuration file. -->
-    <build.profile.id>dev</build.profile.id>
-    <jacoco.it.execution.data.file>${project.build.directory}/coverage-reports/jacoco-it.exec</jacoco.it.execution.data.file>
-    <jacoco.ut.execution.data.file>${project.build.directory}/coverage-reports/jacoco-ut.exec</jacoco.ut.execution.data.file>
+        <!-- Used to locate the profile specific configuration file. -->
+        <build.profile.id>dev</build.profile.id>
+        <jacoco.it.execution.data.file>${project.build.directory}/coverage-reports/jacoco-it.exec</jacoco.it.execution.data.file>
+        <jacoco.ut.execution.data.file>${project.build.directory}/coverage-reports/jacoco-ut.exec</jacoco.ut.execution.data.file>
 
-    <!-- Only unit tests are run by default. -->
-    <skip.integration.tests>true</skip.integration.tests>
-    <skip.unit.tests>false</skip.unit.tests>
-
-    <!-- Output test results to a file -->
-    <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
-  </properties>
-  <!-- Provide for a cached repository located in a docker container at port 8085 -->
-  <repositories>
-    <repository>
-      <id>maven-group</id>
-      <url>http://localhost:8085/repository/maven-group/</url>
-    </repository>
-  </repositories>
-  <profiles>
-    <profile>
-      <id>all-tests</id>
-      <properties>
-        <build.profile.id>all-tests</build.profile.id>
-        <!-- All tests are run. -->
-        <skip.integration.tests>false</skip.integration.tests>
-        <skip.unit.tests>false</skip.unit.tests>
-      </properties>
-    </profile>
-    <profile>
-      <id>dev</id>
-    </profile>
-    <profile>
-      <id>package-only</id>
-      <properties>
-        <build.profile.id>package-only</build.profile.id>
+        <!-- Only unit tests are run by default. -->
         <skip.integration.tests>true</skip.integration.tests>
-        <skip.unit.tests>true</skip.unit.tests>
-      </properties>
-    </profile>
-    <profile>
-      <id>integration-test</id>
-      <properties>
-        <build.profile.id>integration-test</build.profile.id>
-        <skip.integration.tests>false</skip.integration.tests>
-        <skip.unit.tests>true</skip.unit.tests>
-      </properties>
-    </profile>
-  </profiles>
-  <dependencies>
-    <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-checkstyle-plugin -->
-    <dependency>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-checkstyle-plugin</artifactId>
-      <version>3.1.0</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/org.codehaus.plexus/plexus-utils -->
-    <dependency>
-      <groupId>org.codehaus.plexus</groupId>
-      <artifactId>plexus-utils</artifactId>
-      <version>3.3.0</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/org.sonarsource.scanner.maven/sonar-maven-plugin -->
-    <dependency>
-      <groupId>org.sonarsource.scanner.maven</groupId>
-      <artifactId>sonar-maven-plugin</artifactId>
-      <version>3.7.0.1746</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/junit/junit -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.13.1</version>
-      <scope>test</scope>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <version>2.10.0</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/commons-cli/commons-cli -->
-    <dependency>
-      <groupId>commons-cli</groupId>
-      <artifactId>commons-cli</artifactId>
-      <version>1.4</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/org.codehaus.groovy/groovy-all -->
-    <dependency>
-      <groupId>org.codehaus.groovy</groupId>
-      <artifactId>groovy-all</artifactId>
-      <version>3.0.3</version>
-      <type>pom</type>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/org.spockframework/spock-core -->
-    <dependency>
-      <groupId>org.spockframework</groupId>
-      <artifactId>spock-core</artifactId>
-      <version>2.0-M2-groovy-3.0</version>
-      <scope>test</scope>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/org.apache.ant/ant -->
-    <dependency>
-      <groupId>org.apache.ant</groupId>
-      <artifactId>ant</artifactId>
-      <version>1.10.9</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
-    <dependency>
-      <groupId>org.jacoco</groupId>
-      <artifactId>jacoco-maven-plugin</artifactId>
-      <version>0.8.4</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/org.codehaus.mojo/findbugs-maven-plugin -->
-    <dependency>
-      <groupId>org.codehaus.mojo</groupId>
-      <artifactId>findbugs-maven-plugin</artifactId>
-      <version>3.0.5</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/org.codehaus.mojo/xml-maven-plugin -->
-    <dependency>
-      <groupId>org.codehaus.mojo</groupId>
-      <artifactId>xml-maven-plugin</artifactId>
-      <version>1.0.2</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/com.google.code.findbugs/findbugs -->
-    <dependency>
-      <groupId>com.google.code.findbugs</groupId>
-      <artifactId>findbugs</artifactId>
-      <version>3.0.1</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-source-plugin -->
-    <dependency>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-source-plugin</artifactId>
-      <version>3.2.1</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-javadoc-plugin -->
-    <dependency>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.1.1</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs -->
-    <dependency>
-        <groupId>com.github.spotbugs</groupId>
-        <artifactId>spotbugs</artifactId>
-        <version>4.0.0-beta4</version>
-    </dependency>
-  </dependencies>
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>${checkstyle.version}</version>
-        <configuration>
-          <configLocation>src/test/resources/checkstyle.xml</configLocation>
-          <consoleOutput>true</consoleOutput>
-          <failsOnError>true</failsOnError>
-        </configuration>
-      </plugin>
-    </plugins>
-  </reporting>
-  <build>
-    <finalName>triominoes</finalName>
-    <filters>
-      <filter>profiles/${build.profile.id}/config.properties</filter>
-    </filters>
-    <resources>
-      <resource>
-        <filtering>true</filtering>
-        <directory>src/main/resources</directory>
-      </resource>
-    </resources>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>${checkstyle.version}</version>
-        <configuration>
-          <configLocation>src/test/resources/checkstyle.xml</configLocation>
-          <encoding>UTF-8</encoding>
-          <linkXRef>false</linkXRef>
-        </configuration>
-        <executions>
-          <execution>
-            <id>validate</id>
-            <phase>validate</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.sonarsource.scanner.maven</groupId>
-        <artifactId>sonar-maven-plugin</artifactId>
-        <version>3.6.0.1398</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>copy-dependencies</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>copy-dependencies</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>
-                        ${project.build.directory}/libs
-                    </outputDirectory>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>3.1.2</version>
-        <configuration>
-          <archive>
-            <manifest>
-              <mainClass>com.thirdsonsoftware.Main</mainClass>
-              <addClasspath>true</addClasspath>
-              <classpathPrefix>libs/</classpathPrefix>
-            </manifest>
-          </archive>
-        </configuration>
-      </plugin>
-      <!-- Groovy compilation -->
-      <plugin>
-        <groupId>org.codehaus.gmavenplus</groupId>
-        <artifactId>gmavenplus-plugin</artifactId>
-        <version>1.9.0</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>addSources</goal>
-              <goal>addTestSources</goal>
-              <goal>generateStubs</goal>
-              <goal>compile</goal>
-              <goal>generateTestStubs</goal>
-              <goal>compileTests</goal>
-              <goal>removeStubs</goal>
-              <goal>removeTestStubs</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <!-- Add the Java Source -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <version>3.2.1</version>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <!-- Add the JavaDoc documents -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.1.1</version>
-        <executions>
-          <execution>
-            <id>attach-javadocs</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-            <configuration> 
-                <!-- add this to disable checking -->
-                <additionalparam>-Xdoclint:none</additionalparam>
-                <!-- add this line to not fail the build on errors found -->
-                <failOnError>false</failOnError>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>com.github.spotbugs</groupId>
-        <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>3.1.12.2</version>
-        <dependencies>
-          <!-- overwrite dependency on spotbugs if you want to specify the version of spotbugs -->
-          <dependency>
+        <skip.unit.tests>false</skip.unit.tests>
+
+        <!-- Output test results to a file -->
+        <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
+
+        <!-- Operation Flags -->
+        <checkstyle.failsOnError>true</checkstyle.failsOnError>
+        <checkstyle.consoleOutput>true</checkstyle.consoleOutput>
+        <checkstyle.header.file>${basedir}/LICENSE-header.txt</checkstyle.header.file>
+        <!-- <checkstyle.resourceExcludes>LICENSE.txt, NOTICE.txt</checkstyle.resourceExcludes> -->
+
+    </properties>
+    <!-- Provide for a cached repository located in a docker container at port 8085 -->
+    <repositories>
+        <repository>
+            <id>maven-group</id>
+            <url>http://localhost:8085/repository/maven-group/</url>
+        </repository>
+    </repositories>
+    <profiles>
+        <profile>
+            <id>all-tests</id>
+            <properties>
+                <build.profile.id>all-tests</build.profile.id>
+                <!-- All tests are run. -->
+                <skip.integration.tests>false</skip.integration.tests>
+                <skip.unit.tests>false</skip.unit.tests>
+            </properties>
+        </profile>
+        <profile>
+            <id>dev</id>
+        </profile>
+        <profile>
+            <id>package-only</id>
+            <properties>
+                <build.profile.id>package-only</build.profile.id>
+                <skip.integration.tests>true</skip.integration.tests>
+                <skip.unit.tests>true</skip.unit.tests>
+            </properties>
+        </profile>
+        <profile>
+            <id>integration-test</id>
+            <properties>
+                <build.profile.id>integration-test</build.profile.id>
+                <skip.integration.tests>false</skip.integration.tests>
+                <skip.unit.tests>true</skip.unit.tests>
+            </properties>
+        </profile>
+    </profiles>
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.google.code.echo-maven-plugin/echo-plugin -->
+        <dependency>
+            <groupId>com.google.code.echo-maven-plugin</groupId>
+            <artifactId>echo-plugin</artifactId>
+            <version>1.0.0</version>
+            <type>pom</type>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-checkstyle-plugin -->
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-checkstyle-plugin</artifactId>
+            <version>${checkstyle.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.codehaus.plexus/plexus-utils -->
+        <dependency>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-utils</artifactId>
+            <version>3.3.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.sonarsource.scanner.maven/sonar-maven-plugin -->
+        <dependency>
+            <groupId>org.sonarsource.scanner.maven</groupId>
+            <artifactId>sonar-maven-plugin</artifactId>
+            <version>3.7.0.1746</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/junit/junit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13-beta-3</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/commons-cli/commons-cli -->
+        <dependency>
+            <groupId>commons-cli</groupId>
+            <artifactId>commons-cli</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.codehaus.groovy/groovy-all -->
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>3.0.3</version>
+            <type>pom</type>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.spockframework/spock-core -->
+        <dependency>
+            <groupId>org.spockframework</groupId>
+            <artifactId>spock-core</artifactId>
+            <version>2.0-M2-groovy-3.0</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.ant/ant -->
+        <dependency>
+            <groupId>org.apache.ant</groupId>
+            <artifactId>ant</artifactId>
+            <version>1.10.9</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
+        <dependency>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.8.4</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.codehaus.mojo/findbugs-maven-plugin -->
+        <dependency>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>findbugs-maven-plugin</artifactId>
+            <version>${mojo.findbugs.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.google.code.findbugs/jsr305 -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.codehaus.mojo/xml-maven-plugin -->
+        <dependency>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>xml-maven-plugin</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.google.code.findbugs/findbugs -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>findbugs</artifactId>
+            <version>${google.findbugs.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-source-plugin -->
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>3.2.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-javadoc-plugin -->
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs -->
+        <dependency>
             <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs</artifactId>
             <version>4.0.0-beta4</version>
-          </dependency>
-        </dependencies>
-      </plugin>
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>${surefire.version}</version>
-        <configuration>
-          <!-- Disable concurrent tests to eliminate STDOUT corruption exception. -->
-          <forkNode implementation="org.apache.maven.plugin.surefire.extensions.SurefireForkNodeFactory"/>
-          <!-- Sets the VM argument line used when unit tests are run. -->
-          <argLine>${surefireArgLine}</argLine>
-          <!-- Skips unit tests if the value of skip.unit.tests property is true -->
-          <skipTests>${skip.unit.tests}</skipTests>
-          <dependencies>
-            <dependency>
-                <groupId>org.junit.platform</groupId>
-                <artifactId>junit-platform-surefire-provider</artifactId>
-                <version>1.3.2</version>
-            </dependency>
-            <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-engine</artifactId>
-                <version>5.5.2</version>
-            </dependency>
-        </dependencies>
-          <!-- Excludes integration tests when unit tests are run. -->
-          <excludes>
-            <exclude>**/IT*.java</exclude>
-          </excludes>
-          <includes>
-            <include>**/*Spec.java</include> <!-- Yes, .java extension -->
-            <include>**/*Test.java</include> <!-- Just in case of having also "normal" JUnit tests -->
-          </includes>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-failsafe-plugin</artifactId>
-        <version>2.15</version>
-        <executions>
-          <!--
-              Ensures that both integration-test and verify goals of the Failsafe Maven
-              plugin are executed.
-          -->
-          <execution>
-            <id>integration-tests</id>
-            <goals>
-              <goal>integration-test</goal>
-              <goal>verify</goal>
-            </goals>
-            <configuration>
-              <!-- Sets the VM argument line used when integration tests are run. -->
-              <argLine>${failsafeArgLine}</argLine>
-              <!--
-                  Skips integration tests if the value of skip.integration.tests property
-                  is true
-              -->
-              <skipTests>${skip.integration.tests}</skipTests>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.5</version>
-        <executions>
-          <!--
-                  Prepares the property pointing to the JaCoCo runtime agent which
-                  is passed as VM argument when Maven the Surefire plugin is executed.
-              -->
-          <execution>
-            <id>pre-unit-test</id>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
-            <configuration>
-              <!-- Sets the path to the file which contains the execution data. -->
-              <destFile>${jacoco.ut.execution.data.file}</destFile>
-              <!--
-                          Sets the name of the property containing the settings
-                          for JaCoCo runtime agent.
-                      -->
-              <propertyName>surefireArgLine</propertyName>
-            </configuration>
-          </execution>
-          <!--
-                  Ensures that the code coverage report for unit tests is created after
-                  unit tests have been run.
-              -->
-          <execution>
-            <id>post-unit-test</id>
-            <phase>test</phase>
-            <goals>
-              <goal>report</goal>
-            </goals>
-            <configuration>
-              <!-- Sets the path to the file which contains the execution data. -->
-              <dataFile>${jacoco.ut.execution.data.file}</dataFile>
-              <!-- Sets the output directory for the code coverage report. -->
-              <outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
-            </configuration>
-          </execution>
-          <!--
-                  Prepares the property pointing to the JaCoCo runtime agent which
-                  is passed as VM argument when Maven the Failsafe plugin is executed.
-              -->
-          <execution>
-            <id>pre-integration-test</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
-            <configuration>
-              <!-- Sets the path to the file which contains the execution data. -->
-              <destFile>${jacoco.it.execution.data.file}</destFile>
-              <!--
-                          Sets the name of the property containing the settings
-                          for JaCoCo runtime agent.
-                      -->
-              <propertyName>failsafeArgLine</propertyName>
-            </configuration>
-          </execution>
-          <!--
-                  Ensures that the code coverage report for integration tests after
-                  integration tests have been run.
-              -->
-          <execution>
-            <id>post-integration-test</id>
-            <phase>post-integration-test</phase>
-            <goals>
-              <goal>report</goal>
-            </goals>
-            <configuration>
-              <!-- Sets the path to the file which contains the execution data. -->
-              <dataFile>${jacoco.it.execution.data.file}</dataFile>
-              <!-- Sets the output directory for the code coverage report. -->
-              <outputDirectory>${project.reporting.outputDirectory}/jacoco-it</outputDirectory>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-site-plugin -->
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-site-plugin</artifactId>
+            <version>${maven.site.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-project-info-reports-plugin -->
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-project-info-reports-plugin</artifactId>
+            <version>${maven.reports.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+    </dependencies>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${checkstyle.version}</version>
+                <configuration>
+                    <configLocation>${project.build.directory}/classes/checkstyle/checkstyle.xml</configLocation>
+                    <consoleOutput>${checkstyle.consoleOutput}</consoleOutput>
+                    <failsOnError>${checkstyle.failsOnError}</failsOnError>
+                </configuration>
+            </plugin>
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-jxr-plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>2.5</version>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>${mojo.findbugs.version}</version>
+                <configuration>
+                    <effort>Max</effort>
+                    <failOnError>false</failOnError>
+                    <threshold>Low</threshold>
+                    <xmlOutput>true</xmlOutput>
+                    <findbugsXmlOutputDirectory>${project.build.directory}/findbugs</findbugsXmlOutputDirectory>
+                </configuration>
+            </plugin>
+            <!-- Add the PMD report -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <failOnViolation>false</failOnViolation>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
+    <distributionManagement>
+        <repository>
+            <id>internal.repo</id>
+            <name>Internal repo</name>
+            <url>file:///${project.build.directory}/in</url>
+        </repository>
+    </distributionManagement>
+    <build>
+        <finalName>triominoes</finalName>
+        <filters>
+            <filter>profiles/${build.profile.id}/config.properties</filter>
+        </filters>
+        <plugins>
+            <!-- Identify which resources should be copied to the target folder -->
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven.resources.version}</version>
+                <configuration>
+                    <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                    <resources>
+                        <resource>
+                            <directory>${basedir}/src/main/resources</directory>
+                            <filtering>false</filtering>
+                        </resource>
+                    </resources>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8</version>
+            </plugin>
+            <plugin>
+                <groupId>com.google.code.echo-maven-plugin</groupId>
+                <artifactId>echo-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <inherited>false</inherited>
+                <configuration>
+                    <messsage>${line.separator} 
+                        project.build.sourceDirectory       : ${project.build.sourceDirectory}
+                        project.build.scriptSourceDirectory : ${project.build.scriptSourceDirectory}
+                        project.build.testSourceDirectory   : ${project.build.testSourceDirectory}
+                        project.build.outputDirectory       : ${project.build.outputDirectory}
+                        project.build.testOutputDirectory   : ${project.build.testOutputDirectory}
+                        project.build.directory             : ${project.build.directory}
+                    </messsage>
+                    <message>${line.separator} Notice: please use -Ddev to compile without signing the jar${line.separator}</message>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>echo</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Perform a Checkstyle action against the source during the validate phase -->
+            <!--  Show output on console -->
+            <!--  Do not fail on error -->
+            <!--  Do not include the test source directory on checks -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${checkstyle.version}</version>
+                <configuration>
+                    <configLocation>${project.build.directory}/classes/checkstyle/checkstyle.xml</configLocation>
+                    <encoding>UTF-8</encoding>
+                    <consoleOutput>true</consoleOutput>
+                    <failsOnError>false</failsOnError>
+                    <includeTestSourceDirectory>false</includeTestSourceDirectory>
+                    <linkXRef>false</linkXRef>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>validate</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>${mojo.findbugs.version}</version>
+                <configuration>
+                    <!--
+                        Enables analysis which takes more memory but finds more bugs.
+                        If you run out of memory, changes the value of the effort element
+                        to 'Low'.
+                    -->
+                    <effort>Max</effort>
+                    <!-- Build doesn't fail if problems are found -->
+                    <failOnError>false</failOnError>
+                    <!-- Reports all bugs (other values are medium and max) -->
+                    <threshold>Low</threshold>
+                    <!-- Produces XML report -->
+                    <xmlOutput>true</xmlOutput>
+                    <!-- Configures the directory in which the XML report is created -->
+                    <findbugsXmlOutputDirectory>${project.build.directory}/findbugs</findbugsXmlOutputDirectory>
+                </configuration>
+                <executions>
+                    <!--
+                        Ensures that FindBugs inspects source code when project is compiled.
+                    -->
+                    <execution>
+                        <id>analyze-compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Convert the findbugs output to HTML report -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>xml-maven-plugin</artifactId>
+                <version>1.0</version>
+                <configuration>
+                    <transformationSets>
+                        <transformationSet>
+                            <!-- Configures the source directory of XML files. -->
+                            <dir>${project.build.directory}/findbugs</dir>
+                            <!-- Configures the directory in which the FindBugs report is written.-->
+                            <outputDir>${project.build.directory}/findbugs</outputDir>
+                            <!-- Selects the used stylesheet. -->
+                            <!-- <stylesheet>fancy-hist.xsl</stylesheet> -->
+                            <stylesheet>default.xsl</stylesheet>
+                            <!--<stylesheet>plain.xsl</stylesheet>-->
+                            <!--<stylesheet>fancy.xsl</stylesheet>-->
+                            <!--<stylesheet>summary.xsl</stylesheet>-->
+                            <fileMappers>
+                                <!-- Configures the file extension of the output files. -->
+                                <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
+                                    <targetExtension>.html</targetExtension>
+                                </fileMapper>
+                            </fileMappers>
+                        </transformationSet>
+                        <transformationSet>
+                            <dir>${project.build.directory}</dir>
+                            <stylesheet>${project.build.directory}/classes/checkstyle/checkstyle-author.xsl</stylesheet>
+                            <includes>checkstyle-result.xml</includes>
+                            <fileMappers>
+                                <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.RegExpFileMapper">
+                                    <pattern>\.xml$</pattern>
+                                    <replacement>.html</replacement>
+                                </fileMapper>
+                            </fileMappers>
+                        </transformationSet>
+                    </transformationSets>
+                </configuration>
+                <executions>
+                    <!-- Ensures that the XSLT transformation is run when the project is compiled. -->
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>transform</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.google.code.findbugs</groupId>
+                        <artifactId>findbugs</artifactId>
+                        <version>${google.findbugs.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <!-- Convert the checkstyle XML to HTML for reporting -->
+            <!--   This happens during the process-classes phase -->
+            <!-- <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>xml-maven-plugin</artifactId>
+                <version>${xml.maven.version}</version>
+                <executions>
+                    <execution>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>transform</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <transformationSets>
+                        <transformationSet>
+                            <dir>\target</dir>
+                            <stylesheet>..\checkstyle\checkstyle-author.xsl</stylesheet>
+                            <includes>checkstyle-result.xml</includes>
+                            <fileMappers>
+                                <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.RegExpFileMapper">
+                                    <pattern>\.xml$</pattern>
+                                    <replacement>.html</replacement>
+                                </fileMapper>
+                            </fileMappers>
+                        </transformationSet>
+                    </transformationSets>
+                </configuration>
+            </plugin> -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>${maven.site.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>${maven.reports.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.6.0.1398</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                        ${project.build.directory}/libs
+                    </outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.thirdsonsoftware.Main</mainClass>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>libs/</classpathPrefix>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <!-- Groovy compilation -->
+            <plugin>
+                <groupId>org.codehaus.gmavenplus</groupId>
+                <artifactId>gmavenplus-plugin</artifactId>
+                <version>1.9.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>addSources</goal>
+                            <goal>addTestSources</goal>
+                            <goal>generateStubs</goal>
+                            <goal>compile</goal>
+                            <goal>generateTestStubs</goal>
+                            <goal>compileTests</goal>
+                            <goal>removeStubs</goal>
+                            <goal>removeTestStubs</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Add the Java Source -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Add the JavaDoc documents -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.1.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <!-- add this to disable checking -->
+                            <additionalparam>-Xdoclint:none</additionalparam>
+                            <!-- add this line to not fail the build on errors found -->
+                            <failOnError>false</failOnError>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>3.1.12.2</version>
+                <dependencies>
+                    <!-- overwrite dependency on spotbugs if you want to specify the version of spotbugs -->
+                    <dependency>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs</artifactId>
+                        <version>4.0.0-beta4</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire.version}</version>
+                <configuration>
+                    <!-- Disable concurrent tests to eliminate STDOUT corruption exception. -->
+                    <forkNode implementation="org.apache.maven.plugin.surefire.extensions.SurefireForkNodeFactory" />
+                    <!-- Sets the VM argument line used when unit tests are run. -->
+                    <argLine>${surefireArgLine}</argLine>
+                    <!-- Skips unit tests if the value of skip.unit.tests property is true -->
+                    <skipTests>${skip.unit.tests}</skipTests>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.junit.platform</groupId>
+                            <artifactId>junit-platform-surefire-provider</artifactId>
+                            <version>1.3.2</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.junit.jupiter</groupId>
+                            <artifactId>junit-jupiter-engine</artifactId>
+                            <version>5.5.2</version>
+                        </dependency>
+                    </dependencies>
+                    <!-- Excludes integration tests when unit tests are run. -->
+                    <excludes>
+                        <exclude>**/IT*.java</exclude>
+                    </excludes>
+                    <includes>
+                        <include>**/*Spec.java</include> <!-- Yes, .java extension -->
+                        <include>**/*Test.java</include> <!-- Just in case of having also "normal" JUnit tests -->
+                    </includes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.15</version>
+                <executions>
+                    <!--
+                        Ensures that both integration-test and verify goals of the Failsafe Maven
+                        plugin are executed.
+                    -->
+                    <execution>
+                        <id>integration-tests</id>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Sets the VM argument line used when integration tests are run. -->
+                            <argLine>${failsafeArgLine}</argLine>
+                            <!--
+                                Skips integration tests if the value of skip.integration.tests property
+                                is true
+                            -->
+                            <skipTests>${skip.integration.tests}</skipTests>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.5</version>
+                <executions>
+                    <!--
+                        Prepares the property pointing to the JaCoCo runtime agent which
+                        is passed as VM argument when Maven the Surefire plugin is executed.
+                    -->
+                    <execution>
+                        <id>pre-unit-test</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Sets the path to the file which contains the execution data. -->
+                            <destFile>${jacoco.ut.execution.data.file}</destFile>
+                            <!--
+                                Sets the name of the property containing the settings
+                               for JaCoCo runtime agent.
+                            -->
+                            <propertyName>surefireArgLine</propertyName>
+                        </configuration>
+                    </execution>
+                    <!--
+                          Ensures that the code coverage report for unit tests is created after
+                          unit tests have been run.
+                    -->
+                    <execution>
+                        <id>post-unit-test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Sets the path to the file which contains the execution data. -->
+                            <dataFile>${jacoco.ut.execution.data.file}</dataFile>
+                            <!-- Sets the output directory for the code coverage report. -->
+                            <outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <!--
+                        Prepares the property pointing to the JaCoCo runtime agent which
+                        is passed as VM argument when Maven the Failsafe plugin is executed.
+                    -->
+                    <execution>
+                        <id>pre-integration-test</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Sets the path to the file which contains the execution data. -->
+                            <destFile>${jacoco.it.execution.data.file}</destFile>
+                            <!--
+                                  Sets the name of the property containing the settings
+                                for JaCoCo runtime agent.
+                              -->
+                            <propertyName>failsafeArgLine</propertyName>
+                        </configuration>
+                    </execution>
+                    <!--  
+                        Ensures that the code coverage report for integration tests after
+                        integration tests have been run.
+                    -->
+                    <execution>
+                        <id>post-integration-test</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Sets the path to the file which contains the execution data. -->
+                            <dataFile>${jacoco.it.execution.data.file}</dataFile>
+                            <!-- Sets the output directory for the code coverage report. -->
+                            <outputDirectory>${project.reporting.outputDirectory}/jacoco-it</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
