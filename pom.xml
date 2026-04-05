@@ -6,8 +6,8 @@
     <version>1.0-SNAPSHOT</version>
     <name>triominos</name>
     <url>http://maven.apache.org</url>
-    <!-- 
-        If you are ever trying to reference output directories in Maven, you should never 
+    <!--
+        If you are ever trying to reference output directories in Maven, you should never
         use a literal value like 'target/classes'. Instead you should use property references
         to refer to these directories.
             project.build.sourceDirectory
@@ -16,10 +16,10 @@
             project.build.outputDirectory
             project.build.testOutputDirectory
             project.build.directory
-        sourceDirectory, scriptSourceDirectory, and testSourceDirectory provide access to 
-        the source directories for the project. outputDirectory and testOutputDirectory 
-        provide access to the directories where Maven is going to put bytecode or other 
-        build output. directory refers to the directory which contains all of these output 
+        sourceDirectory, scriptSourceDirectory, and testSourceDirectory provide access to
+        the source directories for the project. outputDirectory and testOutputDirectory
+        provide access to the directories where Maven is going to put bytecode or other
+        build output. directory refers to the directory which contains all of these output
         directories.
     -->
     <properties>
@@ -119,7 +119,7 @@
         <dependency>
             <groupId>org.codehaus.plexus</groupId>
             <artifactId>plexus-utils</artifactId>
-            <version>3.3.0</version>
+            <version>4.0.3</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.sonarsource.scanner.maven/sonar-maven-plugin -->
         <dependency>
@@ -319,7 +319,7 @@
                 <version>1.0.0</version>
                 <inherited>false</inherited>
                 <configuration>
-                    <messsage>${line.separator} 
+                    <messsage>${line.separator}
                         project.build.sourceDirectory       : ${project.build.sourceDirectory}
                         project.build.scriptSourceDirectory : ${project.build.scriptSourceDirectory}
                         project.build.testSourceDirectory   : ${project.build.testSourceDirectory}
@@ -715,7 +715,7 @@
                             <propertyName>failsafeArgLine</propertyName>
                         </configuration>
                     </execution>
-                    <!--  
+                    <!--
                         Ensures that the code coverage report for integration tests after
                         integration tests have been run.
                     -->
